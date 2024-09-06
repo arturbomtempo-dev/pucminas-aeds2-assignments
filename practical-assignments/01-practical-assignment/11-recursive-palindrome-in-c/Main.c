@@ -3,26 +3,27 @@
 #include <string.h>
 
 /**
- * TP01Q02 - Palindromo em C
+ * TP01Q11 - RECURSIVO - Palíndromo em C
  * 
  * @author Artur Bomtempo Colen
  * @version 1.0, 29/08/2024
  */
 
 /**
- * Verifica se uma palavra é um palíndromo, percorrendo a palavra toda e verificando
- * se as letras do início e fim da palavra coincidem até terminar de percorrer toda.
+ * Este método recursivo verifica se uma palavra é um palíndromo, comparando 
+ * recursivamente os caracteres das extremidades da palavra até que todos os 
+ * pares tenham sido verificados ou uma diferença seja encontrada.
  * 
  * @param word A palavra a ser verificada.
  * @return {@code true} se a palavra for um palíndromo, {@code false} caso contrário.
  */
-int verifyPalindrome(char *word) {
+int verifyPalindrome(char *word, int left, int right) {
     int isPalindrome = 1;
 
-    for (int i = 0; i < strlen(word) / 2; i++) {
-        if (word[i] != word[strlen(word) - 1 - i]) {
-            isPalindrome = 0;
-        }
+    if (word[left] != word[right]) {
+        isPalindrome = 0;
+    } else if (left < right) {
+        isPalindrome = verifyPalindrome(word, left + 1, right - 1);
     }
 
     return isPalindrome;
@@ -35,7 +36,7 @@ int verifyPalindrome(char *word) {
  * @return {@code true} se a palavra for "FIM", {@code false} caso contrário.
  */
 int isEnd(char *input) {
-    return strlen(input) == 4 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M' && input[3] == '\n';
+    return strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M';
 }
 
 /**
@@ -52,7 +53,7 @@ int main() {
         }
 
         if (!isEnd(word)) {
-            int wordIsPalindrome = verifyPalindrome(word);
+            int wordIsPalindrome = verifyPalindrome(word, 0, strlen(word) - 1);
 
             if (wordIsPalindrome) {
                 printf("SIM\n");

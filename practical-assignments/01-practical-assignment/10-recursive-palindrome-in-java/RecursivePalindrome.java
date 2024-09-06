@@ -1,26 +1,31 @@
 import java.util.Scanner;
 
 /**
- * TP01Q01 - Palindromo
+ * TP01Q10 - RECURSIVO - Palíndromo
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 26/08/2024
+ * @version 1.0, 28/08/2024
  */
 
-public class Palindrome {
+public class RecursivePalindrome {
     /**
-     * Verifica se uma palavra é um palíndromo.
+     * Verifica se uma palavra é um palíndromo de forma recursiva.
+     * 
+     * Para fazer essa verificação, o método percorre a string verificando se as letras da palavra
+     * do início e fim são iguais, caso seja verdade, retorne true. Do contrário, retorna false.
      * 
      * @param word A palavra a ser verificada.
-     * @return {@code true} se a palavra for um palíndromo, {@code false} caso contrário.
+     * @param left O índice inicial da palavra (inicialmente 0).
+     * @param O índice final da palavra (inicialmente word.length() - 1).
+     * @return {@code true} se o código for um palíndromo, {@code false} se não for um palíndromo.
      */
-    public static boolean verifyPalindrome(String word) {
+    public static boolean verifyPalindrome(String word, int left, int right) {
         boolean isPalindrome = true;
 
-        for (int i = 0; i < word.length() / 2; i++) {
-            if (word.charAt(i) != word.charAt(word.length() - 1 - i)) {
-                isPalindrome = false;
-            }
+        if (word.charAt(left) != word.charAt(right)) {
+            isPalindrome = false;
+        } else if (left < right) {
+            isPalindrome = verifyPalindrome(word, left + 1, right - 1);
         }
 
         return isPalindrome;
@@ -46,8 +51,8 @@ public class Palindrome {
         while (sc.hasNextLine()) {
             String word = sc.nextLine();
 
-            if (!isEnd(word)) {
-                boolean wordIsPalindrome = verifyPalindrome(word);
+            if (!isEnd(word) && word.length() > 0) {
+                boolean wordIsPalindrome = verifyPalindrome(word, 0, word.length() - 1);
 
                 if (wordIsPalindrome) {
                     System.out.println("SIM");
