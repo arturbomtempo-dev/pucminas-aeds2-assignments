@@ -1,0 +1,15 @@
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.GeneratedMSBuildEditorConfig.editorconfig
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.AssemblyInfoInputs.cache
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.AssemblyInfo.cs
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.csproj.CoreCompileInputs.cache
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.sourcelink.json
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/bin/Debug/net8.0/02-binary-search-operation-count
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/bin/Debug/net8.0/02-binary-search-operation-count.deps.json
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/bin/Debug/net8.0/02-binary-search-operation-count.runtimeconfig.json
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/bin/Debug/net8.0/02-binary-search-operation-count.dll
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/bin/Debug/net8.0/02-binary-search-operation-count.pdb
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.dll
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/refint/02-binary-search-operation-count.dll
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.pdb
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/02-binary-search-operation-count.genruntimeconfig.cache
+/Users/artur/Desktop/AEDs-2-course/exercises/01-search-in-primary-memory/04-binary-search/02-binary-search-operation-count/obj/Debug/net8.0/ref/02-binary-search-operation-count.dll
