@@ -1,13 +1,10 @@
 ﻿using System;
 
-namespace StringArray
-{
-    class Program
-    {
+namespace StringArray {
+    class Program {
         const int SIZE = 5;
         
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             string[] array = new string[SIZE];
 
             for (int i = 0; i < array.Length; i++) {

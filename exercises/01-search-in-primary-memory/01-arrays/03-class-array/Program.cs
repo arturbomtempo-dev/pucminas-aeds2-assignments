@@ -1,17 +1,14 @@
 ﻿using System;
 
-namespace ClassArray
-{
+namespace ClassArray {
     class User {    
         public string name;    
         public int age;    
         public string country;
     }
 
-    class Program
-    {        
-        static void Main(string[] args)
-        {
+    class Program {
+        static void Main(string[] args) {
             User[] users = {
                 new User { name = "Homer Simpson", age = 42, country = "USA" },
                 new User { name = "Marge Simpson", age = 38, country = "USA"},

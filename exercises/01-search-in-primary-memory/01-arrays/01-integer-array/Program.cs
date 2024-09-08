@@ -1,13 +1,10 @@
 ﻿using System;
 
-namespace IntegerArray
-{
-    class Program
-    {
+namespace IntegerArray {
+    class Program {
         const int SIZE = 10;
         
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             int[] array = new int[SIZE];
             Random random = new Random();
 

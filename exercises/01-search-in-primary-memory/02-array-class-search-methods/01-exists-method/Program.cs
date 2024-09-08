@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ExistsMethod
-{
+namespace ExistsMethod {
     class Student {
         public string name;   
         public int enrollmentCode;
@@ -12,17 +11,15 @@ namespace ExistsMethod
         }
     }
 
-    class Program
-    {
-        public static void Menu(){
+    class Program {
+        public static void Menu() {
             Console.WriteLine("1 - Para cadastrar aluno");
             Console.WriteLine("2 - Para pesquisar aluno");
             Console.WriteLine("3 - Para mostrar todos alunos");
             Console.WriteLine("4 - Para sair");
         }
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             List<Student> students = new List<Student>();
             int option;
             Menu();

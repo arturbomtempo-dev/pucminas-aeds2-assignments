@@ -1,11 +1,8 @@
 ﻿using System;
 
-namespace FindMethod
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace FindMethod {
+    class Program {
+        static void Main(string[] args) {
             String[] array = { "Rato", "Sapo", "Sapato", "Ratoeira", "Mato"};
             String prefix;
 

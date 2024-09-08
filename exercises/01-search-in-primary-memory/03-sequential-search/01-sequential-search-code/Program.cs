@@ -1,11 +1,8 @@
 ﻿using System;
 
-namespace SequentialSearch
-{
-    class Program
-    {
-        static bool SequentialSearch(int[] array, int x)
-        {
+namespace SequentialSearch {
+    class Program {
+        static bool SequentialSearch(int[] array, int x) {
             bool found = false;
             
             for (int i = 0; i < array.Length; i++) {
@@ -18,8 +15,7 @@ namespace SequentialSearch
             return found;
         }
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             Random random = new Random();
             int[] array = new int[10];
 

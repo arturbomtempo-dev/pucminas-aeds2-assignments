@@ -43,6 +43,7 @@ namespace BinarySearch {
 
             Console.Write("Digite o número a ser pesquisado: ");
             int number;
+            
             if (int.TryParse(Console.ReadLine(), out number)) {
                 bool result = BinarySearch(array, number);
 
