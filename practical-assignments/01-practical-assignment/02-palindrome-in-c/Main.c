@@ -6,8 +6,7 @@
  * TP01Q02 - Palindromo em C
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/08/2024
- */
+ * @version 1.0, 29/08/2024 */
 
 /**
  * Verifica se uma palavra é um palíndromo, percorrendo a palavra toda e verificando

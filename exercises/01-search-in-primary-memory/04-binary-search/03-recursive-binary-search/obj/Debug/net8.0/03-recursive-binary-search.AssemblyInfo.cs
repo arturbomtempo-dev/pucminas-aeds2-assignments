@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("03-recursive-binary-search")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1612069f89d8d08599b0fb5bfbe8f2ae1a63859a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d7f8c4623fdfb91e1fe3ae9735715d41b40ec36")]
 [assembly: System.Reflection.AssemblyProductAttribute("03-recursive-binary-search")]
 [assembly: System.Reflection.AssemblyTitleAttribute("03-recursive-binary-search")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
