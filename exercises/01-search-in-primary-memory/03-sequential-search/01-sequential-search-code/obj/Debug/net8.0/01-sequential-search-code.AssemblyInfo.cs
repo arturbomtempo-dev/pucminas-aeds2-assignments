@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("01-sequential-search-code")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d7f8c4623fdfb91e1fe3ae9735715d41b40ec36")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8361627caf2ec024eb7dc5ccf99f1bda2ce08d18")]
 [assembly: System.Reflection.AssemblyProductAttribute("01-sequential-search-code")]
 [assembly: System.Reflection.AssemblyTitleAttribute("01-sequential-search-code")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
