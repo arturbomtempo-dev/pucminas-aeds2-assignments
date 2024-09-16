@@ -8,11 +8,6 @@ import java.util.Scanner;
  */
 
 public class IterativeHeating {
-    /** 
-     * Array de letras maiúsculas (A-Z) usado para comparação no método de contagem de letras.
-     */
-    private static char[] capitalLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-
     /**
      * Conta o número de letras maiúsculas na palavra fornecida.
      *
@@ -25,10 +20,8 @@ public class IterativeHeating {
         for (int i = 0; i < word.length(); i++) {
             char currentChar = word.charAt(i);
 
-            for (int j = 0; j < capitalLetters.length; j++) {
-                if (currentChar == capitalLetters[j]) {
-                    count++;
-                }
+            if (currentChar >= 65 && currentChar <= 90) {
+                count++;
             }
         }
 
@@ -39,8 +32,6 @@ public class IterativeHeating {
      * Método principal que lê strings de entrada do usuário, conta o número de
      * letras maiúsculas em cada string e imprime o resultado. O programa é finalizado
      * quando o usuário insere a palavra "FIM".
-     *
-     * @param args argumentos da linha de comando (não utilizado).
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
