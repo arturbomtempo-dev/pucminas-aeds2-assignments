@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("02-find-method")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8361627caf2ec024eb7dc5ccf99f1bda2ce08d18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bae5a8e8143dafc963a265320f0f678a80b4aa23")]
 [assembly: System.Reflection.AssemblyProductAttribute("02-find-method")]
 [assembly: System.Reflection.AssemblyTitleAttribute("02-find-method")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
