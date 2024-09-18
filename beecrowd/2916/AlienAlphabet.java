@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+/**
+ * BEE 2916
+ * 
+ * @author Artur Bomtempo Colen
+ * @version 2.0, 18/09/2024
+ */
+
 public class AlienAlphabet {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
