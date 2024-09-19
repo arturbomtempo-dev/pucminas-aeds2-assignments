@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+/**
+ * BEE 1120
+ * 
+ * @author Artur Bomtempo Colen
+ * @version 1.0, 18/09/2024
+ */
+
 public class ContractReview {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
