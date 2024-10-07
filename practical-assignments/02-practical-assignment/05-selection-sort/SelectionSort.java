@@ -100,7 +100,7 @@ class Pokemon {
      * @throws ParseException caso ocorra um erro ao formatar a data
      */
     public static List<Pokemon> read(List<Integer> searchedIDS) throws IOException, ParseException {
-        String csvFile = "tmp/pokemon.csv";
+        String csvFile = "/tmp/pokemon.csv";
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         List<Pokemon> pokemons = new ArrayList<>();
         HashMap<Integer, Pokemon> listPokemon = new HashMap<>();
