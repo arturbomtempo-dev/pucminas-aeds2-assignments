@@ -88,8 +88,8 @@ class Pokemon {
      * @throws ParseException caso ocorra um erro ao formatar a data
      */
     public static List<Pokemon> read(List<Integer> searchedIDS) throws IOException, ParseException {
-        String csvFile = "tmp/pokemon.csv";
-        SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        String csvFile = "/tmp/pokemon.csv";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         List<Pokemon> pokemons = new ArrayList<>();
         HashMap<Integer, Pokemon> listPokemon = new HashMap<>();
 
@@ -120,7 +120,7 @@ class Pokemon {
                     double height = values[8].isEmpty() ? 0 : Double.parseDouble(values[8]);
                     int captureRate = values[9].isEmpty() ? 0 : Integer.parseInt(values[9]);
                     boolean isLegendary = Integer.parseInt(values[10]) == 1;
-                    Date captureDate = formatoData.parse(values[11]);
+                    Date captureDate = dateFormat.parse(values[11]);
 
                     Pokemon pokemon = new Pokemon(id, generation, name, description, types, abilitiesList, weight, height, captureRate, isLegendary, captureDate);
 
@@ -198,10 +198,9 @@ class Pokemon {
  */
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         List<Integer> searchedIDS = new ArrayList<>();
 
-        try (sc) {
+        try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
 
             while (!input.equals("FIM")) {
