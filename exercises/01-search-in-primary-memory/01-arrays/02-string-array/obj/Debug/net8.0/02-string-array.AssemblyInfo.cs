@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("02-string-array")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c61b3a917d2a1417862e46d17edf9c31df611f9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c877ab68c9554231e7ba825ff652417f506ceec7")]
 [assembly: System.Reflection.AssemblyProductAttribute("02-string-array")]
 [assembly: System.Reflection.AssemblyTitleAttribute("02-string-array")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
