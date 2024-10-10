@@ -3,12 +3,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <time.h>
 
 /**
- * TP02Q02 - Registro em C
+ * TP02Q04 - Pesquisa Binária
  * 
  * @author Artur Bomtempo Colen
- * @version 2.0, 10/10/2024
+ * @version 1.0, 10/10/2024
  */
 
 /**
@@ -46,23 +47,34 @@ struct Pokemon {
 } typedef Pokemon;
 
 /**
- * Esta função percorre uma lista de Pokémons e busca aquele que possui o ID fornecido. 
- * Retorna um ponteiro para o Pokémon encontrado.
+ * A função percorre o array de Pokémon, ordenado pelo nome, 
+ * usando o algoritmo de busca binária. A cada comparação realizada, 
+ * o contador de comparações é incrementado.
  * 
- * @param pokemons Um ponteiro para a lista de Pokémons.
- * @param id O ID do Pokémon a ser buscado.
- * @return Um ponteiro para o Pokémon encontrado. Se o ID não for encontrado, retorna NULL.
+ * @param pokemons Array de ponteiros para Pokémon.
+ * @param name Nome do Pokémon a ser buscado.
+ * @param comparisons Ponteiro para o contador de comparações.
+ * @return Retorna um ponteiro para o Pokémon encontrado, ou NULL se não encontrado.
  */
-Pokemon *searchPokemon(Pokemon *pokemons, int id) {
-    Pokemon *pokemon;
-    
-    for (int i = 0; i < 801; i++) {
-        if (pokemons[i].id == id) {
-            pokemon = &pokemons[i];
+Pokemon *binarySearchPokemon(Pokemon **pokemons, char *name, int *comparisons) {
+    int right = 801 - 1, left = 0, middle;
+
+    while (left <= right) {
+        middle = (left + right) / 2;
+
+        int comparison = strcmp(name, pokemons[middle]->name);
+        (*comparisons)++;
+
+        if (comparison == 0) {
+            return pokemons[middle];
+        } else if (comparison > 0) {
+            left = middle + 1;
+        } else {
+            right = middle - 1;
         }
     }
-    
-    return pokemon; 
+
+    return NULL;
 }
 
 /**
@@ -218,68 +230,146 @@ Pokemon *readCsv(char fileName[]) {
 }
 
 /**
- * A função imprime os dados do Pokémon, como ID, nome, descrição, tipos,
- * habilidades, peso, altura, taxa de captura, se é lendário ou não, geração,
- * e data de captura em um formato padronizado.
- *
- * @param pokemon A estrutura Pokemon cujas informações serão exibidas.
+ * A função abre um arquivo de texto para escrita e salva os resultados da execução,
+ * incluindo o tempo de CPU utilizado e o número de comparações realizadas. 
+ * Se ocorrer um erro ao abrir o arquivo, uma mensagem de erro será exibida.
+ * 
+ * @param fileName Nome do arquivo onde os resultados serão salvos.
+ * @param cpuTimeEndUsed Tempo de CPU utilizado (em milissegundos).
+ * @param comparisons Número de comparações realizadas durante a execução.
  */
-void displayInformation(Pokemon pokemon) {
-    printf("[#%d -> %s: %s - ", pokemon.id, pokemon.name, pokemon.description);
+void saveExecutionFile(const char *fileName, long cpuTimeEndUsed, int comparisons) {
+    FILE *file = fopen(fileName, "w+");
 
-    printf("['%s'", pokemon.type[0]);
-
-    if (strlen(pokemon.type[1]) > 0) {
-        printf(", '%s'", pokemon.type[1]);
+    if (file == NULL) {
+        printf("Erro ao gerar o arquivo.\n");
+    } else {
+        fprintf(file, "847235\t%ldms\t%d", cpuTimeEndUsed, comparisons);
+        fclose(file);
     }
-
-    printf("] - [");
-
-    for (int i = 0; strlen(pokemon.abilities[i]) > 0; i++) {
-        printf("'%s'", pokemon.abilities[i]);
-
-        if (strlen(pokemon.abilities[i + 1]) > 0) {
-            printf(", ");
-        }
-    }
-
-    printf("] - ");
-
-    printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-           pokemon.weight, 
-           pokemon.height, 
-           pokemon.captureRate, 
-           pokemon.isLegendary ? "true" : "false", 
-           pokemon.generation,
-           pokemon.captureDate.day, 
-           pokemon.captureDate.month, 
-           pokemon.captureDate.year);
 }
 
 /**
- * Função principal do programa, que gerencia a leitura de dados de Pokémon
- * e permite a busca e exibição de informações sobre os Pokémon com base
- * em IDs fornecidos pelo usuário.
+ * A função realiza a troca de posição de dois elementos em um array de ponteiros 
+ * para Pokémon, usando as posições indicadas pelos índices fornecidos.
+ * 
+ * @param pokemon Array de ponteiros para Pokémon.
+ * @param i Índice do primeiro Pokémon a ser trocado.
+ * @param j Índice do segundo Pokémon a ser trocado.
  */
-int main() {
-    int id;
-    char input[20];
-    
-    Pokemon *pokemons = readCsv("/tmp/pokemon.csv");
+void swap(Pokemon **pokemon, int i, int j) {
+    Pokemon *tmp = pokemon[i];
+    pokemon[i] = pokemon[j];
+    pokemon[j] = tmp;
+}
 
-    if (!pokemons) {
-        printf("Pokemons não inicializados.\n");
-    }
-    
-    while (scanf("%s", input) && strcmp(input, "FIM")) {
-        sscanf(input, "%d", &id);
+/**
+ * A função realiza a ordenação dos Pokémons com base nos seus nomes. Utiliza 
+ * o algoritmo Quicksort para realizar a ordenação de forma recursiva, escolhendo 
+ * um pivô e dividindo o array até que esteja ordenado.
+ * 
+ * @param pokemon Array de ponteiros para Pokémon.
+ * @param left Índice inicial do array a ser ordenado.
+ * @param right Índice final do array a ser ordenado.
+ */
+void quicksort(Pokemon **pokemon, int left, int right) {
+    int i = left, j = right;
+    char* pivot = pokemon[(left + right) / 2]->name;
 
-        Pokemon *foundPokemon = searchPokemon(pokemons, id);
-        
-        if (id <= 801) {
-            displayInformation(*foundPokemon);
+    while (i <= j) {
+        while (strcmp(pokemon[i]->name, pivot) < 0) {
+            i++;
+        }
+
+        while (strcmp(pokemon[j]->name, pivot) > 0) { 
+            j--;
+        }
+
+        if (i <= j) {
+            swap(pokemon, i, j);  
+            i++;
+            j--;
         }
     }
+
+    if (left < j) {
+        quicksort(pokemon, left, j);
+    }
+
+    if (i < right) {
+        quicksort(pokemon, i, right);
+    }
+}
+
+/**
+ * Esta função realiza a leitura de dados dos Pokémon de um arquivo CSV, 
+ * ordena os Pokémon utilizando o algoritmo QuickSort e 
+ * permite a busca dos Pokémon por ID e nome, 
+ * registrando o tempo de execução e o número de comparações feitas.
+ */
+int main() {
+    clock_t start, end;
+    double cpuTimeEndUsed;
+    int comparisons = 0;
+
+    start = clock();
+
+    Pokemon* pokemons = readCsv("/tmp/pokemon.csv");
+    
+    if (!pokemons) {
+        printf("Pokemons nao inicializados\n");
+        return 1;
+    }
+
+    Pokemon *pokemonPointers[801];
+
+    for (int i = 0; i < 801; i++) {
+        pokemonPointers[i] = &pokemons[i];
+    }
+
+    quicksort(pokemonPointers, 0, 801 - 1);
+
+    char input[20];
+    int ids[100];
+    int i = 0;
+    
+    while (scanf("%s", input) && strcmp(input, "FIM") != 0) {
+        sscanf(input, "%d", &ids[i++]);
+    }
+
+    char names[100][100]; 
+
+    int p = 0;
+    
+    while (scanf("%s", input) && strcmp(input, "FIM") != 0) {
+        strcpy(names[p++], input);
+    }
+
+    for (int j = 0; j < p; j++) {
+        bool found = false;
+        Pokemon *foundPokemon = binarySearchPokemon(pokemonPointers, names[j], &comparisons);
+
+        if (foundPokemon != NULL) {
+            for (int k = 0; k < i; k++) {
+                if (foundPokemon->id == ids[k]) { 
+                    found = true;
+                    comparisons++;
+                }
+            }
+        }
+
+        if(found) {
+            printf("SIM\n");
+        }
+        else {
+            printf("NAO\n");
+        }
+    }
+
+    end = clock();
+    cpuTimeEndUsed = ((double)(end - start));
+
+    saveExecutionFile("847235_binaria.txt", cpuTimeEndUsed, comparisons);
 
     free(pokemons);
 
