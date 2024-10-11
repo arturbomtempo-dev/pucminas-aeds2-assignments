@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("01-exists-method")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c877ab68c9554231e7ba825ff652417f506ceec7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe8e852c7906c031354fb943b529957a8d94c7a1")]
 [assembly: System.Reflection.AssemblyProductAttribute("01-exists-method")]
 [assembly: System.Reflection.AssemblyTitleAttribute("01-exists-method")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
