@@ -8,7 +8,7 @@
  * TP02Q16 - Ordenação PARCIAL por Inserção
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 12/10/2024
+ * @version 2.0, 15/10/2024
  */
 
 /**

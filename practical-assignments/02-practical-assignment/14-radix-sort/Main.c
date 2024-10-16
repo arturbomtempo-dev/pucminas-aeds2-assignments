@@ -1,508 +1,245 @@
-#include <stdio.h>
+#include <sys/time.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 #include <time.h>
 
 /**
  * TP02Q14 - Radixsort
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 12/10/2024
+ * @version 1.0, 15/10/2024
  */
 
 /**
- * @struct Date
- * @brief Estrutura usada para representar a data de captura de um Pokémon.
- * 
- * A estrutura Date armazena informações de uma data, composta por dia, mês e ano,
- * facilitando a formatação e manipulação de datas relacionadas à captura de Pokémon.
- */
-struct Date {
-    int day;
-    int month;
-    int year;
-} typedef Date;
-
-/**
- * @struct Pokemon
- * @brief Estrutura usada para representar um Pokémon e suas principais características.
- * 
- * A estrutura Pokemon contém informações detalhadas sobre um Pokémon, incluindo seu 
- * identificador único, atributos físicos, habilidades, taxa de captura, geração e a data de captura.
+ * Estrutura que representa um Pokémon com seus atributos principais.
  */
 struct Pokemon {
-    int id;
+    char id[256];
     int generation;
-    char *name;
-    char *description;
-    char types[2][50];
-    char abilities[6][50];
+    char name[256];
+    char description[256];
+    char types[3][256];
+    char abilities[6][256];
     double weight;
     double height;
     int captureRate;
     bool isLegendary;
-    Date captureDate;
+    struct tm captureDate;
 } typedef Pokemon;
 
 /**
- * A função utiliza `sscanf` para extrair o dia, mês e ano da string fornecida. Caso a string 
- * seja inválida, os valores da data são inicializados como zero.
- * 
- * @param str Uma string representando uma data no formato "DD/MM/AAAA".
- * @return Uma estrutura Date contendo os valores do dia, mês e ano extraídos da string.
- *         Se a string for inválida (nula ou vazia), os campos da data serão inicializados com zero.
+ * Retorna o ID do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return ID do Pokémon como uma string.
  */
-Date stringToDate(char *str) {
-    Date date;
+const char* getId(Pokemon *pokemon) {
+    return pokemon->id;
+}
 
-    if (str != NULL && strlen(str) > 0) {
-        sscanf(str, "%d/%d/%d", &date.day, &date.month, &date.year);
-    } else {
-        date.day = 0;
-        date.month = 0;
-        date.year = 0;
+/**
+ * Retorna o nome do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Nome do Pokémon como uma string.
+ */
+const char* getName(Pokemon *pokemon) {
+    return pokemon->name;
+}
+
+/**
+ * Retorna a descrição do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Descrição do Pokémon como uma string.
+ */
+const char* getDescription(Pokemon *pokemon)  {
+    return pokemon->description;
+}
+
+/**
+ * Retorna o tipo do Pokémon no índice fornecido.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @param index Índice do tipo (0 a 2).
+ * @return Tipo do Pokémon no índice especificado, ou uma string vazia se o índice for inválido.
+ */
+const char* getType(Pokemon *pokemon, int index) {
+    if (index >= 0 && index < 3) {
+        return pokemon->types[index];
     }
 
-    return date;
+    return "";
 }
 
 /**
- * A função formata uma estrutura Date para uma string no formato "DD/MM/AAAA", alocando 
- * dinamicamente a memória necessária para armazenar a string resultante.
- * 
- * @param date Uma estrutura Date contendo o dia, mês e ano que serão formatados.
- * @return Um ponteiro para a string formatada contendo a data no formato "DD/MM/AAAA".
- *         A memória para a string é alocada dinamicamente e deve ser liberada após o uso.
+ * Retorna a habilidade do Pokémon no índice fornecido.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @param index Índice da habilidade (0 a 5).
+ * @return Habilidade do Pokémon no índice especificado, ou uma string vazia se o índice for inválido.
  */
-char *dateToString(Date date) {
-    char *str = (char *)malloc(11 * sizeof(char));
-
-    sprintf(str, "%02d/%02d/%04d", date.day, date.month, date.year);
-
-    return str;
-}
-
-/**
- * A função aloca memória dinamicamente e faz uma cópia da string fornecida, retornando um ponteiro 
- * para a nova string. Caso a alocação falhe, retorna NULL.
- * 
- * @param s A string original que será duplicada.
- * @return Um ponteiro para a nova string copiada. Retorna NULL se a alocação de memória falhar.
- */
-char* strdupFunction(const char* s) {
-    char* copy = (char*)malloc(strlen(s) + 1);
-
-    if (copy != NULL) {
-        strcpy(copy, s);
+const char* getAbility(Pokemon *pokemon, int index) {
+    if (index >= 0 && index < 6) {
+        return pokemon->abilities[index];
     }
 
-    return copy;
+    return "";
 }
 
 /**
- * A função retorna o ID do Pokémon fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o ID será obtido.
- * @return O ID do Pokémon.
+ * Retorna o peso do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Peso do Pokémon em quilogramas.
  */
-int getId(Pokemon *p) {
-    return p->id;
+double getWeight(Pokemon *pokemon) {
+    return pokemon->weight;
 }
 
 /**
- * A função define o ID do Pokémon para o valor fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá seu ID atualizado.
- * @param id O novo ID a ser atribuído ao Pokémon.
+ * Retorna a altura do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Altura do Pokémon em metros.
  */
-void setId(Pokemon *p, int id) {
-    p->id = id;
+double getHeight(Pokemon *pokemon) {
+    return pokemon->height;
 }
 
 /**
- * A função retorna a geração do Pokémon fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual a geração será obtida.
- * @return A geração do Pokémon.
+ * Verifica se o Pokémon é lendário.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return `true` se o Pokémon for lendário, `false` caso contrário.
  */
-int getGeneration(Pokemon *p) {
-    return p->generation;
+bool getIsLegendary(Pokemon *pokemon) {
+    return pokemon->isLegendary;
 }
 
 /**
- * A função define a geração do Pokémon para o valor fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá sua geração atualizada.
- * @param generation O novo valor da geração a ser atribuído ao Pokémon.
+ * Retorna a geração do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Geração do Pokémon.
  */
-void setGeneration(Pokemon *p, int generation) {
-    p->generation = generation;
+int getGeneration(Pokemon *pokemon) {
+    return pokemon->generation;
 }
 
 /**
- * A função retorna o nome do Pokémon fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o nome será obtido.
- * @return Um ponteiro para a string contendo o nome do Pokémon.
+ * Retorna a taxa de captura do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Taxa de captura do Pokémon.
  */
-char* getName(Pokemon *p) {
-    return p->name;
+int getCaptureRate(Pokemon *pokemon) {
+    return pokemon->captureRate;
 }
 
 /**
- * A função define o nome do Pokémon para a string fornecida.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá seu nome atualizado.
- * @param name Um ponteiro para a string contendo o novo nome a ser atribuído ao Pokémon.
+ * Retorna a data de captura do Pokémon.
+ *
+ * @param pokemon Ponteiro para o Pokémon.
+ * @return Estrutura `tm` representando a data de captura do Pokémon.
  */
-void setName(Pokemon *p, char *name) {
-    p->name = name;
+struct tm getCaptureDate(Pokemon *pokemon) {
+    return pokemon->captureDate;
 }
 
 /**
- * A função retorna a descrição do Pokémon fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual a descrição será obtida.
- * @return Um ponteiro para a string contendo a descrição do Pokémon.
+ * Converte uma string de data no formato "DD/MM/AAAA" em uma estrutura `tm`.
+ *
+ * @param dateString String que contém a data no formato "DD/MM/AAAA".
+ * @param date Ponteiro para a estrutura `tm` onde a data será armazenada.
  */
-char* getDescription(Pokemon *p) {
-    return p->description;
-}
-
-/**
- * A função define a descrição do Pokémon para a string fornecida.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá sua descrição atualizada.
- * @param description Um ponteiro para a string contendo a nova descrição a ser atribuída ao Pokémon.
- */
-void setDescription(Pokemon *p, char *description) {
-    p->description = description;
-}
-
-/**
- * A função retorna o tipo do Pokémon no índice fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o tipo será obtido.
- * @param index O índice do array de tipos do Pokémon a ser retornado.
- * @return Um ponteiro para a string contendo o tipo do Pokémon no índice fornecido.
- */
-char* getTypes(Pokemon *p, int index) {
-    return p->types[index];
-}
-
-/**
- * A função retorna o número de tipos válidos (não vazios) que o Pokémon possui.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o número de tipos será contado.
- * @return O número de tipos válidos do Pokémon (máximo 2).
- */
-int getNumberTypes(Pokemon *p) {
-    int count = 0;
-
-    for (int i = 0; i < 2; i++) {
-        if (strlen(p->types[i]) > 0) {
-            count++;
-        }
+void parseDate(char *dateString, struct tm *date) {
+    if (sscanf(dateString, "%d/%d/%d", &date->tm_mday, &date->tm_mon, &date->tm_year) != 3) {
+        return;
     }
 
-    return count;
+    date->tm_mon -= 1;
+    date->tm_year -= 1900;
 }
 
 /**
- * A função define o tipo do Pokémon no índice fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá o tipo atualizado.
- * @param index O índice do array de tipos a ser atualizado.
- * @param type Um ponteiro para a string contendo o tipo a ser atribuído ao Pokémon no índice fornecido.
+ * Divide uma linha CSV em campos separados e armazena os ponteiros para esses campos.
+ *
+ * @param line String contendo a linha CSV a ser dividida.
+ * @param fields Array de strings onde os campos resultantes serão armazenados.
+ * @param maximumFields Número máximo de campos a serem extraídos.
+ * @return O número de campos extraídos.
  */
-void setTypes(Pokemon *p, int index, char *type) {
-    strncpy(p->types[index], type, sizeof(p->types[index]) - 1);
-    p->types[index][sizeof(p->types[index]) - 1] = '\0';
-}
-
-/**
- * A função retorna a habilidade do Pokémon no índice fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual a habilidade será obtida.
- * @param index O índice do array de habilidades do Pokémon a ser retornado.
- * @return Um ponteiro para a string contendo a habilidade do Pokémon no índice fornecido.
- */
-char* getAbilities(Pokemon *p, int index) {
-    return p->abilities[index];
-}
-
-/**
- * A função retorna o número de habilidades válidas (não vazias) que o Pokémon possui.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o número de habilidades será contado.
- * @return O número de habilidades válidas do Pokémon (máximo 6).
- */
-int getNumberAbilities(Pokemon *p) {
-    int count = 0;
-
-    for (int i = 0; i < 6; i++) {
-        if (strlen(p->abilities[i]) > 0) {
-            count++;
-        }
-    }
-
-    return count;
-}
-
-/**
- * A função define a habilidade do Pokémon no índice fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá a habilidade atualizada.
- * @param index O índice do array de habilidades a ser atualizado.
- * @param ability Um ponteiro para a string contendo a habilidade a ser atribuída ao Pokémon no índice fornecido.
- */
-void setAbilities(Pokemon *p, int index, const char *ability) {
-    strncpy(p->abilities[index], ability, sizeof(p->abilities[index]) - 1);
-    p->abilities[index][sizeof(p->abilities[index]) - 1] = '\0';
-}
-
-/**
- * A função retorna o peso do Pokémon.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o peso será obtido.
- * @return O peso do Pokémon.
- */
-double getWeight(Pokemon *p) {
-    return p->weight;
-}
-
-/**
- * A função define o peso do Pokémon para o valor fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá o peso atualizado.
- * @param weight O novo valor do peso a ser atribuído ao Pokémon.
- */
-void setWeight(Pokemon *p, double weight) {
-    p->weight = weight;
-}
-
-/**
- * A função retorna a altura do Pokémon.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual a altura será obtida.
- * @return A altura do Pokémon.
- */
-double getHeight(Pokemon *p) {
-    return p->height;
-}
-
-/**
- * A função define a altura do Pokémon para o valor fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá a altura atualizada.
- * @param height O novo valor da altura a ser atribuído ao Pokémon.
- */
-void setHeight(Pokemon *p, double height) {
-    p->height = height;
-}
-
-/**
- * A função retorna a taxa de captura do Pokémon.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual a taxa de captura será obtida.
- * @return A taxa de captura do Pokémon.
- */
-int getCaptureRate(Pokemon *p) {
-    return p->captureRate;
-}
-
-/**
- * A função define a taxa de captura do Pokémon para o valor fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá a taxa de captura atualizada.
- * @param captureRate O novo valor da taxa de captura a ser atribuído ao Pokémon.
- */
-void setCaptureRate(Pokemon *p, int captureRate) {
-    p->captureRate = captureRate;
-}
-
-/**
- * A função retorna se o Pokémon é lendário ou não.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual o status lendário será obtido.
- * @return Um valor booleano indicando se o Pokémon é lendário (true) ou não (false).
- */
-bool getIsLegendary(Pokemon *p) {
-    return p->isLegendary;
-}
-
-/**
- * A função define se o Pokémon é lendário ou não.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá o status lendário atualizado.
- * @param isLegendary Um valor booleano indicando se o Pokémon é lendário (true) ou não (false).
- */
-void setIsLegendary(Pokemon *p, bool isLegendary) {
-    p->isLegendary = isLegendary;
-}
-
-/**
- * A função retorna a data de captura do Pokémon.
- * 
- * @param p Um ponteiro para a estrutura Pokémon da qual a data de captura será obtida.
- * @return Uma estrutura Date contendo a data de captura do Pokémon.
- */
-Date getCaptureDate(Pokemon *p) {
-    return p->captureDate;
-}
-
-/**
- * A função define a data de captura do Pokémon para o valor fornecido.
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá a data de captura atualizada.
- * @param captureDate Uma estrutura Date contendo a nova data de captura do Pokémon.
- */
-void setCaptureDate(Pokemon *p, Date captureDate) {
-    p->captureDate = captureDate;
-}
-
-/**
- * A função define a data de captura do Pokémon com base em uma string fornecida no formato "DD/MM/AAAA".
- * 
- * @param p Um ponteiro para a estrutura Pokémon que terá a data de captura atualizada.
- * @param captureDate Uma string representando a nova data de captura no formato "DD/MM/AAAA".
- */
-void setCaptureDateString(Pokemon *p, char *captureDate) {
-    p->captureDate = stringToDate(captureDate);
-}
-
-/**
- * A função cria uma nova instância da estrutura Pokémon, inicializando seus campos com os valores fornecidos.
- * 
- * @param id O identificador único do Pokémon.
- * @param generation A geração à qual o Pokémon pertence.
- * @param name O nome do Pokémon.
- * @param description Uma descrição do Pokémon.
- * @param type1 O primeiro tipo do Pokémon.
- * @param type2 O segundo tipo do Pokémon (pode ser nulo).
- * @param abilities Um array de strings contendo as habilidades do Pokémon.
- * @param weight O peso do Pokémon.
- * @param height A altura do Pokémon.
- * @param captureRate A taxa de captura do Pokémon.
- * @param isLegendary Um valor booleano indicando se o Pokémon é lendário.
- * @param captureDate A data de captura do Pokémon.
- * @return Uma nova instância da estrutura Pokémon, com todos os campos inicializados conforme os parâmetros fornecidos.
- */
-Pokemon createPokemon(int id, int generation, char *name, char *description, char *type1, char *type2, char *abilities[6], double weight, double height, int captureRate, bool isLegendary, Date captureDate) {
-    Pokemon pokemon;
-
-    setId(&pokemon, id);
-    setGeneration(&pokemon, generation);
-
-    char *nameCopy = strdupFunction(name);
-    char *descriptionCopy = strdupFunction(description);
-
-    setName(&pokemon, nameCopy);
-    setDescription(&pokemon, descriptionCopy);
-    setTypes(&pokemon, 0, type1);
-
-    if (type2 != NULL) {
-        setTypes(&pokemon, 1, type2);
-    }
-
-    for (int i = 0; i < 6; i++) {
-        if (abilities[i] != NULL) {
-            setAbilities(&pokemon, i, abilities[i]);
-        } else {
-            strcpy(pokemon.abilities[i], "");
-        }
-    }
-
-    setWeight(&pokemon, weight);
-    setHeight(&pokemon, height);
-    setCaptureRate(&pokemon, captureRate);
-    setIsLegendary(&pokemon, isLegendary);
-    setCaptureDate(&pokemon, captureDate);
-
-    return pokemon;
-}
-
-/**
- * A função divide uma linha CSV em campos, considerando as aspas que podem conter vírgulas.
- * 
- * @param line A linha CSV a ser dividida em campos.
- * @param fields Um array de strings onde os campos extraídos serão armazenados.
- * @param max_fields O número máximo de campos que podem ser armazenados no array.
- * @return O número total de campos extraídos da linha.
- */
-int splitCsvLine(char *line, char **fields, int max_fields) {
+int splitCsvLine(char *line, char **fields, int maximumFields) {
     int fieldCount = 0;
     char *pointer = line;
     int inQuotes = 0;
-    char *fieldStart = pointer;
+    char *startField = pointer;
 
-    while (*pointer && fieldCount < max_fields) {
+    while (*pointer && fieldCount < maximumFields) {
         if (*pointer == '"') {
             inQuotes = !inQuotes;
         } else if (*pointer == ',' && !inQuotes) {
             *pointer = '\0';
-            fields[fieldCount++] = fieldStart;
-            fieldStart = pointer + 1;
+            fields[fieldCount++] = startField;
+            startField = pointer + 1;
         }
 
         pointer++;
     }
-
-    if (fieldCount < max_fields) {
-        fields[fieldCount++] = fieldStart;
+    
+    if (fieldCount < maximumFields) {
+        fields[fieldCount++] = startField;
     }
 
     return fieldCount;
 }
 
 /**
- * A função lê dados de Pokémon a partir de um arquivo CSV e os armazena em um array de Pokémon.
- * Cada linha do arquivo é processada para extrair as informações do Pokémon, incluindo id, 
- * geração, nome, descrição, tipos, habilidades, peso, altura, taxa de captura, se é lendário 
- * e a data de captura. Os dados são adicionados ao array de Pokédex, e o contador de Pokémon 
- * é atualizado.
- * 
- * @param file O ponteiro para o arquivo CSV a ser lido.
- * @param pokedex O array onde os Pokémon extraídos do arquivo serão armazenados.
- * @param n Um ponteiro para um inteiro que representa o número atual de Pokémon no pokédex.
- *          Este valor será atualizado após a leitura.
+ * Lê os dados de um arquivo CSV e preenche um array de Pokémon.
+ *
+ * @param file Ponteiro para o arquivo CSV a ser lido.
+ * @param pokedex Array de struct `Pokemon` onde os dados do CSV serão armazenados.
+ * @param n Ponteiro para um inteiro que indica o número de Pokémon lidos.
  */
 void readCsv(FILE *file, Pokemon *pokedex, int *n) {
     char line[1024];
 
-    fgets(line, sizeof(line), file);
+    fgets(line, sizeof(line), file); 
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        line[strcspn(line, "\n")] = '\0';
+        line[strcspn(line, "\n")] = '\0'; 
 
         Pokemon pokemon;
+        memset(&pokemon, 0, sizeof(Pokemon)); 
 
-        memset(&pokemon, 0, sizeof(Pokemon));
-
-        char *fields[12];
+        char *fields[12]; 
         int fieldCount = splitCsvLine(line, fields, 12);
 
-        pokemon.id = atoi(fields[0]);
-        pokemon.generation = atoi(fields[1]);
-        pokemon.name = strdupFunction(fields[2]);
-        pokemon.description = strdupFunction(fields[3]);
+        strncpy(pokemon.id, fields[0], 256);
 
-        setTypes(&pokemon, 0, fields[4]);
+        pokemon.generation = atoi(fields[1]);
+
+        strncpy(pokemon.name, fields[2], 256);
+        strncpy(pokemon.description, fields[3], 256);
+        strncpy(pokemon.types[0], fields[4], 256);
 
         if (strlen(fields[5]) > 0) {
-            setTypes(&pokemon, 1, fields[5]);
-        } else {
-            strcpy(pokemon.types[1], "");
+            strncpy(pokemon.types[1], fields[5], 256);
         }
-
+        
         char *abilitiesField = fields[6];
 
         if (abilitiesField[0] == '"' && abilitiesField[strlen(abilitiesField) - 1] == '"') {
             abilitiesField[strlen(abilitiesField) - 1] = '\0';
             abilitiesField++;
         }
-        if (abilitiesField[0] == '[' && abilitiesField[strlen(abilitiesField) - 1] == ']') {
+        
+        if (abilitiesField[0] == '[' && abilitiesField[strlen(abilitiesField) - 1] == ']') 
+        {
             abilitiesField[strlen(abilitiesField) - 1] = '\0';
             abilitiesField++;
         }
@@ -511,7 +248,7 @@ void readCsv(FILE *file, Pokemon *pokedex, int *n) {
         char *restAbilities = abilitiesField;
         int abilityIndex = 0;
 
-        while ((abilityToken = strtok_r(restAbilities, ",", &restAbilities)) && abilityIndex < 6) {
+        while ((abilityToken = strtok(restAbilities, ",")) && abilityIndex < 6) {
             while (*abilityToken == ' ' || *abilityToken == '\'') {
                 abilityToken++;
             }
@@ -522,244 +259,236 @@ void readCsv(FILE *file, Pokemon *pokedex, int *n) {
                 *tempEnd = '\0';
                 tempEnd--;
             }
-            
-            if (strlen(abilityToken) > 0) {
-                setAbilities(&pokemon, abilityIndex, abilityToken);
+
+            if (strlen(abilityToken) > 0 && abilityIndex < 6) {
+                strncpy(pokemon.abilities[abilityIndex], abilityToken, 256);
                 abilityIndex++;
             }
-        }
 
-        for (; abilityIndex < 6; abilityIndex++) {
-            strcpy(pokemon.abilities[abilityIndex], "");
+            restAbilities = NULL;
         }
 
         pokemon.weight = atof(fields[7]);
         pokemon.height = atof(fields[8]);
         pokemon.captureRate = atoi(fields[9]);
         pokemon.isLegendary = atoi(fields[10]);
-        pokemon.captureDate = stringToDate(fields[11]);
-        
+
+        struct tm captureDate = {0};
+
+        parseDate(fields[11], &captureDate);
+        pokemon.captureDate = captureDate;
+
         pokedex[*n] = pokemon;
         (*n)++;
     }
 }
 
 /**
- * A função exibe as informações de um Pokémon formatadas em uma string, incluindo id, nome, 
- * descrição, tipos, habilidades, peso, altura, taxa de captura, se é lendário, geração e 
- * data de captura. As informações são impressas no console no formato especificado.
- * 
- * @param p Um ponteiro para a estrutura Pokémon cujas informações serão exibidas.
+ * Exibe as informações de um Pokémon em um formato estruturado.
+ *
+ * @param pokemon Ponteiro para o struct `Pokemon` cujas informações serão exibidas.
  */
-void displayInformation(Pokemon *p) {
-    printf("[#%d -> %s: %s - ['", getId(p), getName(p), getDescription(p));
+void displayInformation(Pokemon* pokemon) {
+    char dateString[11];
 
-    int numberTypes = getNumberTypes(p);
+    strftime(dateString, sizeof(dateString), "%d/%m/%Y", &pokemon->captureDate);
 
-    if (numberTypes > 0) {
-        printf("%s", getTypes(p, 0));
-    }
+    printf("[#%s -> %s: %s - [", getId(pokemon), getName(pokemon), getDescription(pokemon));
 
-    if (numberTypes > 1) {
-        printf("', '%s", getTypes(p, 1));
-    }
-
-    printf("'] - [");
-
-    int numberAbilities = getNumberAbilities(p);
-
-    for (int i = 0 ; i < numberAbilities ; i++) {
-        printf("'%s'", getAbilities(p, i));
-
-        if (i < numberAbilities - 1) {
+    for (int j = 0; j < 3 && strlen(getType(pokemon, j)) > 0; j++) {
+        if (j > 0) {
             printf(", ");
         }
+
+        printf("'%s'", getType(pokemon, j));
+    }
+
+    printf("] - [");
+
+    for (int j = 0; j < 6 && strlen(getAbility(pokemon, j)) > 0; j++) {
+        if (j > 0) {
+            printf(", ");
+        }
+
+        printf("'%s'", getAbility(pokemon, j));
     }
 
     printf("] - ");
 
-    printf("%.1fkg - ", getWeight(p));
-    printf("%.1fm - ", getHeight(p));
-    printf("%d%% - ", getCaptureRate(p));
-    printf("%s - ", getIsLegendary(p) ? "true" : "false");
-    printf("%d gen] - ", getGeneration(p));
-
-    char *data = dateToString(getCaptureDate(p));
-
-    printf("%s", data);
-
-    printf("\n");
-
-    free(data);
+    printf("%.1fkg - %.1fm - %d%% - %s - %d gen] - %s\n", getWeight(pokemon), getHeight(pokemon), getCaptureRate(pokemon), getIsLegendary(pokemon) ? "true" : "false", getGeneration(pokemon), dateString);
 }
 
-/**
- * A função troca os valores de duas estruturas Pokémon.
- * 
- * @param a Um ponteiro para a primeira estrutura Pokémon a ser trocada.
- * @param b Um ponteiro para a segunda estrutura Pokémon a ser trocada.
- */
-void swap(Pokemon *a, Pokemon *b) {
-    Pokemon aux = *a;
+long long now() {
+    struct timeval tv;
 
-    *a = *b;
-    *b = aux;
+    gettimeofday(&tv, NULL);
+
+    return (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000);  
 }
 
+int quantityComparisons = 0;
+int quantityMovements = 0;
+
 /**
- * A função percorre um array de estruturas Pokémon para encontrar o Pokémon 
- * com o maior ID. O Pokémon encontrado é retornado, e os contadores de 
- * comparações e movimentos são atualizados conforme necessário.
- * 
- * @param findPokemon Um array de estruturas Pokémon a ser percorrido.
- * @param size O número total de elementos no array findPokemon.
- * @param length Um ponteiro para um contador de comparações realizadas.
- * @param movements Um ponteiro para um contador de movimentos realizados.
- * @return O Pokémon com o maior ID encontrado no array.
+ * Retorna o comprimento máximo da primeira habilidade entre os Pokémon em um array.
+ *
+ * @param array Ponteiro para o array de Pokémon.
+ * @param n O número de Pokémon no array.
+ * @return O comprimento da string da habilidade mais longa.
  */
-Pokemon getBigger(Pokemon findPokemon[], int size, int *length, int *movements) {
-    Pokemon bigger = findPokemon[0];
+int getMaximumLength(Pokemon *array, int n) {
+    int maximumLength = strlen(array[0].abilities[0]);
 
-    for (int i = 1 ; i < size ; i++) {
-        (*length)++;
+    for (int i = 1; i < n; i++) {
+        int length = strlen(array[i].abilities[0]);
 
-        if (findPokemon[i].id > bigger.id) {
-            bigger = findPokemon[i];
-            (*movements)++;
+        quantityComparisons++;
+
+        if (length > maximumLength) {
+            maximumLength = length;
+            quantityMovements++;
         }
     }
 
-    return bigger;
+    return maximumLength;
 }
 
 /**
- * A função realiza a ordenação dos Pokémon utilizando o algoritmo de Count Sort. 
- * Ela usa o dígito específico determinado pela variável `expression` para 
- * organizar os Pokémon em um array de saída. O array original é atualizado 
- * com a ordem resultante, e os contadores de comparações e movimentos são 
- * atualizados conforme necessário.
- * 
- * @param findPokemon Um array de estruturas Pokémon a ser ordenado.
- * @param size O número total de elementos no array findPokemon.
- * @param expression A expressão utilizada para extrair o dígito a ser considerado na ordenação.
- * @param length Um ponteiro para um contador de comparações realizadas.
- * @param movements Um ponteiro para um contador de movimentos realizados.
+ * Ordena os Pokémon com base em um caractere específico de sua primeira habilidade usando Counting Sort.
+ *
+ * @param array Ponteiro para o array de Pokémon.
+ * @param n O número de Pokémon no array.
+ * @param charIndex O índice do caractere na habilidade a ser usado como chave para ordenação.
  */
-void countSort(Pokemon findPokemon[], int size, int expression, int *length, int *movements) {
-    Pokemon output[size];
-    int count[10] = {0};
+void countSortByChar(Pokemon *array, int n, int charIndex) {
+    Pokemon output[n];
+    int count[256] = { 0 };
 
-    for (int i = 0; i < size; i++) {
-        int digit = (findPokemon[i].id / expression) % 10;
-        count[digit]++;
+    for (int i = 0; i < n; i++) {
+        char c = charIndex < strlen(array[i].abilities[0]) ? array[i].abilities[0][charIndex] : 0;
+
+        count[(int)c]++;
+        quantityMovements++;
     }
 
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < 256; i++) {
         count[i] += count[i - 1];
+        quantityMovements++;
     }
 
-    for (int i = size - 1; i >= 0; i--) {
-        int digit = (findPokemon[i].id / expression) % 10;
+    for (int i = n - 1; i >= 0; i--) {
+        char c = charIndex < strlen(array[i].abilities[0]) ? array[i].abilities[0][charIndex] : 0;
 
-        output[count[digit] - 1] = findPokemon[i];
-        count[digit]--;
+        output[count[(int)c] - 1] = array[i];
+        count[(int)c]--;
+        quantityMovements += 2;
     }
 
-    for (int i = 0; i < size; i++) {
-        findPokemon[i] = output[i];
+    for (int i = 0; i < n - 1; i++) {
+        if (strcmp(output[i].abilities[0], output[i + 1].abilities[0]) == 0) {
+            if (strcmp(output[i].name, output[i + 1].name) > 0) {
+                Pokemon temp = output[i];
+
+                output[i] = output[i + 1];
+                output[i + 1] = temp;
+                quantityMovements += 3;
+            }
+        }
     }
-}
 
-/**
- * A função implementa o algoritmo de Radix Sort para ordenar um array de Pokémon 
- * com base no ID. Primeiro, determina o Pokémon com o maior ID, em seguida, chama 
- * o Count Sort para ordenar os Pokémon em relação a cada dígito do ID, começando 
- * pelo menos significativo até o mais significativo.
- * 
- * @param findPokemon Um array de estruturas Pokémon a ser ordenado.
- * @param size O número total de elementos no array findPokemon.
- * @param length Um ponteiro para um contador de comparações realizadas.
- * @param movements Um ponteiro para um contador de movimentos realizados.
- */
-void radixSort(Pokemon findPokemon[], int size, int *length, int *movements) {
-    Pokemon bigger = getBigger(findPokemon, size, length, movements);
-
-    for (int expression = 1 ; bigger.id / expression > 0 ; expression *= 10) {
-        countSort(findPokemon, size, expression, length, movements);
+    for (int i = 0; i < n; i++) {
+        array[i] = output[i];
+        quantityMovements++;
     }
 }
 
 /**
- * A função principal do programa lê dados de Pokémon a partir de um arquivo CSV 
- * e armazena em um array de estruturas Pokémon. Após a leitura, ela recebe IDs de 
- * Pokémon a serem pesquisados e os armazena em um novo array. Em seguida, aplica 
- * o algoritmo Radix Sort para ordenar os Pokémon encontrados com base no ID. 
- * Finalmente, exibe as informações dos Pokémon ordenados e registra o tempo de 
- * execução, número de comparações e movimentos em um arquivo de saída.
+ * Realiza a ordenação dos Pokémon usando o algoritmo Radix Sort, com base em suas habilidades.
+ *
+ * @param array Ponteiro para o array de Pokémon.
+ * @param n O número de Pokémon no array.
  */
-int main () {
-    clock_t start = clock();
+void radixSort(Pokemon *array, int n) {
+    int maximumLength = getMaximumLength(array, n); 
 
-    FILE *file = fopen("/tmp/pokemon.csv", "r");   
+    for (int charIndex = maximumLength - 1; charIndex >= 0; charIndex--) {
+        countSortByChar(array, n, charIndex);
+    }
+}
+
+/**
+ * Função principal do programa que lê um arquivo CSV contendo dados de Pokémon,
+ * seleciona Pokémon com base em IDs fornecidos pelo usuário, os ordena utilizando
+ * Radix Sort e exibe as informações dos Pokémon selecionados.
+ */
+int main() {
+    long long start = now();
+    FILE *file = fopen("/tmp/pokemon.csv", "r");
 
     if (file == NULL) {
-        printf("Erro ao abrir o archive CSV.\n");
+        perror("Erro ao abrir arquivo.\n");
         return 1;
-    } 
+    }
 
     Pokemon pokedex[801];
-    int n = 0;
+    int comparisons = 0;
+    int quantityPokemons = 0;
 
-    readCsv(file, pokedex, &n);
+    readCsv(file, pokedex, &quantityPokemons);
 
     fclose(file);
 
-    char inputId[10];
-    scanf("%s", inputId);
+    char number[256];
+    Pokemon selectedPokemons[801];
+    int id;
+    int quantitySelectedPokemons = 0;
+    bool found;
 
-    Pokemon findPokemon[51];
-    int length = 0;
-    int movements = 0;
-    int j = 0;
-    
-    while (strcmp(inputId, "FIM") != 0) {
-        int id = atoi(inputId);
+    scanf("%s", number);
 
-        for (int i = 0 ; i < n ; i++) {
-            if (pokedex[i].id == id) {
-                findPokemon[j++] = pokedex[i];
-                break;
+    while(strcmp(number,"FIM") != 0) {
+        id = atoi(number);
+        found = false;
+
+        int i = 0;
+
+        while(found == false && i < 801) {
+            comparisons++;
+
+            if (atoi(pokedex[i].id) == id) {
+                selectedPokemons[quantitySelectedPokemons] = pokedex[i];
+                quantitySelectedPokemons++;
+                found = true;
             }
+
+            i++;
         }
-        
-        scanf("%s", inputId); 
+
+        if (found == false) {
+            printf("Pokemos com ID %d não encontrado.\n", id);
+        }
+
+        scanf("%s", number);
     }
 
-    radixSort(findPokemon, j, &length, &movements);
+    radixSort(selectedPokemons, quantitySelectedPokemons);
 
-    for (int i = 0 ; i < j ; i++) {
-        displayInformation(&findPokemon[i]);
+    for (int i = 0; i < quantitySelectedPokemons; i++) {
+        displayInformation(&selectedPokemons[i]);
     }
 
-    clock_t end = clock();
-    double executionTime = ((double)(end - start)) / CLOCKS_PER_SEC * 1000.0;
-
+    long long end = now();
 
     FILE *archive = fopen("847235_radixsort.txt", "w");
-    
+
     if (archive == NULL) {
-        printf("Erro ao abrir o archive.\n");
+        printf("Erro ao abrir o arquivo.\n");
         return 1;
     }
 
-    fprintf(archive, "847235\t%d\t%d\t%.2f\n", length, movements, executionTime);
+    fprintf(archive, "847235\t%d\t%d\t%lf", quantityComparisons, quantityMovements, (double)(end - start) / 1000.0);
 
     fclose(archive);
-
-    for (int i = 0; i < n; i++) {
-        free(pokedex[i].name);
-        free(pokedex[i].description);
-    }
 
     return 0;
 }

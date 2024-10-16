@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("02-binary-search-operation-count")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3686ecd775842243821553e9084cd03b14ae02a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17c88ce14b0f745b35e4955fdae476114dd26d5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("02-binary-search-operation-count")]
 [assembly: System.Reflection.AssemblyTitleAttribute("02-binary-search-operation-count")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
