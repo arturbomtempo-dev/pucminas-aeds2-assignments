@@ -4,7 +4,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Lista com Alocação Sequencial em Java
+ * TP03Q01 - Lista com Alocação Sequencial em Java
  * 
  * @author Artur Bomtempo Colen
  * @version 1.0, 28/10/2024
