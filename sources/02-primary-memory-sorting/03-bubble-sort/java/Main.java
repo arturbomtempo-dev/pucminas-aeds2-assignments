@@ -4,7 +4,6 @@ public class Main {
 
     public static void bubbleSort() {
         boolean swapOccurred = true;
-        int n = numbersArray.length;
 
         for (int rep = 0; rep < n - 1 && swapOccurred; rep++) {
             swapOccurred = false;

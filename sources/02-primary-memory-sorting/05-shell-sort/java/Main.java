@@ -2,7 +2,7 @@ public class Main {
     static int[] numbersArray;
     static int n;
 
-    public static void colorInsertion(int color, int h, int n) {
+    public static void colorInsertion(int color, int h) {
         for (int i = (color + h); i < n; i += h) {
             int temp = numbersArray[i];
             int j = i - h;
@@ -27,7 +27,7 @@ public class Main {
             h /= 3;
 
             for (int color = 0; color < h; color++) {
-                colorInsertion(color, h, n);
+                colorInsertion(color, h);
             }
         } while (h != 1);
     }
