@@ -1,7 +1,8 @@
 public class Main {
-    public static void insertionSort(int[] numbersArray) {
-        int n = numbersArray.length;
+    static int[] numbersArray;
+    static int n;
 
+    public static void insertionSort() {
         for (int i = 1; i < n; i++) {
             int temp = numbersArray[i];
             int j = i - 1;
@@ -16,22 +17,23 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int[] numbers = { 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
+        numbersArray = new int[]{ 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
+        n = numbersArray.length;
 
         System.out.println("Array original:");
 
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.print(numbers[i] + " ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(numbersArray[i] + " ");
         }
 
         System.out.println();
 
-        insertionSort(numbers);
+        insertionSort();
 
         System.out.println("Array ordenado:");
 
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.print(numbers[i] + " ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(numbersArray[i] + " ");
         }
     }
 }

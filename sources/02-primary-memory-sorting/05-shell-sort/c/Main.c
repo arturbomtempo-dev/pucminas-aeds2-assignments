@@ -1,6 +1,9 @@
 #include <stdio.h>
 
-void colorInsertion(int *numbersArray, int color, int h, int n) {
+int numbersArray[] = { 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
+int n = 18;
+
+void colorInsertion(int color, int h) {
     for (int i = (color + h); i < n; i += h) {
         int temp = numbersArray[i];
         int j = i - h;
@@ -14,7 +17,7 @@ void colorInsertion(int *numbersArray, int color, int h, int n) {
     }
 }
 
-void shellSort(int *numbersArray, int n) {
+void shellSort() {
     int h = 1;
 
     do {
@@ -25,28 +28,26 @@ void shellSort(int *numbersArray, int n) {
         h /= 3;
 
         for (int color = 0; color < h; color++) {
-            colorInsertion(numbersArray, color, h, n);
+            colorInsertion(color, h);
         }
     } while (h != 1);
 }
 
 int main() {
-    int numbers[] = { 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
-
     printf("Array original: ");
 
-    for (int i = 0; i < 18; i++) {
-        printf("%d ", numbers[i]);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", numbersArray[i]);
     }
 
     printf("\n");
 
-    shellSort(numbers, 18);
+    shellSort();
 
     printf("Array ordenado: ");
 
-    for (int i = 0; i < 18; i++) {
-        printf("%d ", numbers[i]);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", numbersArray[i]);
     }
     
     printf("\n");
