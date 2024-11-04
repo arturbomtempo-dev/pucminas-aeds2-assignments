@@ -47,6 +47,7 @@ public class Main {
         for (int i = 0; i < numbersArray.length; i++) {
             System.out.print(numbersArray[i] + " ");
         }
+        
         System.out.println();
 
         int[] sortedArray = countingSort();
