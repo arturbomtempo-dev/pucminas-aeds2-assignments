@@ -4,8 +4,51 @@ import java.util.Scanner;
  * BEE 2929
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 17/09/2024
+ * @version 2.0, 05/11/2024
  */
+
+class Stack {
+    int[] array;
+    int n;
+
+    public Stack() {
+        array = new int[6];
+        n = 0;
+    }
+
+    public Stack(int value) {
+        array = new int[value];
+    }
+
+    public void push(int value) {
+        if (n >= array.length) {
+            throw new Error("Não foi possível inserir um valor na pilha.");
+        }
+
+        array[n] = value;
+        n++;
+    }
+
+    public int pop() {
+        if (n == 0) {
+            throw new Error("Não foi possível remover um valor da pilha.");
+        }
+
+        return array[--n];
+    }
+
+    public int searchSmaller() {
+        int smaller = array[0];
+
+        for (int i = 1; i < n; i++) {
+            if (smaller > array[i]) {
+                smaller = array[i];
+            }
+        }
+
+        return smaller;
+     }
+}
 
 public class SmallestStack {
     public static void main(String[] args) {
@@ -14,39 +57,21 @@ public class SmallestStack {
         int N = sc.nextInt();
         sc.nextLine();
 
-        int[] array = new int[N];
-        int top = -1;
+        Stack presentsStack = new Stack(N);
 
         for (int i = 0; i < N; i++) {
-            String term = sc.next();
+            String operation = sc.next();
 
-            if (term.equals("PUSH")) {
-                int V = sc.nextInt();
+            if (operation.equals("PUSH")) {
+                int value = sc.nextInt();
+                sc.nextLine();
 
-                if (top < N - 1) {
-                    top++;
-                    array[top] = V;
-                }
-            } else if (term.equals("POP")) {
-                if (top >= 0) {
-                    top--;
-                } else {
-                    System.out.println("EMPTY");
-                }
-            } else if (term.equals("MIN")) {
-                if (top >= 0) {
-                    int smaller = array[0];
-                    
-                    for (int j = 1; j <= top; j++) {
-                        if (smaller > array[j]) {
-                            smaller = array[j];
-                        }
-                    }
-
-                    System.out.println(smaller);
-                } else {
-                    System.out.println("EMPTY");
-                }
+                presentsStack.push(value);
+            } else if (operation.equals("POP")) {
+                presentsStack.pop();
+            } else if (operation.equals("MIN")) {
+                int smaller = presentsStack.searchSmaller();
+                System.out.println(smaller);
             }
         }
 
