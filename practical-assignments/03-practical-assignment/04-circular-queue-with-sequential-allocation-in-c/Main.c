@@ -381,8 +381,6 @@ bool isEnd(char *input) {
  *    - "R": Remove o Pokémon mais antigo da fila e exibe seu nome.
  * 5. Exibe as informações dos Pokémons atualmente na fila.
  * 6. Libera a memória alocada para a lista de Pokémons lida do CSV.
- *
- * @return int - Retorna 0 indicando que o programa foi executado com sucesso.
  */
 int main() {
     start();
