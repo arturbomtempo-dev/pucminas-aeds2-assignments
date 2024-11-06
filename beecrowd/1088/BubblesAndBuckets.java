@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+/**
+ * BEE 1088
+ * 
+ * @author Artur Bomtempo Colen
+ * @version 1.0, 06/11/2024
+ */
+
 public class BubblesAndBuckets {
     static int[] numbersArray;
 
