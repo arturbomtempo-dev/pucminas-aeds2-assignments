@@ -9,7 +9,7 @@
  * TP03Q08 - Quicksort com LISTA DINÂMICA DUPLAMENTE ENCADEADA em C
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 08/11/2024
+ * @version 2.0, 11/11/2024
  */
 
 int comparisons = 0;
@@ -493,14 +493,6 @@ void swap(DoubleList *list, DoubleCell *ci, DoubleCell *cj) {
 /**
  * Ordena uma lista duplamente encadeada utilizando o algoritmo de QuickSort.
  * 
- * O QuickSort é um algoritmo eficiente de ordenação que utiliza a técnica de divisão e conquista.
- * A função escolhe um pivô (pivot) e organiza os elementos ao redor desse pivô, para que os elementos menores 
- * fiquem à esquerda e os maiores à direita. O processo é recursivo, aplicando-se à sublista à esquerda e à sublista à direita.
- * 
- * A ordenação é feita de acordo com dois critérios:
- * 1. A geração do Pokémon (quanto menor a geração, mais à esquerda o Pokémon será colocado).
- * 2. Se os Pokémon têm a mesma geração, então a ordenação é feita pelo nome em ordem alfabética.
- * 
  * @param list Ponteiro para a lista duplamente encadeada a ser ordenada.
  * @param left Índice da posição inicial da sublista a ser ordenada.
  * @param right Índice da posição final da sublista a ser ordenada.
@@ -510,7 +502,7 @@ void swap(DoubleList *list, DoubleCell *ci, DoubleCell *cj) {
 void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft, DoubleCell *cRight) {
     DoubleCell *ci = cLeft, *cj = cRight;
     int i = left, j = right;
-    DoubleCell *pivot = getPivot(list, (left + right) / 2);
+    DoubleCell *pivot = getPivot(list, left);
 
     while (i <= j) {
         while ((ci->pokemon->generation < pivot->pokemon->generation || (ci->pokemon->generation == pivot->pokemon->generation && strcmp(ci->pokemon->name, pivot->pokemon->name) < 0))) {
