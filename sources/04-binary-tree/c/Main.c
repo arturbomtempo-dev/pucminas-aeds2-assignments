@@ -21,20 +21,22 @@ void start() {
     root = NULL;
 }
 
-void recursiveInsert(int value, Node **i) {
-    if (*i == NULL) {
-        *i = newNode(value);
-    } else if (value < (*i)->element) {
-        recursiveInsert(value, &((*i)->left));
-    } else if (value > (*i)->element) {
-        recursiveInsert(value, &((*i)->right));
+Node* recursiveInsert(int value, Node *i) {
+    if (i == NULL) {
+        i = newNode(value);
+    } else if (value < i->element) {
+        i->left = recursiveInsert(value, i->left);
+    } else if (value > i->element) {
+        i->right = recursiveInsert(value, i->right);
     } else {
         errx(1, "Erro ao inserir elemento na árvore binária");
     }
+
+    return i;
 }
 
 void insert(int value) {
-    recursiveInsert(value, &root);
+    root = recursiveInsert(value, root);
 }
 
 bool recursiveSearch(int value, Node *i) {
