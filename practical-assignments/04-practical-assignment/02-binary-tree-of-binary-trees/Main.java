@@ -621,12 +621,12 @@ class BinaryTreeBinaryTrees {
 			found = search(name, i.other);
             
             if (found == false) {
-                System.out.print("esq ");
+                System.out.print(" ESQ ");
                 found = walkPre(name, i.left);
             }
 
             if (found == false) {
-                System.out.print("dir ");
+                System.out.print(" DIR ");
                 found = walkPre(name, i.right);
             }
         }
@@ -651,10 +651,10 @@ class BinaryTreeBinaryTrees {
             found = true;
         } else if (name.compareTo(i.pokemon.getName()) < 0) {
             GlobalVariables.comparisons++;
-            System.out.print("ESQ ");
+            System.out.print("esq ");
             found = search(name, i.left);
         } else {
-            System.out.print("DIR ");
+            System.out.print("dir ");
             found = search(name, i.right);
         }
 
@@ -737,7 +737,7 @@ public class Main {
                 stop = false;
             } else {
                 boolean found = pokemonTree.search(input);
-                System.out.println(found ? "SIM" : "NAO");
+                System.out.println(found ? " SIM" : " NAO");
             }
         }
            
