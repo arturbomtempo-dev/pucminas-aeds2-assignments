@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * BEE 1257
+ * 
+ * @author Artur Bomtempo Colen
+ * @version 1.0, 10/12/2024
+ */
+
 int main() {
     int N;
     scanf("%d", &N);

@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+ * BEE 2872
+ * 
+ * @author Artur Bomtempo Colen
+ * @version 1.0, 10/12/2024
+ */
+
 public class Main {
     private static void bubbleSort(String[] array, int n) {
         for (int i = 0; i < n - 1; i++) {
