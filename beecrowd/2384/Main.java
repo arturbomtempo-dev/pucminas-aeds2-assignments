@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * BEE 2916
+ * BEE 2384
  * 
  * @author Artur Bomtempo Colen
  * @version 2.0, 18/09/2024
