@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 06/11/2024
  */
 
-public class BubblesAndBuckets {
+public class Main {
     static int[] numbersArray;
 
     public static void swap(int i, int j) {

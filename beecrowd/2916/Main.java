@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @version 2.0, 18/09/2024
  */
 
-public class AlienAlphabet {
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

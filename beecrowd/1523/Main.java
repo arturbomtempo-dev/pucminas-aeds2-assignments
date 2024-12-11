@@ -7,17 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 27/10/2024
  */
 
-public class LinearParking {
-    /**
-     * Verifica se é possível acomodar os carros em um estacionamento
-     * baseado nos horários de chegada e saída, considerando a capacidade máxima.
-     *
-     * @param arrivals   Um array que representa os horários de chegada dos carros.
-     * @param departures Um array que representa os horários de saída dos carros.
-     * @param N         O número total de carros (tanto chegadas quanto saídas).
-     * @param capacity   A capacidade máxima do estacionamento.
-     * @return true se todos os carros podem ser acomodados, false caso contrário.
-     */
+public class Main {
     private static boolean checkParking(int[] arrivals, int[] departures, int N, int capacity) {
         int carsInParking = 0;
         int i = 0;
@@ -49,10 +39,6 @@ public class LinearParking {
         return true;
     }
 
-    /**
-     * Método principal que executa a lógica para verificar se os carros podem ser 
-     * acomodados no estacionamento com base nos horários de chegada e saída.
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
