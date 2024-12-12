@@ -9,11 +9,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         
-        while (scanner.hasNextLine()) {
-            String s1 = scanner.nextLine();
-            String s2 = scanner.nextLine();
+        while (sc.hasNextLine()) {
+            String s1 = sc.nextLine();
+            String s2 = sc.nextLine();
             
             int maxLength = 0;
             int len1 = s1.length();
@@ -36,6 +36,6 @@ public class Main {
             System.out.println(maxLength);
         }
         
-        scanner.close();
+        sc.close();
     }
 }
