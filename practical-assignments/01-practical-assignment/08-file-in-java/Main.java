@@ -9,20 +9,13 @@ import java.io.File;
  * @version 1.0, 31/08/2024
  */
 
-public class JavaFile {
-    /**
-     * Método principal do programa responsável por ler um número 
-     * especificado de valores reais, grava-os em um arquivo e, em seguida, 
-     * lê o arquivo na ordem inversa, imprimindo os valores sem a parte decimal 
-     * se forem inteiros.
-     */
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
 
         try {
-            // Gravação dos valores de entrada em um arquivo
-            File file = new File("valores.txt");
+            File file = new File("values.txt");
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
 
             for (int i = 0; i < n; i++) {
@@ -32,7 +25,6 @@ public class JavaFile {
 
             raf.close();
 
-           // Reading the values from the file in reverse order
             raf = new RandomAccessFile(file, "r");
             long filePointer = raf.length() - 8;
 
@@ -40,7 +32,6 @@ public class JavaFile {
                 raf.seek(filePointer);
                 double value = raf.readDouble();
 
-                // Verificar se o valor é um número inteiro e imprimi-lo sem casas decimais
                 if (value == Math.floor(value)) {
                     System.out.println((int) value);
                 } else {

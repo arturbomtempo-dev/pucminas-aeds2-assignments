@@ -7,18 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 30/08/2024
  */
 
-public class RecursiveBooleanAlgebra {
-    /**
-     * Este método processa recursivamente a expressão booleana, avaliando as operações 
-     * lógicas (AND, OR, NOT) na ordem correta. Ele percorre a expressão de forma sequencial, 
-     * identificando e processando as operações conforme encontradas. A recursão permite 
-     * que as operações sejam avaliadas de dentro para fora, retornando o resultado final 
-     * quando o índice atinge o final da expressão.
-     *
-     * @param expression A expressão booleana a ser avaliada.
-     * @param index O índice atual na expressão, utilizado para percorrer e avaliar a expressão recursivamente.
-     * @return O resultado final avaliado da expressão booleana.
-     */
+public class Main {
     private static String evaluateBooleanExpression(String expression, int index) {
         String processedExpression = "";
         int size = expression.length() - 1;
@@ -37,15 +26,7 @@ public class RecursiveBooleanAlgebra {
 
         return processedExpression;
     }
-
-    /**
-     * Esse método processa uma expressão booleana que inclui um operador AND 
-     * e a substitui pelo resultado binário apropriado (1 ou 0) com base nos 
-     * valores de dos operandos na expressão.
-     *
-     * @param expression A expressão booleana que contém uma operação AND.
-     * @return Uma string que representa a expressão com a operação AND avaliada.
-     */
+    
     private static String evaluateAndExpression(String expression) {
         String processedExpression = "";
 
@@ -70,15 +51,7 @@ public class RecursiveBooleanAlgebra {
 
         return processedExpression;
     }
-
-    /**
-     * Esse método processa uma expressão booleana que inclui um operador OR e a 
-     * substitui pelo resultado binário apropriado (1 ou 0) com base nos valores
-     * dos operandos na expressão.
-     *
-     * @param expression A expressão booleana que contém uma operação OR.
-     * @return Uma nova string que representa a expressão com a operação OR avaliada.
-     */
+    
     private static String evaluateOrExpression(String expression) {
         String processedExpression = "";
 
@@ -101,15 +74,7 @@ public class RecursiveBooleanAlgebra {
 
         return processedExpression;
     }
-
-    /**
-     * Esse método processa uma expressão booleana que inclui um operador NOT 
-     * e a substitui pelo resultado binário apropriado (1 ou 0), invertendo o 
-     * valor do operando na expressão.
-     *
-     * @param expression A expressão booleana que contém uma operação NOT.
-     * @return Uma nova string que representa a expressão com a operação NOT avaliada.
-     */
+    
     private static String evaluateNotExpression(String expression) {
         String processedExpression = "";
 
@@ -124,17 +89,7 @@ public class RecursiveBooleanAlgebra {
 
         return processedExpression;
     }
-
-    /**
-     * Esse método substitui as variáveis (A, B, C) na expressão booleana por seus respectivos valores.
-     * 
-     * Esse método substitui as variáveis A, B e C na expressão pelos valores fornecidos na 
-     * entradas, permitindo que a expressão seja avaliada com valores booleanos específicos.
-     *
-     * @param inputs Um array de inteiros (0 ou 1) que representa os valores booleanos das variáveis A, B e C.
-     * @param expression A expressão booleana que contém as variáveis A, B e C.
-     * @return Uma nova string que representa a expressão com as variáveis substituídas por seus valores correspondentes.
-     */
+    
     private static String replaceVariablesWithValues(int[] inputs, String expression) {
         String processedExpression = "";
 
@@ -154,22 +109,11 @@ public class RecursiveBooleanAlgebra {
 
         return processedExpression;
     }
-
-    /**
-     * Verifica se o valor de entrada é zero, indicando o término da execução.
-     * 
-     * @param input O valor de entrada a ser verificado.
-     * @return {@code true} se o valor for zero, {@code false} caso contrário.
-     */
+    
     public static boolean isEnd(int input) {
         return input == 0;
     }
-
-    /**
-     * Método principal que recebe a quantidade de portas que serão lidas,
-     * processa os dados que entraram e retorna o valor final (0 ou 1) correspondente
-     * ao resultado da expressão. O programa executa até que o usuário digite 0 na entrada
-     */
+    
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

@@ -12,14 +12,7 @@ import java.util.Scanner;
  * @version 1.0, 31/08/2024
  */
 
-public class HTMLPageReading {
-    /**
-     * Realiza uma requisição HTTP a um endereço URL e retorna o conteúdo HTML
-     * como uma string.
-     * 
-     * @param url O endereço da página web a ser acessada.
-     * @return O conteúdo HTML da página como uma string.
-     */
+public class Main {
     private static String httpRequest(String url) {
         URL site;
         InputStream inputstream;
@@ -41,14 +34,7 @@ public class HTMLPageReading {
 
         return response;
     }
-
-    /**
-     * Conta a ocorrência de caracteres específicos em um texto.
-     * 
-     * @param texto O texto no qual os caracteres serão contados.
-     * @param letras Um array de caracteres a serem contados no texto.
-     * @return Um array de inteiros representando a contagem de cada caractere em letras.
-     */
+    
     private static int[] countLetters(String text, char[] letters) {
         int[] letterCounts = new int[letters.length];
 
@@ -62,14 +48,7 @@ public class HTMLPageReading {
 
         return letterCounts;
     }
-
-    /**
-     * Conta a ocorrência de palavras específicas em um texto.
-     * 
-     * @param texto   O texto no qual as palavras serão contadas.
-     * @param palavras Um array de palavras a serem contadas no texto.
-     * @return Um array de inteiros representando a contagem de cada palavra em palavras.
-     */
+    
     private static int[] countWords(String text, String[] words) {
         int[] wordCounts = new int[words.length];
 
@@ -94,13 +73,7 @@ public class HTMLPageReading {
 
         return wordCounts;
     }
-
-    /**
-     * Conta as ocorrências de vogais, consoantes e tags HTML no conteúdo de uma página web.
-     * 
-     * @param url O endereço da página web.
-     * @param texto O nome da página web (usado para a saída final).
-     */
+    
     private static void countElements(String url, String text) {
         String pageContent = httpRequest(url);
 
@@ -134,21 +107,11 @@ public class HTMLPageReading {
 
         System.out.println(text);
     }
-
-    /**
-     * Verifica se a palavra de entrada é "FIM", indicando o término da execução.
-     * 
-     * @param input A palavra de entrada a ser verificada.
-     * @return {@code true} se a palavra for "FIM", {@code false} caso contrário.
-     */
+    
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-
-    /**
-     * Método principal que inicia o programa e gerencia a entrada e saída.
-     * Lê o nome da página e a URL, depois chama a função para contar os elementos.
-     */
+    
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

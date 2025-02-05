@@ -7,13 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 30/08/2024
  */
 
-public class StringChecker {
-    /**
-     * Esse método verifica se o dado de entrada é uma vogal.
-     *
-     * @param input A entrada do usuário.
-     * @return {@code true} se a entrada for uma vogal, {@code false} caso a entrada não seja uma vogal.
-     */
+public class Main {
     public static boolean isVowel(String input) {
         boolean vowel = true;
 
@@ -26,13 +20,7 @@ public class StringChecker {
 
         return vowel;
     }
-
-    /**
-     * Esse método verifica se o dado de entrada é uma consoante.
-     *
-     * @param input A entrada do usuário.
-     * @return {@code true} se a entrada for uma consoante, {@code false} caso a entrada não seja uma consoante.
-     */
+    
     public static boolean isConsonant(String input) {
         boolean consonant = true;
 
@@ -52,13 +40,7 @@ public class StringChecker {
 
         return consonant;
     }
-
-    /**
-     * Esse método verifica se o dado de entrada é um inteiro.
-     *
-     * @param input A entrada do usuário.
-     * @return {@code true} se a entrada for um inteiro, {@code false} caso a entrada não seja um inteiro.
-     */
+    
     public static boolean isInteger(String input) {
         boolean integer = true;
 
@@ -71,13 +53,7 @@ public class StringChecker {
 
         return integer;
     }
-
-    /**
-     * Esse método verifica se o dado de entrada é um número real.
-     *
-     * @param input A entrada do usuário.
-     * @return {@code true} se a entrada for um número real, {@code false} caso a entrada não seja um número real.
-     */
+    
     public static boolean isReal(String input) {
         boolean real = true;
         int dotCount = 0, commaCount = 0;
@@ -112,24 +88,11 @@ public class StringChecker {
     
         return real;
     }
-
-    /**
-     * Verifica se a palavra de entrada é "FIM", indicando o término da execução.
-     * 
-     * @param input A palavra de entrada a ser verificada.
-     * @return {@code true} se a palavra for "FIM", {@code false} caso contrário.
-     */
+    
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-
-    /**
-     * Método principal que processa a entrada do usuário e realiza uma série de verificações
-     * para determinar se cada valor digitado é uma vogal, consoante, número inteiro ou número real.
-     * Para cada valor inserido, o programa imprime "SIM" ou "NAO" com base na verificação.
-     * O programa continua solicitando entradas até que a palavra "SIM" seja digitada, momento em que
-     * ele encerra a execução.
-     */
+    
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
