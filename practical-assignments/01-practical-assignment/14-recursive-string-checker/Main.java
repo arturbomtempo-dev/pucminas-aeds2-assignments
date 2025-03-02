@@ -14,7 +14,8 @@ public class Main {
         if (index < input.length()) {
             char c = input.charAt(index);
 
-            if (!(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')) {
+            if (!(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I'
+                    || c == 'O' || c == 'U')) {
                 vowel = false;
             } else {
                 vowel = isVowel(input, index + 1);
@@ -23,7 +24,7 @@ public class Main {
 
         return vowel;
     }
-    
+
     public static boolean isConsonant(String input, int index) {
         boolean consonant = true;
 
@@ -39,7 +40,7 @@ public class Main {
 
         return consonant;
     }
-    
+
     public static boolean isInteger(String input, int index) {
         boolean integer = true;
 
@@ -55,7 +56,7 @@ public class Main {
 
         return integer;
     }
-    
+
     public static boolean isReal(String input, int index, int dotCount, int commaCount) {
         boolean real = true;
 
@@ -86,14 +87,14 @@ public class Main {
                 real = false;
             }
         }
-        
+
         return real;
     }
-    
+
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

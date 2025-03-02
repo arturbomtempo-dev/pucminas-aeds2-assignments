@@ -23,7 +23,7 @@ public class Main {
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -40,7 +40,7 @@ public class Main {
                 }
             }
         }
-        
+
         sc.close();
     }
 }

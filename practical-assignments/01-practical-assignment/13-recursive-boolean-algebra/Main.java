@@ -26,20 +26,23 @@ public class Main {
 
         return processedExpression;
     }
-    
+
     private static String evaluateAndExpression(String expression) {
         String processedExpression = "";
 
         for (int i = 0; i < expression.length(); i++) {
-            if (expression.charAt(i) == 'a' && (expression.charAt(i + 4) == '1' || expression.charAt(i + 4) == '0') && (expression.charAt(i + 6) == '1' || expression.charAt(i + 6) == '0')) {
+            if (expression.charAt(i) == 'a' && (expression.charAt(i + 4) == '1' || expression.charAt(i + 4) == '0')
+                    && (expression.charAt(i + 6) == '1' || expression.charAt(i + 6) == '0')) {
                 if (expression.charAt(i + 7) == ')') {
                     processedExpression += (expression.charAt(i + 4) == '1' && expression.charAt(i + 6) == '1') ? 1 : 0;
                     i += 7;
                 } else if (expression.charAt(i + 9) == ')') {
-                    processedExpression += (expression.charAt(i + 4) == '1' && expression.charAt(i + 6) == '1' && expression.charAt(i + 8) == '1') ? 1 : 0;
+                    processedExpression += (expression.charAt(i + 4) == '1' && expression.charAt(i + 6) == '1'
+                            && expression.charAt(i + 8) == '1') ? 1 : 0;
                     i += 9;
                 } else if (expression.charAt(i + 11) == ')') {
-                    processedExpression += (expression.charAt(i + 4) == '1' && expression.charAt(i + 6) == '1' && expression.charAt(i + 8) == '1' && expression.charAt(i + 10) == '1') ? 1 : 0;
+                    processedExpression += (expression.charAt(i + 4) == '1' && expression.charAt(i + 6) == '1'
+                            && expression.charAt(i + 8) == '1' && expression.charAt(i + 10) == '1') ? 1 : 0;
                     i += 11;
                 } else {
                     processedExpression += expression.charAt(i);
@@ -51,20 +54,24 @@ public class Main {
 
         return processedExpression;
     }
-    
+
     private static String evaluateOrExpression(String expression) {
         String processedExpression = "";
 
         for (int i = 0; i < expression.length(); i++) {
-            if (expression.charAt(i) == 'o' && expression.charAt(i + 1) == 'r' && (expression.charAt(i + 3) == '1' || expression.charAt(i + 3) == '0') && (expression.charAt(i + 5) == '1' || expression.charAt(i + 5) == '0')) {
+            if (expression.charAt(i) == 'o' && expression.charAt(i + 1) == 'r'
+                    && (expression.charAt(i + 3) == '1' || expression.charAt(i + 3) == '0')
+                    && (expression.charAt(i + 5) == '1' || expression.charAt(i + 5) == '0')) {
                 if (expression.charAt(i + 6) == ')') {
                     processedExpression += (expression.charAt(i + 3) == '1' || expression.charAt(i + 5) == '1') ? 1 : 0;
                     i += 6;
-                } else if (expression.charAt(i + 8) == ')'){
-                    processedExpression += (expression.charAt(i + 3) == '1' || expression.charAt(i + 5) == '1' || expression.charAt(i + 7) == '1') ? 1 : 0;
+                } else if (expression.charAt(i + 8) == ')') {
+                    processedExpression += (expression.charAt(i + 3) == '1' || expression.charAt(i + 5) == '1'
+                            || expression.charAt(i + 7) == '1') ? 1 : 0;
                     i += 8;
                 } else if (expression.charAt(i + 10) == ')') {
-                    processedExpression += (expression.charAt(i + 3) == '1' || expression.charAt(i + 5) == '1' || expression.charAt(i + 7) == '1' || expression.charAt(i + 9) == '1') ? 1 : 0;
+                    processedExpression += (expression.charAt(i + 3) == '1' || expression.charAt(i + 5) == '1'
+                            || expression.charAt(i + 7) == '1' || expression.charAt(i + 9) == '1') ? 1 : 0;
                     i += 10;
                 }
             } else {
@@ -74,7 +81,7 @@ public class Main {
 
         return processedExpression;
     }
-    
+
     private static String evaluateNotExpression(String expression) {
         String processedExpression = "";
 
@@ -89,7 +96,7 @@ public class Main {
 
         return processedExpression;
     }
-    
+
     private static String replaceVariablesWithValues(int[] inputs, String expression) {
         String processedExpression = "";
 
@@ -109,11 +116,11 @@ public class Main {
 
         return processedExpression;
     }
-    
+
     public static boolean isEnd(int input) {
         return input == 0;
     }
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

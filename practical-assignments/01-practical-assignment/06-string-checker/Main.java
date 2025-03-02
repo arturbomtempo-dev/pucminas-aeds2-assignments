@@ -12,7 +12,9 @@ public class Main {
         boolean vowel = true;
 
         for (int i = 0; i < input.length(); i++) {
-            if (!(input.charAt(i) == 'a' || input.charAt(i) == 'e' || input.charAt(i) == 'i' || input.charAt(i) == 'o' || input.charAt(i) == 'u' || input.charAt(i) == 'A' || input.charAt(i) == 'E' || input.charAt(i) == 'I' || input.charAt(i) == 'O' || input.charAt(i) == 'U')) {
+            if (!(input.charAt(i) == 'a' || input.charAt(i) == 'e' || input.charAt(i) == 'i' || input.charAt(i) == 'o'
+                    || input.charAt(i) == 'u' || input.charAt(i) == 'A' || input.charAt(i) == 'E'
+                    || input.charAt(i) == 'I' || input.charAt(i) == 'O' || input.charAt(i) == 'U')) {
                 vowel = false;
                 i = input.length();
             }
@@ -20,12 +22,14 @@ public class Main {
 
         return vowel;
     }
-    
+
     public static boolean isConsonant(String input) {
         boolean consonant = true;
 
         for (int i = 0; i < input.length(); i++) {
-            if (!(input.charAt(i) == 'a' || input.charAt(i) == 'e' || input.charAt(i) == 'i' || input.charAt(i) == 'o' || input.charAt(i) == 'u' || input.charAt(i) == 'A' || input.charAt(i) == 'E' || input.charAt(i) == 'I' || input.charAt(i) == 'O' || input.charAt(i) == 'U')) {
+            if (!(input.charAt(i) == 'a' || input.charAt(i) == 'e' || input.charAt(i) == 'i' || input.charAt(i) == 'o'
+                    || input.charAt(i) == 'u' || input.charAt(i) == 'A' || input.charAt(i) == 'E'
+                    || input.charAt(i) == 'I' || input.charAt(i) == 'O' || input.charAt(i) == 'U')) {
                 consonant = false;
                 i = input.length();
             } else {
@@ -40,7 +44,7 @@ public class Main {
 
         return consonant;
     }
-    
+
     public static boolean isInteger(String input) {
         boolean integer = true;
 
@@ -53,14 +57,14 @@ public class Main {
 
         return integer;
     }
-    
+
     public static boolean isReal(String input) {
         boolean real = true;
         int dotCount = 0, commaCount = 0;
-    
+
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-    
+
             if (!(c >= '0' && c <= '9')) {
                 if (c == '.') {
                     dotCount++;
@@ -71,13 +75,13 @@ public class Main {
                     i = input.length();
                 }
             }
-    
+
             if (dotCount > 1 || commaCount > 1) {
                 real = false;
                 i = input.length();
             }
         }
-    
+
         if (input.length() > 0) {
             char lastChar = input.charAt(input.length() - 1);
 
@@ -85,14 +89,14 @@ public class Main {
                 real = false;
             }
         }
-    
+
         return real;
     }
-    
+
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

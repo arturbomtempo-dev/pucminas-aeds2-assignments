@@ -27,11 +27,11 @@ public class Main {
 
         return result;
     }
-    
+
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Random generator = new Random();
@@ -39,7 +39,7 @@ public class Main {
 
         while (sc.hasNextLine()) {
             String message = sc.nextLine();
-            
+
             if (!isEnd(message)) {
                 String output = replaceRandomLetters(message, generator);
                 System.out.println(output);

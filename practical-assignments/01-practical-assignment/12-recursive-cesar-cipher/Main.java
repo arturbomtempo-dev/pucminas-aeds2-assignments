@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Main {
     private static String encrypt(String message, int index) {
         if (index >= message.length()) {
-            return ""; 
+            return "";
         }
 
         char currentChar = message.charAt(index);
@@ -32,7 +32,7 @@ public class Main {
     public static boolean isEnd(String input) {
         return input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M';
     }
-    
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
