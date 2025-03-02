@@ -1,21 +1,22 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /**
  * TP02Q04 - Pesquisa Binária
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 10/10/2024
  */
-struct Date {
+
+typedef struct Date {
     int day;
     int month;
     int year;
-} typedef Date;
+} Date;
 
 struct Pokemon {
     int id;
@@ -27,7 +28,7 @@ struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } typedef Pokemon;
 
@@ -55,7 +56,7 @@ Pokemon *binarySearchPokemon(Pokemon **pokemons, char *name, int *comparisons) {
 void removeOccurrences(char *str, char value) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != value) {
             str[j++] = str[i];
@@ -87,7 +88,7 @@ char *removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon *pokemons = (Pokemon*) malloc(801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
@@ -117,7 +118,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilities = removeAttribute(&token, ','); 
+        char *abilities = removeAttribute(&token, ',');
 
         removeOccurrences(abilities, '[');
         removeOccurrences(abilities, ']');
@@ -178,7 +179,8 @@ Pokemon *readCsv(char fileName[]) {
     return pokemons;
 }
 
-void saveExecutionFile(const char *fileName, long cpuTimeEndUsed, int comparisons) {
+void saveExecutionFile(const char *fileName, long cpuTimeEndUsed,
+                       int comparisons) {
     FILE *file = fopen(fileName, "w+");
 
     if (file == NULL) {
@@ -197,19 +199,19 @@ void swap(Pokemon **pokemon, int i, int j) {
 
 void quicksort(Pokemon **pokemon, int left, int right) {
     int i = left, j = right;
-    char* pivot = pokemon[(left + right) / 2]->name;
+    char *pivot = pokemon[(left + right) / 2]->name;
 
     while (i <= j) {
         while (strcmp(pokemon[i]->name, pivot) < 0) {
             i++;
         }
 
-        while (strcmp(pokemon[j]->name, pivot) > 0) { 
+        while (strcmp(pokemon[j]->name, pivot) > 0) {
             j--;
         }
 
         if (i <= j) {
-            swap(pokemon, i, j);  
+            swap(pokemon, i, j);
             i++;
             j--;
         }
@@ -231,8 +233,8 @@ int main() {
 
     start = clock();
 
-    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
-    
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
+
     if (!pokemons) {
         printf("Pokemons nao inicializados\n");
         return 1;
@@ -249,36 +251,36 @@ int main() {
     char input[20];
     int ids[100];
     int i = 0;
-    
+
     while (scanf("%s", input) && strcmp(input, "FIM") != 0) {
         sscanf(input, "%d", &ids[i++]);
     }
 
-    char names[100][100]; 
+    char names[100][100];
 
     int p = 0;
-    
+
     while (scanf("%s", input) && strcmp(input, "FIM") != 0) {
         strcpy(names[p++], input);
     }
 
     for (int j = 0; j < p; j++) {
         bool found = false;
-        Pokemon *foundPokemon = binarySearchPokemon(pokemonPointers, names[j], &comparisons);
+        Pokemon *foundPokemon =
+            binarySearchPokemon(pokemonPointers, names[j], &comparisons);
 
         if (foundPokemon != NULL) {
             for (int k = 0; k < i; k++) {
-                if (foundPokemon->id == ids[k]) { 
+                if (foundPokemon->id == ids[k]) {
                     found = true;
                     comparisons++;
                 }
             }
         }
 
-        if(found) {
+        if (found) {
             printf("SIM\n");
-        }
-        else {
+        } else {
             printf("NAO\n");
         }
     }

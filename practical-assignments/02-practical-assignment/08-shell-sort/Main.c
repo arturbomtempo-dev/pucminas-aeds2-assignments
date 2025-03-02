@@ -1,24 +1,24 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /**
  * TP02Q08 - Shellsort
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 10/10/2024
  */
 
-struct Date {
+typedef struct Date {
     int day;
     int month;
     int year;
-} typedef Date;
+} Date;
 
-struct Pokemon {
+typedef struct Pokemon {
     int id;
     int generation;
     char name[100];
@@ -28,9 +28,9 @@ struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
-} typedef Pokemon;
+} Pokemon;
 
 Pokemon *searchPokemon(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
@@ -40,14 +40,14 @@ Pokemon *searchPokemon(Pokemon *pokemons, int id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char value) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != value) {
             str[j++] = str[i];
@@ -79,7 +79,7 @@ char *removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon *pokemons = (Pokemon*) malloc(801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
@@ -109,7 +109,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilities = removeAttribute(&token, ','); 
+        char *abilities = removeAttribute(&token, ',');
 
         removeOccurrences(abilities, '[');
         removeOccurrences(abilities, ']');
@@ -171,7 +171,8 @@ Pokemon *readCsv(char fileName[]) {
 }
 
 void displayInformation(Pokemon *pokemon) {
-    printf("[#%d -> %s: %s - ", pokemon->id, pokemon->name, pokemon->description);
+    printf("[#%d -> %s: %s - ", pokemon->id, pokemon->name,
+           pokemon->description);
 
     printf("['%s'", pokemon->type[0]);
 
@@ -191,44 +192,44 @@ void displayInformation(Pokemon *pokemon) {
 
     printf("] - ");
 
-    printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-           pokemon->weight, 
-           pokemon->height, 
-           pokemon->captureRate, 
-           pokemon->isLegendary ? "true" : "false", 
-           pokemon->generation,
-           pokemon->captureDate.day, 
-           pokemon->captureDate.month, 
+    printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+           pokemon->weight, pokemon->height, pokemon->captureRate,
+           pokemon->isLegendary ? "true" : "false", pokemon->generation,
+           pokemon->captureDate.day, pokemon->captureDate.month,
            pokemon->captureDate.year);
 }
 
-void saveExecutionFile(const char *fileName, int comparisons, int movements, long totalTime) {
+void saveExecutionFile(const char *fileName, int comparisons, int movements,
+                       long totalTime) {
     FILE *file = fopen(fileName, "w+");
 
     if (file == NULL) {
         printf("Erro ao gerar o arquivo.\n");
     } else {
-        fprintf(file, "847235\t%d\t%d\t%ldms", comparisons, movements, totalTime);
+        fprintf(file, "847235\t%d\t%d\t%ldms", comparisons, movements,
+                totalTime);
         fclose(file);
     }
 }
 
-void colorInsertion(Pokemon **pokemon, int n, int color, int h, int *comparisons, int *movements) {
+void colorInsertion(Pokemon **pokemon, int n, int color, int h,
+                    int *comparisons, int *movements) {
     for (int i = (h + color); i < n; i += h) {
         Pokemon *tmp = pokemon[i];
         int j = i - h;
 
-        (*comparisons)+=2;
+        (*comparisons) += 2;
 
-        while ((j >= 0) && ((pokemon[j]->weight > tmp->weight) || ((pokemon[j]->weight == tmp->weight) && (strcmp(pokemon[j]->name, tmp->name) > 0 )))) {
-
+        while ((j >= 0) && ((pokemon[j]->weight > tmp->weight) ||
+                            ((pokemon[j]->weight == tmp->weight) &&
+                             (strcmp(pokemon[j]->name, tmp->name) > 0)))) {
             (*movements)++;
             pokemon[j + h] = pokemon[j];
-            j-=h;
+            j -= h;
         }
 
         (*movements)++;
-        pokemon[j+h] = tmp;
+        pokemon[j + h] = tmp;
     }
 }
 
@@ -253,8 +254,8 @@ int main() {
     double totalTime;
     int comparisons = 0, movements = 0;
 
-    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
-    
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
+
     if (!pokemons) {
         printf("Pokemons não inicializados.\n");
         return 1;
@@ -265,7 +266,7 @@ int main() {
     char input[30];
     int id;
     int i = 0;
-    
+
     while (scanf("%s", input) && strcmp(input, "FIM") != 0) {
         sscanf(input, "%d", &id);
         foundPokemons[i++] = searchPokemon(pokemons, id);
@@ -281,7 +282,8 @@ int main() {
 
     totalTime = ((double)(end - start));
 
-    saveExecutionFile("847235_shellsort.txt", comparisons, movements, totalTime);
+    saveExecutionFile("847235_shellsort.txt", comparisons, movements,
+                      totalTime);
 
     free(pokemons);
 

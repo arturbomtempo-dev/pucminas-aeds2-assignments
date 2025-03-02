@@ -1,19 +1,19 @@
-#include <sys/time.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/time.h>
 #include <time.h>
 
 /**
  * TP02Q14 - Radixsort
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 15/10/2024
  */
 
-struct Pokemon {
+typedef struct Pokemon {
     char id[256];
     int generation;
     char name[256];
@@ -25,21 +25,15 @@ struct Pokemon {
     int captureRate;
     bool isLegendary;
     struct tm captureDate;
-} typedef Pokemon;
+} Pokemon;
 
-const char* getId(Pokemon *pokemon) {
-    return pokemon->id;
-}
+const char *getId(Pokemon *pokemon) { return pokemon->id; }
 
-const char* getName(Pokemon *pokemon) {
-    return pokemon->name;
-}
+const char *getName(Pokemon *pokemon) { return pokemon->name; }
 
-const char* getDescription(Pokemon *pokemon)  {
-    return pokemon->description;
-}
+const char *getDescription(Pokemon *pokemon) { return pokemon->description; }
 
-const char* getType(Pokemon *pokemon, int index) {
+const char *getType(Pokemon *pokemon, int index) {
     if (index >= 0 && index < 3) {
         return pokemon->types[index];
     }
@@ -47,7 +41,7 @@ const char* getType(Pokemon *pokemon, int index) {
     return "";
 }
 
-const char* getAbility(Pokemon *pokemon, int index) {
+const char *getAbility(Pokemon *pokemon, int index) {
     if (index >= 0 && index < 6) {
         return pokemon->abilities[index];
     }
@@ -55,32 +49,21 @@ const char* getAbility(Pokemon *pokemon, int index) {
     return "";
 }
 
-double getWeight(Pokemon *pokemon) {
-    return pokemon->weight;
-}
+double getWeight(Pokemon *pokemon) { return pokemon->weight; }
 
-double getHeight(Pokemon *pokemon) {
-    return pokemon->height;
-}
+double getHeight(Pokemon *pokemon) { return pokemon->height; }
 
-bool getIsLegendary(Pokemon *pokemon) {
-    return pokemon->isLegendary;
-}
+bool getIsLegendary(Pokemon *pokemon) { return pokemon->isLegendary; }
 
-int getGeneration(Pokemon *pokemon) {
-    return pokemon->generation;
-}
+int getGeneration(Pokemon *pokemon) { return pokemon->generation; }
 
-int getCaptureRate(Pokemon *pokemon) {
-    return pokemon->captureRate;
-}
+int getCaptureRate(Pokemon *pokemon) { return pokemon->captureRate; }
 
-struct tm getCaptureDate(Pokemon *pokemon) {
-    return pokemon->captureDate;
-}
+struct tm getCaptureDate(Pokemon *pokemon) { return pokemon->captureDate; }
 
 void parseDate(char *dateString, struct tm *date) {
-    if (sscanf(dateString, "%d/%d/%d", &date->tm_mday, &date->tm_mon, &date->tm_year) != 3) {
+    if (sscanf(dateString, "%d/%d/%d", &date->tm_mday, &date->tm_mon,
+               &date->tm_year) != 3) {
         return;
     }
 
@@ -105,7 +88,7 @@ int splitCsvLine(char *line, char **fields, int maximumFields) {
 
         pointer++;
     }
-    
+
     if (fieldCount < maximumFields) {
         fields[fieldCount++] = startField;
     }
@@ -116,15 +99,15 @@ int splitCsvLine(char *line, char **fields, int maximumFields) {
 void readCsv(FILE *file, Pokemon *pokedex, int *n) {
     char line[1024];
 
-    fgets(line, sizeof(line), file); 
+    fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        line[strcspn(line, "\n")] = '\0'; 
+        line[strcspn(line, "\n")] = '\0';
 
         Pokemon pokemon;
-        memset(&pokemon, 0, sizeof(Pokemon)); 
+        memset(&pokemon, 0, sizeof(Pokemon));
 
-        char *fields[12]; 
+        char *fields[12];
         int fieldCount = splitCsvLine(line, fields, 12);
 
         strncpy(pokemon.id, fields[0], 256);
@@ -138,16 +121,17 @@ void readCsv(FILE *file, Pokemon *pokedex, int *n) {
         if (strlen(fields[5]) > 0) {
             strncpy(pokemon.types[1], fields[5], 256);
         }
-        
+
         char *abilitiesField = fields[6];
 
-        if (abilitiesField[0] == '"' && abilitiesField[strlen(abilitiesField) - 1] == '"') {
+        if (abilitiesField[0] == '"' &&
+            abilitiesField[strlen(abilitiesField) - 1] == '"') {
             abilitiesField[strlen(abilitiesField) - 1] = '\0';
             abilitiesField++;
         }
-        
-        if (abilitiesField[0] == '[' && abilitiesField[strlen(abilitiesField) - 1] == ']') 
-        {
+
+        if (abilitiesField[0] == '[' &&
+            abilitiesField[strlen(abilitiesField) - 1] == ']') {
             abilitiesField[strlen(abilitiesField) - 1] = '\0';
             abilitiesField++;
         }
@@ -156,14 +140,16 @@ void readCsv(FILE *file, Pokemon *pokedex, int *n) {
         char *restAbilities = abilitiesField;
         int abilityIndex = 0;
 
-        while ((abilityToken = strtok(restAbilities, ",")) && abilityIndex < 6) {
+        while ((abilityToken = strtok(restAbilities, ",")) &&
+               abilityIndex < 6) {
             while (*abilityToken == ' ' || *abilityToken == '\'') {
                 abilityToken++;
             }
 
             char *tempEnd = abilityToken + strlen(abilityToken) - 1;
 
-            while (tempEnd > abilityToken && (*tempEnd == ' ' || *tempEnd == '\'')) {
+            while (tempEnd > abilityToken &&
+                   (*tempEnd == ' ' || *tempEnd == '\'')) {
                 *tempEnd = '\0';
                 tempEnd--;
             }
@@ -191,12 +177,13 @@ void readCsv(FILE *file, Pokemon *pokedex, int *n) {
     }
 }
 
-void displayInformation(Pokemon* pokemon) {
+void displayInformation(Pokemon *pokemon) {
     char dateString[11];
 
     strftime(dateString, sizeof(dateString), "%d/%m/%Y", &pokemon->captureDate);
 
-    printf("[#%s -> %s: %s - [", getId(pokemon), getName(pokemon), getDescription(pokemon));
+    printf("[#%s -> %s: %s - [", getId(pokemon), getName(pokemon),
+           getDescription(pokemon));
 
     for (int j = 0; j < 3 && strlen(getType(pokemon, j)) > 0; j++) {
         if (j > 0) {
@@ -218,7 +205,10 @@ void displayInformation(Pokemon* pokemon) {
 
     printf("] - ");
 
-    printf("%.1fkg - %.1fm - %d%% - %s - %d gen] - %s\n", getWeight(pokemon), getHeight(pokemon), getCaptureRate(pokemon), getIsLegendary(pokemon) ? "true" : "false", getGeneration(pokemon), dateString);
+    printf("%.1fkg - %.1fm - %d%% - %s - %d gen] - %s\n", getWeight(pokemon),
+           getHeight(pokemon), getCaptureRate(pokemon),
+           getIsLegendary(pokemon) ? "true" : "false", getGeneration(pokemon),
+           dateString);
 }
 
 long long now() {
@@ -226,7 +216,7 @@ long long now() {
 
     gettimeofday(&tv, NULL);
 
-    return (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000);  
+    return (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000);
 }
 
 int quantityComparisons = 0;
@@ -251,10 +241,12 @@ int getMaximumLength(Pokemon *array, int n) {
 
 void countSortByChar(Pokemon *array, int n, int charIndex) {
     Pokemon output[n];
-    int count[256] = { 0 };
+    int count[256] = {0};
 
     for (int i = 0; i < n; i++) {
-        char c = charIndex < strlen(array[i].abilities[0]) ? array[i].abilities[0][charIndex] : 0;
+        char c = charIndex < strlen(array[i].abilities[0])
+                     ? array[i].abilities[0][charIndex]
+                     : 0;
 
         count[(int)c]++;
         quantityMovements++;
@@ -266,7 +258,9 @@ void countSortByChar(Pokemon *array, int n, int charIndex) {
     }
 
     for (int i = n - 1; i >= 0; i--) {
-        char c = charIndex < strlen(array[i].abilities[0]) ? array[i].abilities[0][charIndex] : 0;
+        char c = charIndex < strlen(array[i].abilities[0])
+                     ? array[i].abilities[0][charIndex]
+                     : 0;
 
         output[count[(int)c] - 1] = array[i];
         count[(int)c]--;
@@ -292,7 +286,7 @@ void countSortByChar(Pokemon *array, int n, int charIndex) {
 }
 
 void radixSort(Pokemon *array, int n) {
-    int maximumLength = getMaximumLength(array, n); 
+    int maximumLength = getMaximumLength(array, n);
 
     for (int charIndex = maximumLength - 1; charIndex >= 0; charIndex--) {
         countSortByChar(array, n, charIndex);
@@ -324,13 +318,13 @@ int main() {
 
     scanf("%s", number);
 
-    while(strcmp(number,"FIM") != 0) {
+    while (strcmp(number, "FIM") != 0) {
         id = atoi(number);
         found = false;
 
         int i = 0;
 
-        while(found == false && i < 801) {
+        while (found == false && i < 801) {
             comparisons++;
 
             if (atoi(pokedex[i].id) == id) {
@@ -364,7 +358,8 @@ int main() {
         return 1;
     }
 
-    fprintf(archive, "847235\t%d\t%d\t%lf", quantityComparisons, quantityMovements, (double)(end - start) / 1000.0);
+    fprintf(archive, "847235\t%d\t%d\t%lf", quantityComparisons,
+            quantityMovements, (double)(end - start) / 1000.0);
 
     fclose(archive);
 

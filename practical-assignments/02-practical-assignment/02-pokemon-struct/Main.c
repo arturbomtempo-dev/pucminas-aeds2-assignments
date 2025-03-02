@@ -1,23 +1,23 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * TP02Q02 - Registro em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 2.0, 10/10/2024
  */
 
-struct Date {
+typedef struct Date {
     int day;
     int month;
     int year;
-} typedef Date;
+} Date;
 
-struct Pokemon {
+typedef struct Pokemon {
     int id;
     int generation;
     char name[100];
@@ -27,26 +27,26 @@ struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
-} typedef Pokemon;
+} Pokemon;
 
 Pokemon *searchPokemon(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char value) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != value) {
             str[j++] = str[i];
@@ -78,7 +78,7 @@ char *removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon *pokemons = (Pokemon*) malloc(801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
@@ -108,7 +108,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilities = removeAttribute(&token, ','); 
+        char *abilities = removeAttribute(&token, ',');
 
         removeOccurrences(abilities, '[');
         removeOccurrences(abilities, ']');
@@ -190,32 +190,28 @@ void displayInformation(Pokemon pokemon) {
 
     printf("] - ");
 
-    printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-           pokemon.weight, 
-           pokemon.height, 
-           pokemon.captureRate, 
-           pokemon.isLegendary ? "true" : "false", 
-           pokemon.generation,
-           pokemon.captureDate.day, 
-           pokemon.captureDate.month, 
+    printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+           pokemon.weight, pokemon.height, pokemon.captureRate,
+           pokemon.isLegendary ? "true" : "false", pokemon.generation,
+           pokemon.captureDate.day, pokemon.captureDate.month,
            pokemon.captureDate.year);
 }
 
 int main() {
     int id;
     char input[20];
-    
+
     Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
 
     if (!pokemons) {
         printf("Pokemons não inicializados.\n");
     }
-    
+
     while (scanf("%s", input) && strcmp(input, "FIM")) {
         sscanf(input, "%d", &id);
 
         Pokemon *foundPokemon = searchPokemon(pokemons, id);
-        
+
         if (id <= 801) {
             displayInformation(*foundPokemon);
         }

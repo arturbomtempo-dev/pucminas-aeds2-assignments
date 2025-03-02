@@ -34,8 +34,9 @@ class Pokemon {
     private int captureRate;
     private boolean isLegendary;
     private Date captureDate;
-    
-    public Pokemon(int id, int generation, String name, String description, List<String> types, List<String> abilities, double weightKg, double heightM, int captureRate, boolean isLegendary, Date captureDate) {
+
+    public Pokemon(int id, int generation, String name, String description, List<String> types, List<String> abilities,
+            double weightKg, double heightM, int captureRate, boolean isLegendary, Date captureDate) {
         this.id = id;
         this.generation = generation;
         this.name = name;
@@ -48,7 +49,7 @@ class Pokemon {
         this.isLegendary = isLegendary;
         this.captureDate = captureDate;
     }
-    
+
     public Pokemon() {
         this.id = -1;
         this.generation = -1;
@@ -66,15 +67,15 @@ class Pokemon {
     public String getName() {
         return name;
     }
-    
+
     public double getHeightM() {
         return heightM;
     }
-    
+
     public void displayInformation() {
         System.out.println(this);
     }
-    
+
     public static List<Pokemon> read(List<Integer> searchedIDS) throws IOException, ParseException {
         String csvFile = "../tmp/pokemon.csv";
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -110,7 +111,8 @@ class Pokemon {
                     boolean isLegendary = Integer.parseInt(values[10]) == 1;
                     Date captureDate = dateFormat.parse(values[11]);
 
-                    Pokemon pokemon = new Pokemon(id, generation, name, description, types, abilitiesList, weight, height, captureRate, isLegendary, captureDate);
+                    Pokemon pokemon = new Pokemon(id, generation, name, description, types, abilitiesList, weight,
+                            height, captureRate, isLegendary, captureDate);
 
                     listPokemon.put(id, pokemon);
                 }
@@ -125,33 +127,34 @@ class Pokemon {
 
         return pokemons;
     }
-    
+
     private static String[] parseCsvLine(String line) {
         Pattern pattern = Pattern.compile(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         return pattern.split(line.trim());
     }
-    
+
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String formattedDate = dateFormat.format(captureDate);
-        String formattedAbilities = abilities.stream().map(ability -> "'" + ability + "'").collect(Collectors.joining(", "));
-        String formattedTypes = types.stream().filter(type -> type != null && !type.isEmpty()).map(type -> "'" + type + "'").collect(Collectors.joining(", "));
+        String formattedAbilities = abilities.stream().map(ability -> "'" + ability + "'")
+                .collect(Collectors.joining(", "));
+        String formattedTypes = types.stream().filter(type -> type != null && !type.isEmpty())
+                .map(type -> "'" + type + "'").collect(Collectors.joining(", "));
 
         return String.format(
-            "[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %b - %d gen] - %s",
-            id,
-            name,
-            description,
-            formattedTypes,
-            formattedAbilities,
-            weightKg,
-            heightM,
-            captureRate,
-            isLegendary,
-            generation,
-            formattedDate
-        );
+                "[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %b - %d gen] - %s",
+                id,
+                name,
+                description,
+                formattedTypes,
+                formattedAbilities,
+                weightKg,
+                heightM,
+                captureRate,
+                isLegendary,
+                generation,
+                formattedDate);
     }
 }
 
@@ -173,7 +176,7 @@ public class Main {
             heapify(array, i, 0, counters);
         }
     }
-    
+
     public static void heapify(List<Pokemon> array, int n, int i, long[] counters) {
         int largest = i;
         int left = 2 * i + 1;
@@ -197,7 +200,7 @@ public class Main {
             heapify(array, n, largest, counters);
         }
     }
-    
+
     public static int comparePokemons(Pokemon a, Pokemon b, long[] counters) {
         counters[0]++;
         int comparison = Double.compare(a.getHeightM(), b.getHeightM());
@@ -208,10 +211,10 @@ public class Main {
 
         return comparison;
     }
-    
+
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
-        long[] counters = {0, 0};
+        long[] counters = { 0, 0 };
         long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
