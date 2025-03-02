@@ -5,7 +5,9 @@ import java.util.regex.Pattern;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Locale;
@@ -14,10 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q13 - Mergesort
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 08/10/2024
  */
 
 class Pokemon {
@@ -59,6 +61,14 @@ class Pokemon {
         this.captureRate = 100;
         this.isLegendary = false;
         this.captureDate = new Date();
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public List<String> getTypes() {
+        return types;
     }
     
     public void displayInformation() {
@@ -121,14 +131,6 @@ class Pokemon {
         return pattern.split(line.trim());
     }
     
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
-    }
-    
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -154,23 +156,104 @@ class Pokemon {
 }
 
 public class Main {
+    private static long comparisons = 0;
+    private static long movements = 0;
+
+    private static int compareByTypes(Pokemon left, Pokemon right) {
+        List<String> leftTypes = left.getTypes();
+        List<String> rightTypes = right.getTypes();
+
+        String leftType = leftTypes.isEmpty() ? null : leftTypes.get(0);
+        String rightType = rightTypes.isEmpty() ? null : rightTypes.get(0);
+
+        if (leftType != null && rightType != null) {
+            int typeComparison = leftType.compareTo(rightType);
+
+            if (typeComparison != 0) {
+                return typeComparison;
+            }
+        }
+
+        return left.getName().compareTo(right.getName());
+    }
+
+    public static List<Pokemon> mergeSort(List<Pokemon> array) {
+        if (array.size() <= 1) {
+            return array;
+        }
+
+        int mid = array.size() / 2;
+        List<Pokemon> left = mergeSort(array.subList(0, mid));
+        List<Pokemon> right = mergeSort(array.subList(mid, array.size()));
+
+        return merge(left, right);
+    }
+
+    public static List<Pokemon> merge(List<Pokemon> left, List<Pokemon> right) {
+        List<Pokemon> merged = new ArrayList<>();
+        int i = 0, j = 0;
+
+        while (i < left.size() && j < right.size()) {
+            comparisons++;
+
+            Pokemon leftPokemon = left.get(i);
+            Pokemon rightPokemon = right.get(j);
+            int typeComparison = compareByTypes(leftPokemon, rightPokemon);
+
+            if (typeComparison < 0) {
+                merged.add(leftPokemon);
+                i++;
+                movements++;
+            } else {
+                merged.add(rightPokemon);
+                j++;
+                movements++;
+            }
+        }
+
+        while (i < left.size()) {
+            merged.add(left.get(i));
+            i++;
+            movements++;
+        }
+
+        while (j < right.size()) {
+            merged.add(right.get(j));
+            j++;
+            movements++;
+        }
+
+        return merged;
+    }
+
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
 
             while (!input.equals("FIM")) {
                 int id = Integer.parseInt(input);
+
                 searchedIDS.add(id);
                 input = sc.nextLine();
             }
 
             List<Pokemon> pokemons = Pokemon.read(searchedIDS);
+            pokemons = mergeSort(pokemons);
+
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
 
             for (Pokemon pokemon : pokemons) {
                 pokemon.displayInformation();
             }
+
+            try (PrintWriter logWriter = new PrintWriter(new FileWriter("847235_mergesort.txt"))) {
+                logWriter.printf("847235\t%d\t%d\t%d\n", comparisons, movements, duration);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

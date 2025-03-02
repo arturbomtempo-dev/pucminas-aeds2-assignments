@@ -12,12 +12,14 @@ import java.util.Locale;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q11 - Counting Sort
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 08/10/2024
  */
 
 class Pokemon {
@@ -61,10 +63,18 @@ class Pokemon {
         this.captureDate = new Date();
     }
     
+    public String getName() {
+        return name;
+    }
+    
+    public int getCaptureRate() {
+        return captureRate;
+    }
+    
     public void displayInformation() {
         System.out.println(this);
     }
-    
+
     public static List<Pokemon> read(List<Integer> searchedIDS) throws IOException, ParseException {
         String csvFile = "../tmp/pokemon.csv";
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -84,9 +94,7 @@ class Pokemon {
                     String name = values[2];
                     String description = values[3];
                     List<String> types = new ArrayList<>();
-
                     types.add(values[4].isEmpty() ? null : values[4]);
-
                     if (!values[5].isEmpty()) {
                         types.add(values[5]);
                     }
@@ -101,7 +109,6 @@ class Pokemon {
                     Date captureDate = dateFormat.parse(values[11]);
 
                     Pokemon pokemon = new Pokemon(id, generation, name, description, types, abilitiesList, weight, height, captureRate, isLegendary, captureDate);
-
                     listPokemon.put(id, pokemon);
                 }
             }
@@ -119,14 +126,6 @@ class Pokemon {
     private static String[] parseCsvLine(String line) {
         Pattern pattern = Pattern.compile(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         return pattern.split(line.trim());
-    }
-    
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
     }
     
     @Override
@@ -154,8 +153,64 @@ class Pokemon {
 }
 
 public class Main {
+    public static long[] countingSort(List<Pokemon> array, long startTime) {
+        int maxCaptureRate = array.stream().mapToInt(Pokemon::getCaptureRate).max().orElse(0);
+        int[] count = new int[maxCaptureRate + 1];
+
+        long comparisons = 0;
+        long movements = 0;
+
+        for (Pokemon pokemon : array) {
+            count[pokemon.getCaptureRate()]++;
+            movements++;
+        }
+
+        for (int i = 1; i <= maxCaptureRate; i++) {
+            count[i] += count[i - 1];
+            comparisons++;
+        }
+
+        Pokemon[] output = new Pokemon[array.size()];
+
+        for (int i = array.size() - 1; i >= 0; i--) {
+            Pokemon pokemon = array.get(i);
+            int captureRate = pokemon.getCaptureRate();
+            output[count[captureRate] - 1] = pokemon;
+            count[captureRate]--;
+            movements++;
+        }
+
+        for (int i = 0; i < output.length - 1; i++) {
+            for (int j = i + 1; j < output.length; j++) {
+                comparisons++;
+
+                if (output[i].getCaptureRate() == output[j].getCaptureRate() && output[i].getName().compareTo(output[j].getName()) > 0) {
+                    Pokemon temp = output[i];
+
+                    output[i] = output[j];
+                    output[j] = temp;
+
+                    movements++;
+                }
+            }
+        }
+
+        for (int i = 0; i < array.size(); i++) {
+            array.set(i, output[i]);
+            movements++;
+        }
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+
+        return new long[] { 
+            duration, comparisons, movements 
+        };
+    }
+
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
@@ -168,9 +223,20 @@ public class Main {
 
             List<Pokemon> pokemons = Pokemon.read(searchedIDS);
 
+            long[] results = countingSort(pokemons, startTime);
+
+            long duration = results[0];
+            long comparisons = results[1];
+            long movements = results[2];
+
             for (Pokemon pokemon : pokemons) {
                 pokemon.displayInformation();
             }
+
+            try (PrintWriter logWriter = new PrintWriter(new FileWriter("847235_countingsort.txt"))) {
+                logWriter.printf("847235\t%d\t%d\t%d\n", comparisons, movements, duration);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

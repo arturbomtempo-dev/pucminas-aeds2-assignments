@@ -2,7 +2,9 @@ import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.regex.Pattern;
+import java.io.BufferedWriter;
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.FileReader;
@@ -14,10 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q03 - Pesquisa Sequencial
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 04/10/2024
  */
 
 class Pokemon {
@@ -61,8 +63,31 @@ class Pokemon {
         this.captureDate = new Date();
     }
     
-    public void displayInformation() {
-        System.out.println(this);
+    public String getName() {
+        return name;
+    }
+    
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        String formattedDate = dateFormat.format(captureDate);
+        String formattedAbilities = abilities.stream().map(ability -> "'" + ability + "'").collect(Collectors.joining(", "));
+        String formattedTypes = types.stream().filter(type -> type != null && !type.isEmpty()).map(type -> "'" + type + "'").collect(Collectors.joining(", "));
+
+        return String.format(
+            "[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %b - %d gen] - %s",
+            id,
+            name,
+            description,
+            formattedTypes,
+            formattedAbilities,
+            weightKg,
+            heightM,
+            captureRate,
+            isLegendary,
+            generation,
+            formattedDate
+        );
     }
     
     public static List<Pokemon> read(List<Integer> searchedIDS) throws IOException, ParseException {
@@ -120,57 +145,59 @@ class Pokemon {
         Pattern pattern = Pattern.compile(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         return pattern.split(line.trim());
     }
-    
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
-    }
-    
-    @Override
-    public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        String formattedDate = dateFormat.format(captureDate);
-        String formattedAbilities = abilities.stream().map(ability -> "'" + ability + "'").collect(Collectors.joining(", "));
-        String formattedTypes = types.stream().filter(type -> type != null && !type.isEmpty()).map(type -> "'" + type + "'").collect(Collectors.joining(", "));
-
-        return String.format(
-            "[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %b - %d gen] - %s",
-            id,
-            name,
-            description,
-            formattedTypes,
-            formattedAbilities,
-            weightKg,
-            heightM,
-            captureRate,
-            isLegendary,
-            generation,
-            formattedDate
-        );
-    }
 }
 
 public class Main {
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        List<Pokemon> pokemons = new ArrayList<>();
+        List<String> searchedNames = new ArrayList<>();
+        long startTime = System.nanoTime();
+        int comparisons = 0;
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
 
             while (!input.equals("FIM")) {
                 int id = Integer.parseInt(input);
+
                 searchedIDS.add(id);
                 input = sc.nextLine();
             }
 
-            List<Pokemon> pokemons = Pokemon.read(searchedIDS);
+            pokemons = Pokemon.read(searchedIDS);
 
-            for (Pokemon pokemon : pokemons) {
-                pokemon.displayInformation();
+            input = sc.nextLine();
+
+            while (!input.equals("FIM")) {
+                searchedNames.add(input);
+                input = sc.nextLine();
             }
+
+            for (String name : searchedNames) {
+                boolean found = false;
+                
+                for (Pokemon pokemon : pokemons) {
+                    comparisons++;
+
+                    if (pokemon.getName().equals(name)) {
+                        System.out.println("SIM");
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    System.out.println("NAO");
+                }
+            }
+
+            long endTime = System.nanoTime();
+            double durationInMillis = (endTime - startTime) / 1_000_000.0;
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("847235_sequencial.txt"))) {
+                writer.write("847235" + "\t" + durationInMillis + "\t" + comparisons);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

@@ -12,14 +12,15 @@ import java.util.Locale;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q05 - Ordenação por Seleção
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 06/10/2024
  */
-
 class Pokemon {
     private int id;
     private int generation;
@@ -59,6 +60,10 @@ class Pokemon {
         this.captureRate = 100;
         this.isLegendary = false;
         this.captureDate = new Date();
+    }
+    
+    public String getName() {
+        return name;
     }
     
     public void displayInformation() {
@@ -121,14 +126,6 @@ class Pokemon {
         return pattern.split(line.trim());
     }
     
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
-    }
-    
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -156,21 +153,54 @@ class Pokemon {
 public class Main {
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        long comparisons = 0;
+        long movements = 0;
+        long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
 
             while (!input.equals("FIM")) {
                 int id = Integer.parseInt(input);
+
                 searchedIDS.add(id);
                 input = sc.nextLine();
             }
 
             List<Pokemon> pokemons = Pokemon.read(searchedIDS);
 
+            for (int i = 0; i < pokemons.size() - 1; i++) {
+                int minIndex = i;
+
+                for (int j = i + 1; j < pokemons.size(); j++) {
+                    comparisons++;
+
+                    if (pokemons.get(j).getName().compareTo(pokemons.get(minIndex).getName()) < 0) {
+                        minIndex = j;
+                    }
+                }
+
+                if (minIndex != i) {
+                    Pokemon temp = pokemons.get(i);
+
+                    pokemons.set(i, pokemons.get(minIndex));
+                    pokemons.set(minIndex, temp);
+
+                    movements++;
+                }
+            }
+
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+
             for (Pokemon pokemon : pokemons) {
                 pokemon.displayInformation();
             }
+
+            try (PrintWriter logWriter = new PrintWriter(new FileWriter("847235_selecao.txt"))) {
+                logWriter.printf("847235\t%d\t%d\t%d\n", comparisons, movements, duration);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

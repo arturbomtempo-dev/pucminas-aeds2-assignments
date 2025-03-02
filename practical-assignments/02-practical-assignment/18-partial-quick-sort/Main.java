@@ -12,12 +12,14 @@ import java.util.Locale;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q18 - Quicksort PARCIAL
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 08/10/2024
  */
 
 class Pokemon {
@@ -61,6 +63,14 @@ class Pokemon {
         this.captureDate = new Date();
     }
     
+    public String getName() {
+        return name;
+    }
+    
+    public int getGeneration() {
+        return generation;
+    }
+    
     public void displayInformation() {
         System.out.println(this);
     }
@@ -84,9 +94,7 @@ class Pokemon {
                     String name = values[2];
                     String description = values[3];
                     List<String> types = new ArrayList<>();
-
                     types.add(values[4].isEmpty() ? null : values[4]);
-
                     if (!values[5].isEmpty()) {
                         types.add(values[5]);
                     }
@@ -101,7 +109,6 @@ class Pokemon {
                     Date captureDate = dateFormat.parse(values[11]);
 
                     Pokemon pokemon = new Pokemon(id, generation, name, description, types, abilitiesList, weight, height, captureRate, isLegendary, captureDate);
-
                     listPokemon.put(id, pokemon);
                 }
             }
@@ -121,21 +128,12 @@ class Pokemon {
         return pattern.split(line.trim());
     }
     
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
-    }
-    
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String formattedDate = dateFormat.format(captureDate);
         String formattedAbilities = abilities.stream().map(ability -> "'" + ability + "'").collect(Collectors.joining(", "));
         String formattedTypes = types.stream().filter(type -> type != null && !type.isEmpty()).map(type -> "'" + type + "'").collect(Collectors.joining(", "));
-
         return String.format(
             "[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %b - %d gen] - %s",
             id,
@@ -154,8 +152,12 @@ class Pokemon {
 }
 
 public class Main {
+    private static long comparisons = 0;
+    private static long movements = 0;
+
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
@@ -168,11 +170,60 @@ public class Main {
 
             List<Pokemon> pokemons = Pokemon.read(searchedIDS);
 
-            for (Pokemon pokemon : pokemons) {
-                pokemon.displayInformation();
+            quicksortPartial(pokemons, 0, pokemons.size() - 1, 10);
+
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+
+            for (int i = 0; i < Math.min(10, pokemons.size()); i++) {
+                pokemons.get(i).displayInformation();
             }
+
+            try (PrintWriter logWriter = new PrintWriter(new FileWriter("847235_quicksort.txt"))) {
+                logWriter.printf("847235\t%d\t%d\t%d\n", comparisons, movements, duration);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void quicksortPartial(List<Pokemon> pokemons, int low, int high, int k) {
+        if (low < high) {
+            int pi = partition(pokemons, low, high);
+            comparisons += high - low;
+
+            if (pi >= k) {
+                quicksortPartial(pokemons, low, pi - 1, k);
+            } else {
+                quicksortPartial(pokemons, low, pi - 1, k);
+                quicksortPartial(pokemons, pi + 1, high, k);
+            }
+        }
+    }
+
+    private static int partition(List<Pokemon> pokemons, int low, int high) {
+        Pokemon pivot = pokemons.get(high);
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (pokemons.get(j).getGeneration() < pivot.getGeneration() ||
+                (pokemons.get(j).getGeneration() == pivot.getGeneration() && pokemons.get(j).getName().compareTo(pivot.getName()) < 0)) {
+                i++;
+
+                Pokemon temp = pokemons.get(i);
+                pokemons.set(i, pokemons.get(j));
+                pokemons.set(j, temp);
+                movements++;
+            }
+        }
+
+        Pokemon temp = pokemons.get(i + 1);
+
+        pokemons.set(i + 1, pokemons.get(high));
+        pokemons.set(high, temp);
+        movements++;
+
+        return i + 1;
     }
 }

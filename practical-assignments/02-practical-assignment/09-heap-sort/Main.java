@@ -12,12 +12,14 @@ import java.util.Locale;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q09 - Heapsort
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 08/10/2024
  */
 
 class Pokemon {
@@ -59,6 +61,14 @@ class Pokemon {
         this.captureRate = 100;
         this.isLegendary = false;
         this.captureDate = new Date();
+    }
+
+    public String getName() {
+        return name;
+    }
+    
+    public double getHeightM() {
+        return heightM;
     }
     
     public void displayInformation() {
@@ -121,14 +131,6 @@ class Pokemon {
         return pattern.split(line.trim());
     }
     
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
-    }
-    
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -154,8 +156,63 @@ class Pokemon {
 }
 
 public class Main {
+    public static void heapSort(List<Pokemon> array, long[] counters) {
+        int n = array.size();
+
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(array, n, i, counters);
+        }
+
+        for (int i = n - 1; i > 0; i--) {
+            Pokemon temp = array.get(0);
+            array.set(0, array.get(i));
+            array.set(i, temp);
+
+            counters[1]++;
+
+            heapify(array, i, 0, counters);
+        }
+    }
+    
+    public static void heapify(List<Pokemon> array, int n, int i, long[] counters) {
+        int largest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+
+        if (left < n && comparePokemons(array.get(left), array.get(largest), counters) > 0) {
+            largest = left;
+        }
+
+        if (right < n && comparePokemons(array.get(right), array.get(largest), counters) > 0) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            Pokemon swap = array.get(i);
+            array.set(i, array.get(largest));
+            array.set(largest, swap);
+
+            counters[1]++;
+
+            heapify(array, n, largest, counters);
+        }
+    }
+    
+    public static int comparePokemons(Pokemon a, Pokemon b, long[] counters) {
+        counters[0]++;
+        int comparison = Double.compare(a.getHeightM(), b.getHeightM());
+
+        if (comparison == 0) {
+            return a.getName().compareTo(b.getName());
+        }
+
+        return comparison;
+    }
+    
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        long[] counters = {0, 0};
+        long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
@@ -168,9 +225,19 @@ public class Main {
 
             List<Pokemon> pokemons = Pokemon.read(searchedIDS);
 
+            heapSort(pokemons, counters);
+
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+
             for (Pokemon pokemon : pokemons) {
                 pokemon.displayInformation();
             }
+
+            try (PrintWriter logWriter = new PrintWriter(new FileWriter("847235_heapsort.txt"))) {
+                logWriter.printf("847235\t%d\t%d\t%d\n", counters[0], counters[1], duration);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }

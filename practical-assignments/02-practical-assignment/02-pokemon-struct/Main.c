@@ -11,26 +11,12 @@
  * @version 2.0, 10/10/2024
  */
 
-/**
- * @struct Date
- * @brief Estrutura usada para representar a data de captura de um Pokémon.
- * 
- * A estrutura Date armazena informações de uma data, composta por dia, mês e ano,
- * facilitando a formatação e manipulação de datas relacionadas à captura de Pokémon.
- */
 struct Date {
     int day;
     int month;
     int year;
 } typedef Date;
 
-/**
- * @struct Pokemon
- * @brief Estrutura usada para representar um Pokémon e suas principais características.
- * 
- * A estrutura Pokemon contém informações detalhadas sobre um Pokémon, incluindo seu 
- * identificador único, atributos físicos, habilidades, taxa de captura, geração e a data de captura.
- */
 struct Pokemon {
     int id;
     int generation;
@@ -45,14 +31,6 @@ struct Pokemon {
     Date captureDate;
 } typedef Pokemon;
 
-/**
- * Esta função percorre uma lista de Pokémons e busca aquele que possui o ID fornecido. 
- * Retorna um ponteiro para o Pokémon encontrado.
- * 
- * @param pokemons Um ponteiro para a lista de Pokémons.
- * @param id O ID do Pokémon a ser buscado.
- * @return Um ponteiro para o Pokémon encontrado. Se o ID não for encontrado, retorna NULL.
- */
 Pokemon *searchPokemon(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
     
@@ -65,13 +43,6 @@ Pokemon *searchPokemon(Pokemon *pokemons, int id) {
     return pokemon; 
 }
 
-/**
- * Esta função percorre a string original e remove todas as ocorrências do caractere
- * fornecido, deslocando os demais caracteres para preencher os espaços removidos.
- * 
- * @param str A string original a ser modificada.
- * @param value O caractere a ser removido da string.
- */
 void removeOccurrences(char *str, char value) {
     int i, j = 0;
     size_t length = strlen(str);
@@ -85,15 +56,6 @@ void removeOccurrences(char *str, char value) {
     str[j] = '\0';
 }
 
-/**
- * A função busca pelo próximo delimitador (ou aspas, se for o caso) na string fornecida.
- * O trecho encontrado é removido da string original e retornado. A string original
- * é atualizada para continuar após o delimitador encontrado.
- * 
- * @param str Um ponteiro para a string original que será modificada. Após a execução, o ponteiro será atualizado para apontar para o próximo segmento da string.
- * @param delimiter O caractere delimitador que indica o fim do atributo a ser removido.
- * @return O atributo removido da string original. 
- */
 char *removeAttribute(char **str, char delimiter) {
     char *start = *str;
     char *end = *str;
@@ -115,16 +77,6 @@ char *removeAttribute(char **str, char delimiter) {
     return start;
 }
 
-/**
- * A função aloca dinamicamente um array de estruturas `Pokemon` para armazenar até 801 Pokémons.
- * Em seguida, ela lê as linhas do arquivo CSV, extrai os dados de cada Pokémon e preenche
- * o array com essas informações. Se houver erro de alocação de memória ou na abertura do
- * arquivo, mensagens de erro serão exibidas.
- *
- * @param fileName O nome do arquivo CSV a ser lido.
- * @return Um ponteiro para o array de Pokémons preenchido com os dados do arquivo. 
- *         Se ocorrer erro, o retorno será `NULL`.
- */
 Pokemon *readCsv(char fileName[]) {
     Pokemon *pokemons = (Pokemon*) malloc(801 * sizeof(Pokemon));
 
@@ -217,13 +169,6 @@ Pokemon *readCsv(char fileName[]) {
     return pokemons;
 }
 
-/**
- * A função imprime os dados do Pokémon, como ID, nome, descrição, tipos,
- * habilidades, peso, altura, taxa de captura, se é lendário ou não, geração,
- * e data de captura em um formato padronizado.
- *
- * @param pokemon A estrutura Pokemon cujas informações serão exibidas.
- */
 void displayInformation(Pokemon pokemon) {
     printf("[#%d -> %s: %s - ", pokemon.id, pokemon.name, pokemon.description);
 
@@ -256,16 +201,11 @@ void displayInformation(Pokemon pokemon) {
            pokemon.captureDate.year);
 }
 
-/**
- * Função principal do programa, que gerencia a leitura de dados de Pokémon
- * e permite a busca e exibição de informações sobre os Pokémon com base
- * em IDs fornecidos pelo usuário.
- */
 int main() {
     int id;
     char input[20];
     
-    Pokemon *pokemons = readCsv("/tmp/pokemon.csv");
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
 
     if (!pokemons) {
         printf("Pokemons não inicializados.\n");

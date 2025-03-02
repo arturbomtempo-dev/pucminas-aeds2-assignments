@@ -13,9 +13,6 @@
  * @version 1.0, 15/10/2024
  */
 
-/**
- * Estrutura que representa um Pokémon com seus atributos principais.
- */
 struct Pokemon {
     char id[256];
     int generation;
@@ -30,43 +27,18 @@ struct Pokemon {
     struct tm captureDate;
 } typedef Pokemon;
 
-/**
- * Retorna o ID do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return ID do Pokémon como uma string.
- */
 const char* getId(Pokemon *pokemon) {
     return pokemon->id;
 }
 
-/**
- * Retorna o nome do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Nome do Pokémon como uma string.
- */
 const char* getName(Pokemon *pokemon) {
     return pokemon->name;
 }
 
-/**
- * Retorna a descrição do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Descrição do Pokémon como uma string.
- */
 const char* getDescription(Pokemon *pokemon)  {
     return pokemon->description;
 }
 
-/**
- * Retorna o tipo do Pokémon no índice fornecido.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @param index Índice do tipo (0 a 2).
- * @return Tipo do Pokémon no índice especificado, ou uma string vazia se o índice for inválido.
- */
 const char* getType(Pokemon *pokemon, int index) {
     if (index >= 0 && index < 3) {
         return pokemon->types[index];
@@ -75,13 +47,6 @@ const char* getType(Pokemon *pokemon, int index) {
     return "";
 }
 
-/**
- * Retorna a habilidade do Pokémon no índice fornecido.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @param index Índice da habilidade (0 a 5).
- * @return Habilidade do Pokémon no índice especificado, ou uma string vazia se o índice for inválido.
- */
 const char* getAbility(Pokemon *pokemon, int index) {
     if (index >= 0 && index < 6) {
         return pokemon->abilities[index];
@@ -90,72 +55,30 @@ const char* getAbility(Pokemon *pokemon, int index) {
     return "";
 }
 
-/**
- * Retorna o peso do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Peso do Pokémon em quilogramas.
- */
 double getWeight(Pokemon *pokemon) {
     return pokemon->weight;
 }
 
-/**
- * Retorna a altura do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Altura do Pokémon em metros.
- */
 double getHeight(Pokemon *pokemon) {
     return pokemon->height;
 }
 
-/**
- * Verifica se o Pokémon é lendário.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return `true` se o Pokémon for lendário, `false` caso contrário.
- */
 bool getIsLegendary(Pokemon *pokemon) {
     return pokemon->isLegendary;
 }
 
-/**
- * Retorna a geração do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Geração do Pokémon.
- */
 int getGeneration(Pokemon *pokemon) {
     return pokemon->generation;
 }
 
-/**
- * Retorna a taxa de captura do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Taxa de captura do Pokémon.
- */
 int getCaptureRate(Pokemon *pokemon) {
     return pokemon->captureRate;
 }
 
-/**
- * Retorna a data de captura do Pokémon.
- *
- * @param pokemon Ponteiro para o Pokémon.
- * @return Estrutura `tm` representando a data de captura do Pokémon.
- */
 struct tm getCaptureDate(Pokemon *pokemon) {
     return pokemon->captureDate;
 }
 
-/**
- * Converte uma string de data no formato "DD/MM/AAAA" em uma estrutura `tm`.
- *
- * @param dateString String que contém a data no formato "DD/MM/AAAA".
- * @param date Ponteiro para a estrutura `tm` onde a data será armazenada.
- */
 void parseDate(char *dateString, struct tm *date) {
     if (sscanf(dateString, "%d/%d/%d", &date->tm_mday, &date->tm_mon, &date->tm_year) != 3) {
         return;
@@ -165,14 +88,6 @@ void parseDate(char *dateString, struct tm *date) {
     date->tm_year -= 1900;
 }
 
-/**
- * Divide uma linha CSV em campos separados e armazena os ponteiros para esses campos.
- *
- * @param line String contendo a linha CSV a ser dividida.
- * @param fields Array de strings onde os campos resultantes serão armazenados.
- * @param maximumFields Número máximo de campos a serem extraídos.
- * @return O número de campos extraídos.
- */
 int splitCsvLine(char *line, char **fields, int maximumFields) {
     int fieldCount = 0;
     char *pointer = line;
@@ -198,13 +113,6 @@ int splitCsvLine(char *line, char **fields, int maximumFields) {
     return fieldCount;
 }
 
-/**
- * Lê os dados de um arquivo CSV e preenche um array de Pokémon.
- *
- * @param file Ponteiro para o arquivo CSV a ser lido.
- * @param pokedex Array de struct `Pokemon` onde os dados do CSV serão armazenados.
- * @param n Ponteiro para um inteiro que indica o número de Pokémon lidos.
- */
 void readCsv(FILE *file, Pokemon *pokedex, int *n) {
     char line[1024];
 
@@ -283,11 +191,6 @@ void readCsv(FILE *file, Pokemon *pokedex, int *n) {
     }
 }
 
-/**
- * Exibe as informações de um Pokémon em um formato estruturado.
- *
- * @param pokemon Ponteiro para o struct `Pokemon` cujas informações serão exibidas.
- */
 void displayInformation(Pokemon* pokemon) {
     char dateString[11];
 
@@ -329,13 +232,6 @@ long long now() {
 int quantityComparisons = 0;
 int quantityMovements = 0;
 
-/**
- * Retorna o comprimento máximo da primeira habilidade entre os Pokémon em um array.
- *
- * @param array Ponteiro para o array de Pokémon.
- * @param n O número de Pokémon no array.
- * @return O comprimento da string da habilidade mais longa.
- */
 int getMaximumLength(Pokemon *array, int n) {
     int maximumLength = strlen(array[0].abilities[0]);
 
@@ -353,13 +249,6 @@ int getMaximumLength(Pokemon *array, int n) {
     return maximumLength;
 }
 
-/**
- * Ordena os Pokémon com base em um caractere específico de sua primeira habilidade usando Counting Sort.
- *
- * @param array Ponteiro para o array de Pokémon.
- * @param n O número de Pokémon no array.
- * @param charIndex O índice do caractere na habilidade a ser usado como chave para ordenação.
- */
 void countSortByChar(Pokemon *array, int n, int charIndex) {
     Pokemon output[n];
     int count[256] = { 0 };
@@ -402,12 +291,6 @@ void countSortByChar(Pokemon *array, int n, int charIndex) {
     }
 }
 
-/**
- * Realiza a ordenação dos Pokémon usando o algoritmo Radix Sort, com base em suas habilidades.
- *
- * @param array Ponteiro para o array de Pokémon.
- * @param n O número de Pokémon no array.
- */
 void radixSort(Pokemon *array, int n) {
     int maximumLength = getMaximumLength(array, n); 
 
@@ -416,14 +299,9 @@ void radixSort(Pokemon *array, int n) {
     }
 }
 
-/**
- * Função principal do programa que lê um arquivo CSV contendo dados de Pokémon,
- * seleciona Pokémon com base em IDs fornecidos pelo usuário, os ordena utilizando
- * Radix Sort e exibe as informações dos Pokémon selecionados.
- */
 int main() {
     long long start = now();
-    FILE *file = fopen("/tmp/pokemon.csv", "r");
+    FILE *file = fopen("../tmp/pokemon.csv", "r");
 
     if (file == NULL) {
         perror("Erro ao abrir arquivo.\n");

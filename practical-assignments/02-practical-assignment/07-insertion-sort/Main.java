@@ -12,12 +12,14 @@ import java.util.Locale;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
- * TP02Q01 - Classe em Java
+ * TP02Q07 - Ordenação por Inserção
  * 
  * @author Artur Bomtempo Colen
- * @version 1.0, 29/09/2024
+ * @version 1.0, 07/10/2024
  */
 
 class Pokemon {
@@ -59,6 +61,14 @@ class Pokemon {
         this.captureRate = 100;
         this.isLegendary = false;
         this.captureDate = new Date();
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public Date getCaptureDate() {
+        return captureDate;
     }
     
     public void displayInformation() {
@@ -121,14 +131,6 @@ class Pokemon {
         return pattern.split(line.trim());
     }
     
-    public static Pokemon clone(Pokemon pokemon) {
-        if (pokemon == null) {
-            return null;
-        }
-
-        return new Pokemon(pokemon.id, pokemon.generation, pokemon.name, pokemon.description, new ArrayList<>(pokemon.types), new ArrayList<>(pokemon.abilities), pokemon.weightKg, pokemon.heightM, pokemon.captureRate, pokemon.isLegendary, (Date) pokemon.captureDate.clone());
-    }
-    
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -156,21 +158,50 @@ class Pokemon {
 public class Main {
     public static void main(String[] args) {
         List<Integer> searchedIDS = new ArrayList<>();
+        long comparisons = 0;
+        long movements = 0;
+        long startTime = System.currentTimeMillis();
 
         try (Scanner sc = new Scanner(System.in)) {
             String input = sc.nextLine();
 
             while (!input.equals("FIM")) {
                 int id = Integer.parseInt(input);
+
                 searchedIDS.add(id);
                 input = sc.nextLine();
             }
 
             List<Pokemon> pokemons = Pokemon.read(searchedIDS);
 
+            for (int i = 1; i < pokemons.size(); i++) {
+                Pokemon key = pokemons.get(i);
+                int j = i - 1;
+
+                while (j >= 0 && (pokemons.get(j).getCaptureDate().after(key.getCaptureDate()) || (pokemons.get(j).getCaptureDate().equals(key.getCaptureDate()) && pokemons.get(j).getName().compareTo(key.getName()) > 0))) {
+                    comparisons++;
+
+                    pokemons.set(j + 1, pokemons.get(j));
+                    movements++;
+
+                    j--;
+                }
+
+                pokemons.set(j + 1, key);
+                movements++;
+            }
+
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+
             for (Pokemon pokemon : pokemons) {
                 pokemon.displayInformation();
             }
+
+            try (PrintWriter logWriter = new PrintWriter(new FileWriter("847235_insercao.txt"))) {
+                logWriter.printf("847235\t%d\t%d\t%d\n", comparisons, movements, duration);
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
