@@ -7,13 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 18/08/2024
  */
 
-public class IterativeHeating {
-    /**
-     * Conta o número de letras maiúsculas na palavra fornecida.
-     *
-     * @param word a string de entrada a ser verificada quanto a letras maiúsculas.
-     * @return o número de letras maiúsculas encontradas na string.
-     */
+public class Main {
     private static int checkCapitalLetters(String word) {
         int count = 0;
 
@@ -28,11 +22,6 @@ public class IterativeHeating {
         return count;
     }
 
-    /**
-     * Método principal que lê strings de entrada do usuário, conta o número de
-     * letras maiúsculas em cada string e imprime o resultado. O programa é finalizado
-     * quando o usuário insere a palavra "FIM".
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String input;

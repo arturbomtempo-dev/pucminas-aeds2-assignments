@@ -2,17 +2,11 @@
 
 /**
  * LAB05Q01 - Sinuca em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 15/09/2024
  */
 
-/**
- * Este programa simula a formação de um triângulo de bolas de sinuca, onde a cor da bola final é determinada
- * pelas cores das bolas da primeira fileira. Se duas bolas adjacentes forem da mesma cor, a próxima será preta (1); 
- * se forem diferentes, será branca (-1). A entrada contém o número N de bolas e suas cores, e a saída é a cor 
- * da última bola, que será "preta" ou "branca".
- */
 int main() {
     int N;
 
@@ -25,7 +19,7 @@ int main() {
     }
 
     while (N > 1) {
-        for (int j = 0; j < N -1; j++) {
+        for (int j = 0; j < N - 1; j++) {
             if (array[j] == array[j + 1]) {
                 array[j] = 1;
             } else {

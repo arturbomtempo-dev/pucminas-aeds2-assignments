@@ -7,13 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 15/09/2024
  */
 
-public class Pool {
-    /**
-     * Este programa simula a formação de um triângulo de bolas de sinuca, onde a cor da bola final é determinada
-     * pelas cores das bolas da primeira fileira. Se duas bolas adjacentes forem da mesma cor, a próxima será preta (1); 
-     * se forem diferentes, será branca (-1). A entrada contém o número N de bolas e suas cores, e a saída é a cor 
-     * da última bola, que será "preta" ou "branca".
-     */
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -31,7 +25,7 @@ public class Pool {
                         array[j] = 1;
                     } else {
                         array[j] = -1;
-                    }                    
+                    }
                 }
 
                 N--;

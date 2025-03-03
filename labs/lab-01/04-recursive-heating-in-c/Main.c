@@ -3,18 +3,11 @@
 
 /**
  * LAB01Q04 - Aquecimento Recursivo em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 18/08/2024
  */
 
-/**
- * Conta o número de letras maiúsculas de forma recursiva.
- *
- * @param word  a string de entrada a ser verificada.
- * @param index o índice atual que está sendo verificado.
- * @return o número de letras maiúsculas encontradas até o momento.
- */
 int checkCapitalLetters(char word[], int index) {
     int count = 0;
 
@@ -31,11 +24,6 @@ int checkCapitalLetters(char word[], int index) {
     return count;
 }
 
-/**
- * Método principal que lê strings de entrada do usuário, conta o número de
- * letras maiúsculas em cada string de forma recursiva e imprime o resultado.
- * O programa é finalizado quando o usuário insere a palavra "FIM".
- */
 int main() {
     char input[100];
 
@@ -47,6 +35,6 @@ int main() {
 
         scanf(" %[^\n]", input);
     }
-    
+
     return 0;
 }

@@ -7,11 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 15/09/2024
  */
 
-public class UnpackingBoxes {
-    /**
-     * Método principal que lida com a leitura da entrada, o processamento das pilhas e a 
-     * impressão do número de caixas que precisam ser removidas.
-     */
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int boxCount = sc.nextInt();
@@ -56,7 +52,8 @@ public class UnpackingBoxes {
                         found = true;
                     }
 
-                    if (stacks[i][j] != 0 && !found) removalCount++;
+                    if (stacks[i][j] != 0 && !found)
+                        removalCount++;
 
                     i--;
                 }

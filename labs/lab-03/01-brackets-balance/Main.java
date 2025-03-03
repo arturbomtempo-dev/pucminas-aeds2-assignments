@@ -7,12 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 01/09/2024
  */
 
-public class BracketsBalance {
-    /**
-     * O método principal lê linhas de entrada contendo expressões matemáticas com parênteses
-     * e verifica se os parênteses estão balanceados (ou seja, cada parêntese de abertura possui um
-     * correspondente de fechamento e os parênteses estão na ordem correta).
-     */
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

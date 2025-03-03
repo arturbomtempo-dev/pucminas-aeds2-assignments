@@ -7,13 +7,7 @@ import java.util.Scanner;
  * @version 1.0, 25/08/2024
  */
 
-public class MirrorSequence {
-    /**
-     * O programa lê dois números inteiros (startNumber e endNumber) de um arquivo ou entrada padrão
-     * e, em seguida, imprime uma sequência de números de startNumber até endNumber.
-     * Após isso, ele inverte a sequência resultante e a adiciona à original para formar um "espelho".
-     * O processo continua enquanto houver mais números a serem lidos.
-     */
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

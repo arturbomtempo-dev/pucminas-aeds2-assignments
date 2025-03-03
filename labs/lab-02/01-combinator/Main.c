@@ -3,17 +3,11 @@
 
 /**
  * LAB02Q01 - Combinador
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 25/08/2024
  */
 
-/**
- * O programa combina duas strings alternando suas letras. Ele lê pares de strings até o fim
- * do arquivo de entrada. Para cada par de strings, imprime as letras de forma alternada.
- * Caso uma das strings seja mais longa, imprime o restante dessa string após terminar a alternância.
- * Ao final de cada combinação, imprime uma nova linha.
- */
 int main() {
     char word1[100], word2[100];
 

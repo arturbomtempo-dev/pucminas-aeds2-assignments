@@ -7,12 +7,7 @@ import java.util.*;
  * @version 1.0, 12/09/2024
  */
 
-public class IceCream {
-    /**
-     * Função principal que lê a entrada de intervalos, organiza-os e imprime os resultados. 
-     * O programa continua a processar até que os valores de P e S sejam ambos 0. Para cada conjunto de intervalos, 
-     * o programa os agrupa e imprime os intervalos combinados. A cada iteração, o número do teste é incrementado e exibido.
-     */
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int test = 1;
