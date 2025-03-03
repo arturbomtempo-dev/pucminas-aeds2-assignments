@@ -1,15 +1,15 @@
-#include <sys/types.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <ctype.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 #include <time.h>
 
 /**
  * TP04Q07 - Tabela Hash Indireta com Lista Simples
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 05/12/2024
  */
@@ -33,26 +33,26 @@ typedef struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } Pokemon;
 
-Pokemon* search(Pokemon *pokemons, int id) {
+Pokemon *search(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char character) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != character) {
             str[j++] = str[i];
@@ -62,7 +62,7 @@ void removeOccurrences(char *str, char character) {
     str[j] = '\0';
 }
 
-char* removeAttribute(char **str, char delimiter) {
+char *removeAttribute(char **str, char delimiter) {
     char *start = *str;
     char *end = *str;
 
@@ -84,7 +84,7 @@ char* removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon* pokemons = (Pokemon *) malloc(801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
@@ -113,7 +113,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilitiesString = removeAttribute(&token, ','); 
+        char *abilitiesString = removeAttribute(&token, ',');
 
         removeOccurrences(abilitiesString, '[');
         removeOccurrences(abilitiesString, ']');
@@ -138,7 +138,7 @@ Pokemon *readCsv(char fileName[]) {
             }
 
             if (endAbilities != NULL) {
-                *endAbilities = '\0'; 
+                *endAbilities = '\0';
                 strcpy(temp->abilities[abilitiesIndex], startAbilities);
                 abilitiesIndex++;
                 abilitiesToken = endAbilities + 1;
@@ -180,7 +180,8 @@ void saveExecutionFile(const char *Filename, long totalTime) {
     if (file == NULL) {
         printf("Erro ao gerar o arquivo.\n");
     } else {
-        fprintf(file, "847235\t%d\t%d\t%ldms", comparisons, movements, totalTime);
+        fprintf(file, "847235\t%d\t%d\t%ldms", comparisons, movements,
+                totalTime);
         fclose(file);
     }
 }
@@ -190,8 +191,8 @@ typedef struct Cell {
     struct Cell *next;
 } Cell;
 
-Cell* newCell(Pokemon *pokemon) {
-    Cell *temp = (Cell *) malloc(sizeof(Cell));
+Cell *newCell(Pokemon *pokemon) {
+    Cell *temp = (Cell *)malloc(sizeof(Cell));
     temp->pokemon = pokemon;
     temp->next = NULL;
     return temp;
@@ -202,8 +203,9 @@ typedef struct List {
     int size;
 } List;
 
-List* newList() {
-    List *temp = (List *) malloc(sizeof(List));;
+List *newList() {
+    List *temp = (List *)malloc(sizeof(List));
+    ;
     temp->first = temp->last = newCell(NULL);
     temp->size = 0;
     return temp;
@@ -244,20 +246,18 @@ int size;
 
 void indirectHashList(int n) {
     size = n;
-    table = (List**) malloc (size * sizeof(List*));
+    table = (List **)malloc(size * sizeof(List *));
 
     for (int i = 0; i < size; i++) {
         table[i] = newList();
     }
 }
 
-void newIndirectHashList() {
-    indirectHashList(21);
-}
+void newIndirectHashList() { indirectHashList(21); }
 
-int h(char* name) {
+int h(char *name) {
     int sum = 0;
-    for (int i = 0; i < strlen(name); sum += (int) name[i], i++);
+    for (int i = 0; i < strlen(name); sum += (int)name[i], i++);
     return sum % size;
 }
 
@@ -272,8 +272,9 @@ void hashInsert(Pokemon *pokemon) {
     insertStart(table[position], pokemon);
 }
 
-bool isEnd(char* input) {
-    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
+bool isEnd(char *input) {
+    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' &&
+            input[2] == 'M');
 }
 
 int main() {
@@ -288,7 +289,7 @@ int main() {
     char input[30];
 
     startClock = clock();
-    
+
     while (scanf("%s", input) && !isEnd(input)) {
         sscanf(input, "%d", &id);
         hashInsert(search(pokemons, id));
@@ -296,7 +297,8 @@ int main() {
 
     while (scanf("%s", input) && !isEnd(input)) {
         int response = hashSearch(input);
-        response != -1 ? printf("=> %s: (Posicao: %d) SIM\n", input, response ) : printf("=> %s: NAO\n", input);
+        response != -1 ? printf("=> %s: (Posicao: %d) SIM\n", input, response)
+                       : printf("=> %s: NAO\n", input);
     }
 
     endClock = clock();

@@ -110,7 +110,6 @@ int main() {
     printf("\nTabela Hash após remoções:\n");
     show(&hashTable);
 
-    // Libera memória alocada para a tabela hash
     freeHash(&hashTable);
 
     return 0;
