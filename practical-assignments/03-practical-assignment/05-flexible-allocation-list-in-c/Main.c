@@ -1,13 +1,13 @@
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /**
  * TP03Q05 - Lista com Alocação Flexível em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 05/11/2024
  */
@@ -28,26 +28,26 @@ typedef struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } Pokemon;
 
-Pokemon *search(Pokemon* pokemons, int id) {
+Pokemon *search(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char caractere) {
     int i, j = 0;
     size_t comprimento = strlen(str);
-    
+
     for (i = 0; i < comprimento; i++) {
         if (str[i] != caractere) {
             str[j++] = str[i];
@@ -79,7 +79,7 @@ char *removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon *pokemons = (Pokemon *)malloc (801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
@@ -108,7 +108,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *stringAbilities = removeAttribute(&token, ','); 
+        char *stringAbilities = removeAttribute(&token, ',');
 
         removeOccurrences(stringAbilities, '[');
         removeOccurrences(stringAbilities, ']');
@@ -124,16 +124,16 @@ Pokemon *readCsv(char fileName[]) {
 
             char *startAbility = tokenAbilities;
             char *endAbility;
-            
+
             if (*startAbility == '\'') {
                 startAbility++;
                 endAbility = strchr(startAbility, '\'');
             } else {
-                endAbility = strchr(startAbility, ','); 
+                endAbility = strchr(startAbility, ',');
             }
 
             if (endAbility != NULL) {
-                *endAbility = '\0'; 
+                *endAbility = '\0';
                 strcpy(temp->abilities[indexAbility], startAbility);
                 indexAbility++;
                 tokenAbilities = endAbility + 1;
@@ -180,7 +180,7 @@ typedef struct List {
 } List;
 
 Cell *newCell(Pokemon *pokemon) {
-    Cell *temp = (Cell *) malloc (sizeof(Cell));
+    Cell *temp = (Cell *)malloc(sizeof(Cell));
     temp->pokemon = pokemon;
     temp->next = NULL;
     return temp;
@@ -212,7 +212,8 @@ void insertEnd(List *list, Pokemon *pokemon) {
 
 void insert(List *list, Pokemon *pokemon, int position) {
     if (position < 0 || position > list->size) {
-        printf("Erro ao tentar inserir na posição (%d/ tamanho = %d) inválida.", position, list->size);
+        printf("Erro ao tentar inserir na posição (%d/ tamanho = %d) inválida.",
+               position, list->size);
     } else if (position == 0) {
         insertStart(list, pokemon);
     } else if (position == list->size) {
@@ -236,7 +237,10 @@ Pokemon *removal(List *list, int position) {
         printf("\nA list está vazia!\n");
         return NULL;
     } else if (position < 0 || position >= list->size) {
-        printf("Erro ao tentar remover item da posição (%d / tamanho = %d) inválida.\n", position, list->size);
+        printf(
+            "Erro ao tentar remover item da posição (%d / tamanho = %d) "
+            "inválida.\n",
+            position, list->size);
         return NULL;
     } else {
         Cell *previous = list->first;
@@ -261,13 +265,9 @@ Pokemon *removal(List *list, int position) {
     }
 }
 
-Pokemon *removeStart(List *list) {
-    return removal(list, 0);
-}
+Pokemon *removeStart(List *list) { return removal(list, 0); }
 
-Pokemon *removeEnd(List *list) {
-    return removal(list, list->size-1);
-}
+Pokemon *removeEnd(List *list) { return removal(list, list->size - 1); }
 
 void showList(List *list) {
     Cell *i;
@@ -275,7 +275,8 @@ void showList(List *list) {
 
     for (i = list->first->next; i != NULL; i = i->next) {
         printf("[%d] ", count++);
-        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name, i->pokemon->description);
+        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name,
+               i->pokemon->description);
         printf("['%s'", i->pokemon->type[0]);
 
         if (strlen(i->pokemon->type[1]) > 0) {
@@ -294,30 +295,27 @@ void showList(List *list) {
 
         printf("] - ");
 
-        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-            i->pokemon->weight, 
-            i->pokemon->height, 
-            i->pokemon->captureRate, 
-            i->pokemon->isLegendary ? "true" : "false", 
-            i->pokemon->generation,
-            i->pokemon->captureDate.dia, 
-            i->pokemon->captureDate.mes, 
-            i->pokemon->captureDate.ano);
+        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+               i->pokemon->weight, i->pokemon->height, i->pokemon->captureRate,
+               i->pokemon->isLegendary ? "true" : "false",
+               i->pokemon->generation, i->pokemon->captureDate.dia,
+               i->pokemon->captureDate.mes, i->pokemon->captureDate.ano);
     }
 }
 
 bool isEnd(char *input) {
-    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
+    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' &&
+            input[2] == 'M');
 }
 
 int main() {
-    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
 
     List pokemonsList = newList();
 
     char input[30];
     int id;
-    
+
     while (scanf("%s", input) && !isEnd(input)) {
         sscanf(input, "%d", &id);
 
@@ -332,7 +330,7 @@ int main() {
     scanf("%d", &numberOperations);
 
     for (int j = 0; j < numberOperations; j++) {
-        char* operation = (char *) malloc(sizeof(char) * 3);
+        char *operation = (char *)malloc(sizeof(char) * 3);
         scanf("%s", operation);
 
         if (strcmp(operation, "II") == 0) {
@@ -340,21 +338,21 @@ int main() {
             scanf("%d", &number);
             insertStart(&pokemonsList, search(pokemons, number));
         }
-            
+
         if (strcmp(operation, "IF") == 0) {
             int number;
             scanf("%d", &number);
             insertEnd(&pokemonsList, search(pokemons, number));
         }
-            
+
         if (strcmp(operation, "RI") == 0) {
             deletedPokemons[k++] = removeStart(&pokemonsList);
         }
-            
+
         if (strcmp(operation, "RF") == 0) {
             deletedPokemons[k++] = removeEnd(&pokemonsList);
         }
-            
+
         if (strcmp(operation, "I*") == 0) {
             int position;
             scanf("%d", &position);
@@ -362,7 +360,7 @@ int main() {
             scanf("%d", &number);
             insert(&pokemonsList, search(pokemons, number), position);
         }
-            
+
         if (strcmp(operation, "R*") == 0) {
             int position;
             scanf("%d", &position);

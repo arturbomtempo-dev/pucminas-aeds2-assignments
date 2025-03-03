@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <time.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 /**
  * TP03Q07 - Fila com Alocação Flexível em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 08/11/2024
  */
@@ -29,26 +29,26 @@ typedef struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } Pokemon;
 
 Pokemon *search(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char character) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != character) {
             str[j++] = str[i];
@@ -79,14 +79,14 @@ char *removeAttribute(char **str, char delimiter) {
     return start;
 }
 
-Pokemon* readCsv(char fileName[]) {
-    Pokemon *pokemons = (Pokemon *) malloc(801 * sizeof(Pokemon));
+Pokemon *readCsv(char fileName[]) {
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
     }
 
-    FILE* file = fopen(fileName, "r");
+    FILE *file = fopen(fileName, "r");
 
     if (!file) {
         printf("Erro ao abrir o arquivo.\n");
@@ -98,7 +98,7 @@ Pokemon* readCsv(char fileName[]) {
     fgets(line, sizeof(line), file);
 
     int index = 0;
-    
+
     while (fgets(line, sizeof(line), file) != NULL && index < 801) {
         Pokemon *temp = &pokemons[index];
         char *token = line;
@@ -110,7 +110,7 @@ Pokemon* readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilitiesString = removeAttribute(&token, ','); 
+        char *abilitiesString = removeAttribute(&token, ',');
 
         removeOccurrences(abilitiesString, '[');
         removeOccurrences(abilitiesString, ']');
@@ -131,11 +131,11 @@ Pokemon* readCsv(char fileName[]) {
                 startAbilities++;
                 endAbilities = strchr(startAbilities, '\'');
             } else {
-                endAbilities = strchr(startAbilities, ','); 
+                endAbilities = strchr(startAbilities, ',');
             }
 
             if (endAbilities != NULL) {
-                *endAbilities = '\0'; 
+                *endAbilities = '\0';
                 strcpy(temp->abilities[abilitiesIndex], startAbilities);
                 abilitiesIndex++;
                 abilitiesToken = endAbilities + 1;
@@ -153,7 +153,7 @@ Pokemon* readCsv(char fileName[]) {
 
         int isLegendary = atoi(removeAttribute(&token, ','));
 
-        if(isLegendary == 0) {
+        if (isLegendary == 0) {
             temp->isLegendary = false;
         } else {
             temp->isLegendary = true;
@@ -177,7 +177,7 @@ typedef struct Cell {
 } Cell;
 
 Cell *newCell(Pokemon *pokemon) {
-    Cell *temp = (Cell *) malloc(sizeof(Cell));
+    Cell *temp = (Cell *)malloc(sizeof(Cell));
     temp->pokemon = pokemon;
     temp->next = NULL;
     return temp;
@@ -227,9 +227,9 @@ void insert(Queue *queue, Pokemon *pokemon) {
         k++;
         i = i->next;
     }
-        
+
     if (k > 0) {
-        int roundedAverage = (int) round((double) sum / k);
+        int roundedAverage = (int)round((double)sum / k);
         printf("Média: %d\n", roundedAverage);
     }
 }
@@ -240,7 +240,8 @@ void displayInformation(Queue *f) {
 
     for (i = f->first->next; i != NULL; i = i->next) {
         printf("[%d] ", count++);
-        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name, i->pokemon->description);
+        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name,
+               i->pokemon->description);
 
         printf("['%s'", i->pokemon->type[0]);
 
@@ -260,25 +261,21 @@ void displayInformation(Queue *f) {
 
         printf("] - ");
 
-        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-            i->pokemon->weight, 
-            i->pokemon->height, 
-            i->pokemon->captureRate, 
-            i->pokemon->isLegendary ? "true" : "false", 
-            i->pokemon->generation,
-            i->pokemon->captureDate.dia, 
-            i->pokemon->captureDate.mes, 
-            i->pokemon->captureDate.ano
-        );
+        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+               i->pokemon->weight, i->pokemon->height, i->pokemon->captureRate,
+               i->pokemon->isLegendary ? "true" : "false",
+               i->pokemon->generation, i->pokemon->captureDate.dia,
+               i->pokemon->captureDate.mes, i->pokemon->captureDate.ano);
     }
 }
 
 bool isEnd(char *input) {
-    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
+    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' &&
+            input[2] == 'M');
 }
 
 int main() {
-    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
 
     Queue queuePokemons = newQueue();
 
@@ -287,7 +284,7 @@ int main() {
 
     while (scanf("%s", input) && !isEnd(input)) {
         sscanf(input, "%d", &id);
-        insert( &queuePokemons, search(pokemons, id));
+        insert(&queuePokemons, search(pokemons, id));
     }
 
     int operationsNumber = 0;
@@ -298,15 +295,15 @@ int main() {
     scanf("%d", &operationsNumber);
 
     for (int j = 0; j < operationsNumber; j++) {
-        char *operation = (char *) malloc(sizeof(char) * 3);
+        char *operation = (char *)malloc(sizeof(char) * 3);
         scanf("%s", operation);
 
-        if (strcmp(operation, "I") == 0) { 
+        if (strcmp(operation, "I") == 0) {
             int number;
             scanf("%d", &number);
             insert(&queuePokemons, search(pokemons, number));
         }
-            
+
         if (strcmp(operation, "R") == 0) {
             deletedPokemons = removal(&queuePokemons);
             printf("(R) %s\n", deletedPokemons->name);

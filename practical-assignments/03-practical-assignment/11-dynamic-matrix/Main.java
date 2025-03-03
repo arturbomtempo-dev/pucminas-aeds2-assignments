@@ -10,15 +10,15 @@ import java.util.Scanner;
 class Cell {
     public int element;
     public Cell bottom, top, left, right;
-    
+
     public Cell() {
         this(0);
     }
-    
+
     public Cell(int element) {
         this(element, null, null, null, null);
     }
-    
+
     public Cell(int element, Cell bottom, Cell top, Cell left, Cell right) {
         this.element = element;
         this.bottom = bottom;
@@ -31,9 +31,9 @@ class Cell {
 class Matrix {
     private Cell start;
     private int row, column;
-    
+
     public Matrix() {
-        this(3,3);
+        this(3, 3);
     }
 
     public Matrix(int row, int column) {
@@ -75,56 +75,57 @@ class Matrix {
             line++;
         }
     }
-    
+
     public Matrix soma(Matrix m) throws Exception {
         if (this.row != m.row || this.column != m.column) {
             throw new Exception("As matrizes devem ter as mesmas dimensões para serem somadas.");
         }
-    
+
         Matrix response = new Matrix(this.row, this.column);
-        
-        for (Cell ai = this.start, bi = m.start, ci = response.start; ai != null; ai = ai.bottom, bi = bi.bottom, ci = ci.bottom) {
+
+        for (Cell ai = this.start, bi = m.start,
+                ci = response.start; ai != null; ai = ai.bottom, bi = bi.bottom, ci = ci.bottom) {
             for (Cell aj = ai, bj = bi, cj = ci; aj != null; aj = aj.right, bj = bj.right, cj = cj.right) {
                 cj.element = aj.element + bj.element;
             }
         }
-    
+
         return response;
     }
-    
+
     public Matrix multiplicacao(Matrix m) throws Exception {
         if (this.column != m.row) {
             throw new Exception("Dimensões incompatíveis para a multiplicação.");
         }
-    
+
         Matrix response = new Matrix(this.row, m.column);
-    
-        for (Cell ai = this.start, ci = response.start; ai != null; ai = ai.bottom, ci = ci.bottom) { 
+
+        for (Cell ai = this.start, ci = response.start; ai != null; ai = ai.bottom, ci = ci.bottom) {
             Cell mColStart = m.start;
 
-            for (Cell cj = ci; cj != null; cj = cj.right) { 
-                Cell aij = ai; 
-                Cell bj = mColStart; 
+            for (Cell cj = ci; cj != null; cj = cj.right) {
+                Cell aij = ai;
+                Cell bj = mColStart;
                 int mult = 0;
 
-                while (aij != null && bj != null) { 
+                while (aij != null && bj != null) {
                     mult += aij.element * bj.element;
-                    aij = aij.right; 
-                    bj = bj.bottom;   
+                    aij = aij.right;
+                    bj = bj.bottom;
                 }
 
-                cj.element = mult; 
-                mColStart = mColStart.right; 
+                cj.element = mult;
+                mColStart = mColStart.right;
             }
         }
-    
+
         return response;
     }
-    
+
     public boolean isSquare() {
         return (this.row == this.column);
     }
-    
+
     public void mostrarDiagonalPrincipal() {
         if (isSquare() == true) {
             Cell i = this.start;
@@ -141,12 +142,13 @@ class Matrix {
             System.out.println();
         }
     }
-    
+
     public void mostrarDiagonalSecundaria() {
         if (isSquare() == true) {
             Cell i = this.start;
 
-            for (; i.right != null; i = i.right);
+            for (; i.right != null; i = i.right)
+                ;
 
             while (i != null) {
                 System.out.print(i.element + " ");
@@ -156,16 +158,16 @@ class Matrix {
                     i = i.bottom;
                 }
             }
-            
+
             System.out.println();
         }
     }
-    
+
     public void insert(int x, int rowPos, int columnPos) {
         if (rowPos >= this.row || columnPos >= this.column || rowPos < 0 || columnPos < 0) {
             try {
                 throw new Exception("Posição inválida.");
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
@@ -182,7 +184,7 @@ class Matrix {
             temp.element = x;
         }
     }
-    
+
     public void insertRead(Scanner sc) throws Exception {
         if (start == null) {
             throw new Exception("Erro ao inserir.");
@@ -194,7 +196,7 @@ class Matrix {
             }
         }
     }
-    
+
     public void show() {
         for (Cell i = this.start; i != null; i = i.bottom) {
             for (Cell j = i; j != null; j = j.right) {
@@ -224,7 +226,7 @@ public class Main {
 
             try {
                 matrix1.insertRead(sc);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("Erro ao ler o arquivo.");
             }
 
@@ -235,7 +237,7 @@ public class Main {
 
             try {
                 matrix2.insertRead(sc);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("Erro ao inserir.");
             }
 
@@ -245,7 +247,7 @@ public class Main {
             try {
                 Matrix additionMatrix = matrix1.soma(matrix2);
                 Matrix multiplicationMatrix = matrix1.multiplicacao(matrix2);
-                
+
                 additionMatrix.show();
                 multiplicationMatrix.show();
             } catch (Exception e) {

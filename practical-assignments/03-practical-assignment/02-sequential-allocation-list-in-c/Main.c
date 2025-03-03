@@ -1,17 +1,17 @@
-#include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /**
  * TP03Q02 - Lista com Alocação Sequencial em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 30/10/2024
  */
 
- typedef struct Date {
+typedef struct Date {
     int day;
     int month;
     int year;
@@ -51,46 +51,30 @@ Date stringToDate(char *str) {
 }
 
 char *dateToString(Date date) {
-    char *str = (char*) malloc (11 * sizeof(char));
+    char *str = (char *)malloc(11 * sizeof(char));
     sprintf(str, "%02d/%02d/%04d", date.day, date.month, date.year);
     return str;
 }
 
-int getId(Pokemon *p) {
-    return p->id;
-}
+int getId(Pokemon *p) { return p->id; }
 
-void setId(Pokemon *p, int id) {
-    p->id = id;
-}
+void setId(Pokemon *p, int id) { p->id = id; }
 
-int getGeneration(Pokemon *p) {
-    return p->generation;
-}
+int getGeneration(Pokemon *p) { return p->generation; }
 
-void setGeneration(Pokemon *p, int generation) {
-    p->generation = generation;
-}
+void setGeneration(Pokemon *p, int generation) { p->generation = generation; }
 
-char *getName(Pokemon *p) {
-    return p->name;
-}
+char *getName(Pokemon *p) { return p->name; }
 
-void setName(Pokemon *p, char *name) {
-    p->name = name;
-}
+void setName(Pokemon *p, char *name) { p->name = name; }
 
-char *getDescription(Pokemon *p) {
-    return p->description;
-}
+char *getDescription(Pokemon *p) { return p->description; }
 
 void setDescription(Pokemon *p, char *description) {
     p->description = description;
 }
 
-char *getTypes(Pokemon *p, int index) {
-    return p->types[index];
-}
+char *getTypes(Pokemon *p, int index) { return p->types[index]; }
 
 int getNumberTypes(Pokemon *p) {
     int count = 0;
@@ -109,9 +93,7 @@ void setTypes(Pokemon *p, int index, char *type) {
     p->types[index][sizeof(p->types[index]) - 1] = '\0';
 }
 
-char *getAbilities(Pokemon *p, int index) {
-    return p->abilities[index];
-}
+char *getAbilities(Pokemon *p, int index) { return p->abilities[index]; }
 
 int getNumberAbilities(Pokemon *p) {
     int count = 0;
@@ -130,41 +112,27 @@ void setAbilities(Pokemon *p, int index, const char *ability) {
     p->abilities[index][sizeof(p->abilities[index]) - 1] = '\0';
 }
 
-double getWeight(Pokemon *p) {
-    return p->weight;
-}
+double getWeight(Pokemon *p) { return p->weight; }
 
-void setWeight(Pokemon *p, double weight) {
-    p->weight = weight;
-}
+void setWeight(Pokemon *p, double weight) { p->weight = weight; }
 
-double getHeight(Pokemon *p) {
-    return p->height;
-}
+double getHeight(Pokemon *p) { return p->height; }
 
-void setHeight(Pokemon *p, double height) {
-    p->height = height;
-}
+void setHeight(Pokemon *p, double height) { p->height = height; }
 
-int getCaptureRate(Pokemon *p) {
-    return p->captureRate;
-}
+int getCaptureRate(Pokemon *p) { return p->captureRate; }
 
 void setCaptureRate(Pokemon *p, int captureRate) {
     p->captureRate = captureRate;
 }
 
-bool getIsLegendary(Pokemon *p) {
-    return p->isLegendary;
-}
+bool getIsLegendary(Pokemon *p) { return p->isLegendary; }
 
 void setIsLegendary(Pokemon *p, bool isLegendary) {
     p->isLegendary = isLegendary;
 }
 
-Date getCaptureDate(Pokemon *p) {
-    return p->captureDate;
-}
+Date getCaptureDate(Pokemon *p) { return p->captureDate; }
 
 void setCaptureDate(Pokemon *p, Date captureDate) {
     p->captureDate = captureDate;
@@ -174,7 +142,10 @@ void setCaptureDateString(Pokemon *p, char *captureDate) {
     p->captureDate = stringToDate(captureDate);
 }
 
-Pokemon createPokemon(int id, int generation, char *name, char *description, char *type1, char *type2, char *abilities[6], double weight, double height, int captureRate, bool isLegendary, Date captureDate) {
+Pokemon createPokemon(int id, int generation, char *name, char *description,
+                      char *type1, char *type2, char *abilities[6],
+                      double weight, double height, int captureRate,
+                      bool isLegendary, Date captureDate) {
     Pokemon pokemon;
 
     setId(&pokemon, id);
@@ -185,7 +156,7 @@ Pokemon createPokemon(int id, int generation, char *name, char *description, cha
 
     setName(&pokemon, nameCopy);
     setDescription(&pokemon, descriptionCopy);
-    
+
     setTypes(&pokemon, 0, type1);
 
     if (type2 != NULL) {
@@ -237,7 +208,7 @@ int splitCsvLine(char *line, char **fields, int max_fields) {
 void readCsv(FILE *file, Pokemon *pokemons, int *n) {
     char line[1024];
 
-    fgets(line, sizeof(line), file); 
+    fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file) != NULL) {
         line[strcspn(line, "\n")] = '\0';
@@ -252,7 +223,7 @@ void readCsv(FILE *file, Pokemon *pokemons, int *n) {
         pokemon.generation = atoi(fields[1]);
         pokemon.name = strdup(fields[2]);
         pokemon.description = strdup(fields[3]);
-        
+
         setTypes(&pokemon, 0, fields[4]);
 
         if (strlen(fields[5]) > 0) {
@@ -263,12 +234,14 @@ void readCsv(FILE *file, Pokemon *pokemons, int *n) {
 
         char *abilitiesField = fields[6];
 
-        if (abilitiesField[0] == '"' && abilitiesField[strlen(abilitiesField) - 1] == '"') {
+        if (abilitiesField[0] == '"' &&
+            abilitiesField[strlen(abilitiesField) - 1] == '"') {
             abilitiesField[strlen(abilitiesField) - 1] = '\0';
             abilitiesField++;
         }
 
-        if (abilitiesField[0] == '[' && abilitiesField[strlen(abilitiesField) - 1] == ']') {
+        if (abilitiesField[0] == '[' &&
+            abilitiesField[strlen(abilitiesField) - 1] == ']') {
             abilitiesField[strlen(abilitiesField) - 1] = '\0';
             abilitiesField++;
         }
@@ -277,14 +250,16 @@ void readCsv(FILE *file, Pokemon *pokemons, int *n) {
         char *restAbilities = abilitiesField;
         int abilityIndex = 0;
 
-        while ((abilityToken = strtok_r(restAbilities, ",", &restAbilities)) && abilityIndex < 6) {
+        while ((abilityToken = strtok_r(restAbilities, ",", &restAbilities)) &&
+               abilityIndex < 6) {
             while (*abilityToken == ' ' || *abilityToken == '\'') {
                 abilityToken++;
             }
 
             char *tempEnd = abilityToken + strlen(abilityToken) - 1;
 
-            while (tempEnd > abilityToken && (*tempEnd == ' ' || *tempEnd == '\'')) {
+            while (tempEnd > abilityToken &&
+                   (*tempEnd == ' ' || *tempEnd == '\'')) {
                 *tempEnd = '\0';
                 tempEnd--;
             }
@@ -304,7 +279,7 @@ void readCsv(FILE *file, Pokemon *pokemons, int *n) {
         pokemon.captureRate = atoi(fields[9]);
         pokemon.isLegendary = atoi(fields[10]);
         pokemon.captureDate = stringToDate(fields[11]);
-        
+
         pokemons[*n] = pokemon;
         (*n)++;
     }
@@ -379,10 +354,10 @@ Pokemon *findPokemonById(Pokemon pokemons[], int n, int id) {
 List initializeList(int quantity) {
     List list;
 
-	list.pokemons = malloc (quantity * sizeof(Pokemon*));
-	list.number = 0;
+    list.pokemons = malloc(quantity * sizeof(Pokemon *));
+    list.number = 0;
 
-	return list;
+    return list;
 }
 
 void insert(List *list, Pokemon *pokemon, int position) {
@@ -398,9 +373,7 @@ void insert(List *list, Pokemon *pokemon, int position) {
     list->number++;
 }
 
-void insertStart(List *list, Pokemon *pokemon) {
-    insert(list, pokemon, 0);
-}
+void insertStart(List *list, Pokemon *pokemon) { insert(list, pokemon, 0); }
 
 void insertEnd(List *list, Pokemon *pokemon) {
     insert(list, pokemon, list->number);
@@ -423,13 +396,9 @@ Pokemon *removal(List *list, int position) {
     return removedPokemon;
 }
 
-Pokemon *removalStart(List *list) {
-    return removal(list, 0);
-}
+Pokemon *removalStart(List *list) { return removal(list, 0); }
 
-Pokemon *removalEnd(List *list) {
-    return removal(list, (list->number) - 1);
-}
+Pokemon *removalEnd(List *list) { return removal(list, (list->number) - 1); }
 
 void printList(List *list) {
     for (int i = 0; i < list->number; i++) {
@@ -439,11 +408,11 @@ void printList(List *list) {
 }
 
 int main() {
-    FILE *file = fopen("../tmp/pokemon.csv", "r");   
+    FILE *file = fopen("../tmp/pokemon.csv", "r");
 
     if (file == NULL) {
         printf("Erro ao abrir o arquivo CSV.\n");
-    } 
+    }
 
     Pokemon pokemons[801];
     int n = 0;
@@ -457,7 +426,7 @@ int main() {
     char inputId[10];
 
     scanf("%s", inputId);
-    
+
     while (strcmp(inputId, "FIM") != 0) {
         int id = atoi(inputId);
         Pokemon *p = findPokemonById(pokemons, n, id);
@@ -465,8 +434,8 @@ int main() {
         if (p != NULL) {
             insertEnd(&pokemonList, p);
         }
-        
-        scanf("%s", inputId); 
+
+        scanf("%s", inputId);
     }
 
     int commandsQuantity;
@@ -490,7 +459,7 @@ int main() {
             int position;
 
             scanf("%d", &position);
-            scanf("%s", inputId); 
+            scanf("%s", inputId);
 
             int id = atoi(inputId);
             Pokemon *pokemon = findPokemonById(pokemons, n, id);
@@ -533,7 +502,7 @@ int main() {
     }
 
     printList(&pokemonList);
- 
+
     for (int i = 0; i < n; i++) {
         free(pokemons[i].name);
         free(pokemons[i].description);

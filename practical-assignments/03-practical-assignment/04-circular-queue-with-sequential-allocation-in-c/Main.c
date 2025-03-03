@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <time.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 /**
  * TP03Q04 - Fila Circular com Alocação Sequencial em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 04/11/2024
  */
@@ -32,26 +32,26 @@ typedef struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } Pokemon;
 
-Pokemon *search(Pokemon* pokemons, int id) {
+Pokemon *search(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char characters) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != characters) {
             str[j++] = str[i];
@@ -83,13 +83,13 @@ char *removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon *pokemons = (Pokemon*) malloc (801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
     }
 
-    FILE* file = fopen(fileName, "r");
+    FILE *file = fopen(fileName, "r");
 
     if (!file) {
         printf("Erro ao abrir o arquivo.\n");
@@ -113,7 +113,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilitiesString = removeAttribute(&token, ','); 
+        char *abilitiesString = removeAttribute(&token, ',');
 
         removeOccurrences(abilitiesString, '[');
         removeOccurrences(abilitiesString, ']');
@@ -129,16 +129,16 @@ Pokemon *readCsv(char fileName[]) {
 
             char *startAbilities = tokenAbilities;
             char *endAbilities;
-            
+
             if (*startAbilities == '\'') {
                 startAbilities++;
                 endAbilities = strchr(startAbilities, '\'');
             } else {
-                endAbilities = strchr(startAbilities, ','); 
+                endAbilities = strchr(startAbilities, ',');
             }
 
             if (endAbilities != NULL) {
-                *endAbilities = '\0'; 
+                *endAbilities = '\0';
                 strcpy(temp->abilities[indexAbilities], startAbilities);
                 indexAbilities++;
                 tokenAbilities = endAbilities + 1;
@@ -178,8 +178,8 @@ Pokemon *array[6 + 1];
 int first, last;
 
 void start() {
-   first = 0;
-   last = 0;
+    first = 0;
+    last = 0;
 }
 
 Pokemon *removal() {
@@ -187,7 +187,7 @@ Pokemon *removal() {
         printf("Erro ao remover.");
         exit(1);
     }
-    
+
     Pokemon *temp = array[first];
     first = (first + 1) % 6;
     return temp;
@@ -200,7 +200,7 @@ void insert(Pokemon *x) {
 
     array[last] = x;
     last = (last + 1) % 6;
-    
+
     int i = first;
     int sum = 0;
     int k = 0;
@@ -210,22 +210,23 @@ void insert(Pokemon *x) {
         i = ((i + 1) % 6);
         k++;
     }
-        
+
     if (k > 0) {
-        int roundedAverage = (int) round((double) sum / k);
+        int roundedAverage = (int)round((double)sum / k);
         printf("Média: %d\n", roundedAverage);
     }
 }
 
 void displayInformation() {
-   int i = first;
-   int k = 0;
+    int i = first;
+    int k = 0;
 
-   printf("\n");
+    printf("\n");
 
-   while (i != last) {
+    while (i != last) {
         printf("[%d] ", k++);
-        printf("[#%d -> %s: %s - ", array[i]->id, array[i]->name, array[i]->description);
+        printf("[#%d -> %s: %s - ", array[i]->id, array[i]->name,
+               array[i]->description);
 
         printf("['%s'", array[i]->type[0]);
 
@@ -245,22 +246,19 @@ void displayInformation() {
 
         printf("] - ");
 
-        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-            array[i]->weight, 
-            array[i]->height, 
-            array[i]->captureRate, 
-            array[i]->isLegendary ? "true" : "false", 
-            array[i]->generation,
-            array[i]->captureDate.day, 
-            array[i]->captureDate.month, 
-            array[i]->captureDate.year);
+        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+               array[i]->weight, array[i]->height, array[i]->captureRate,
+               array[i]->isLegendary ? "true" : "false", array[i]->generation,
+               array[i]->captureDate.day, array[i]->captureDate.month,
+               array[i]->captureDate.year);
 
         i = ((i + 1) % 6);
-   }
+    }
 }
 
 bool isEnd(char *input) {
-    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
+    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' &&
+            input[2] == 'M');
 }
 
 int main() {
@@ -270,7 +268,7 @@ int main() {
 
     char input[30];
     int id;
-    
+
     while (scanf("%s", input) && !isEnd(input)) {
         sscanf(input, "%d", &id);
 
@@ -284,7 +282,7 @@ int main() {
     scanf("%d", &numberOperations);
 
     for (int j = 0; j < numberOperations; j++) {
-        char *operation = (char *) malloc(sizeof (char) * 3);
+        char *operation = (char *)malloc(sizeof(char) * 3);
         scanf("%s", operation);
 
         if (strcmp(operation, "I") == 0) {
@@ -292,7 +290,7 @@ int main() {
             scanf("%d", &number);
             insert(search(pokemons, number));
         }
-            
+
         if (strcmp(operation, "R") == 0) {
             excludedPokemon = removal();
             printf("(R) %s\n", excludedPokemon->name);

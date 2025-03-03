@@ -29,7 +29,7 @@ class Pokemon {
     private int captureRate;
     private boolean isLegendary;
     private Date captureDate;
-    
+
     public Pokemon() {
         this.id = 0;
         this.generation = 0;
@@ -43,8 +43,10 @@ class Pokemon {
         this.isLegendary = false;
         this.captureDate = new Date();
     }
-    
-    public Pokemon(int id, int generation, String name, String description, ArrayList<String> types, ArrayList<String> abilities, double weight, double height, int captureRate, boolean isLegendary, Date captureDate) {
+
+    public Pokemon(int id, int generation, String name, String description, ArrayList<String> types,
+            ArrayList<String> abilities, double weight, double height, int captureRate, boolean isLegendary,
+            Date captureDate) {
         this.id = id;
         this.generation = generation;
         this.name = name;
@@ -61,83 +63,83 @@ class Pokemon {
     public int getId() {
         return this.id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public int getGeneration() {
         return this.generation;
     }
-    
+
     public void setGeneration(int generation) {
         this.generation = generation;
     }
-    
+
     public String getName() {
         return this.name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getDescription() {
         return this.description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public ArrayList<String> getTypes() {
         return this.types;
     }
-    
+
     public void setTypes(ArrayList<String> types) {
         this.types = types;
     }
-    
+
     public ArrayList<String> getAbilities() {
         return this.abilities;
     }
-    
+
     public void setAbilities(ArrayList<String> abilities) {
         this.abilities = abilities;
     }
-    
+
     public double getWeight() {
         return this.weight;
     }
-    
+
     public void setWeight(double weight) {
         this.weight = weight;
     }
-    
+
     public double getHeight() {
         return this.height;
     }
-    
+
     public void setHeight(double height) {
         this.height = height;
     }
-    
+
     public int getCaptureRate() {
         return this.captureRate;
     }
-    
+
     public void setCaptureRate(int captureRate) {
         this.captureRate = captureRate;
     }
-    
+
     public boolean getIsLegendary() {
         return this.isLegendary;
     }
-    
+
     public void setIsLegendary(boolean isLegendary) {
         this.isLegendary = isLegendary;
     }
-    
+
     public Date getCaptureDate() {
         return this.captureDate;
     }
@@ -145,32 +147,31 @@ class Pokemon {
     public void setCaptureDate(Date captureDate) {
         this.captureDate = captureDate;
     }
-    
+
     public Pokemon Clone() {
         return new Pokemon(
-            this.id,
-            this.generation,
-            this.name,
-            this.description,
-            this.types,
-            this.abilities,
-            this.weight,
-            this.height,
-            this.captureRate,
-            this.isLegendary,
-            this.captureDate
-        );
+                this.id,
+                this.generation,
+                this.name,
+                this.description,
+                this.types,
+                this.abilities,
+                this.weight,
+                this.height,
+                this.captureRate,
+                this.isLegendary,
+                this.captureDate);
     }
 }
 
 class Cell {
     public Pokemon pokemon;
     public Cell next;
-    
+
     public Cell() {
         this(null);
     }
-    
+
     public Cell(Pokemon pokemon) {
         this.pokemon = pokemon;
         this.next = null;
@@ -180,11 +181,11 @@ class Cell {
 class Stack {
     private Cell top;
     private int size;
-    
+
     public Stack() {
         top = null;
     }
-    
+
     public void insert(Pokemon pokemon) {
         Cell temp = new Cell(pokemon);
         temp.next = top;
@@ -192,7 +193,7 @@ class Stack {
         temp = null;
         size++;
     }
-    
+
     public Pokemon remove() throws Exception {
         if (top == null) {
             throw new Exception("Erro ao remover.");
@@ -207,11 +208,11 @@ class Stack {
 
         return response;
     }
-    
+
     public void show() {
         show(top, 0);
     }
-    
+
     private void show(Cell i, int count) {
         if (i != null) {
             show(i.next, ++count);
@@ -230,15 +231,14 @@ class Stack {
                     + i.pokemon.getCaptureRate() + "% - "
                     + i.pokemon.getIsLegendary() + " - "
                     + i.pokemon.getGeneration() + " gen] - "
-                    + formattedDate
-            );
+                    + formattedDate);
         }
     }
 }
 
 class ManagePokemon {
     private static Pokemon pokemon[] = new Pokemon[801];
-    
+
     public Pokemon createPokemon(String linha) {
         Pokemon pokemon = new Pokemon();
         SimpleDateFormat ddf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -259,14 +259,12 @@ class ManagePokemon {
         pokemon.setTypes(types);
 
         pokemon.getAbilities().addAll(
-            Arrays.asList(
-                fields[6]
-                .replace("\"", "")
-                .replace("[", "")
-                .replace("]", "")
-                .split(", ")
-            )
-        );
+                Arrays.asList(
+                        fields[6]
+                                .replace("\"", "")
+                                .replace("[", "")
+                                .replace("]", "")
+                                .split(", ")));
 
         pokemon.setWeight(fields[7].isEmpty() ? 0.0 : Double.parseDouble(fields[7]));
         pokemon.setHeight(fields[8].isEmpty() ? 0.0 : Double.parseDouble(fields[8]));
@@ -281,7 +279,7 @@ class ManagePokemon {
 
         return pokemon;
     }
-    
+
     public Pokemon[] readCsv() {
         int i = 0;
 
@@ -299,7 +297,7 @@ class ManagePokemon {
 
         return pokemon;
     }
-    
+
     public Pokemon searchPokemon(int id) {
         Pokemon responsePokemon = new Pokemon();
 
@@ -317,7 +315,7 @@ class ManagePokemon {
 public class Main {
     public static int comparisons;
     public static int movements;
-    
+
     public static void saveExecutionFile(String filename, int comparisons, int movements, long endTime) {
         try (RandomAccessFile file = new RandomAccessFile(filename, "rw")) {
             file.writeChars("847235\t" + comparisons + "\t" + movements + "\t" + endTime + "ms");
@@ -326,7 +324,7 @@ public class Main {
             System.err.println("Erro ao criar arquivo." + err.getMessage());
         }
     }
-    
+
     public static boolean isEnd(String input) {
         return (input.length() == 3 && input.charAt(0) == 'F' && input.charAt(1) == 'I' && input.charAt(2) == 'M');
     }

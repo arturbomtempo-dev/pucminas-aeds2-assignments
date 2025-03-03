@@ -37,91 +37,86 @@ class Pokemon {
         this.captureDate = LocalDate.now();
     }
 
-    public int getId () {
+    public int getId() {
         return id;
     }
 
-    public void setId (int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-
-    public int getGeneration () {
+    public int getGeneration() {
         return generation;
     }
 
-    public void setGeneration (int generation) {
+    public void setGeneration(int generation) {
         this.generation = generation;
     }
 
-
-    public String getName () {
+    public String getName() {
         return name;
     }
 
-    public void setName (String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-
-    public String getDescription () {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription (String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-
-    public ArrayList<String> getTypes () {
+    public ArrayList<String> getTypes() {
         return types;
     }
 
-    public void setTypes (ArrayList<String> types) {
+    public void setTypes(ArrayList<String> types) {
         this.types = types;
     }
 
-
-    public ArrayList<String> getAbilities () {
+    public ArrayList<String> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities (ArrayList<String> abilities) {
+    public void setAbilities(ArrayList<String> abilities) {
         this.abilities = abilities;
     }
 
-    public double getWeight () {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight (double weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public double getHeight () {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight (double height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
-    public int getCaptureRate () {
+    public int getCaptureRate() {
         return captureRate;
     }
 
-    public void setCaptureRate (int captureRate) {
+    public void setCaptureRate(int captureRate) {
         this.captureRate = captureRate;
     }
 
-    public boolean getIsLegendary () {
+    public boolean getIsLegendary() {
         return isLegendary;
     }
-    
-    public void setIsLegendary (boolean isLegendary) {
+
+    public void setIsLegendary(boolean isLegendary) {
         this.isLegendary = isLegendary;
     }
-    
+
     public LocalDate getCaptureDate() {
         return captureDate;
     }
@@ -130,7 +125,9 @@ class Pokemon {
         this.captureDate = captureDate;
     }
 
-    public Pokemon (int id, int generation, String name, String description, ArrayList<String> types, ArrayList<String> abilities, double weight, double heigth, int captureRate, boolean isLegendary, LocalDate captureDate) {
+    public Pokemon(int id, int generation, String name, String description, ArrayList<String> types,
+            ArrayList<String> abilities, double weight, double heigth, int captureRate, boolean isLegendary,
+            LocalDate captureDate) {
         setId(id);
         setGeneration(generation);
         setName(name);
@@ -144,7 +141,7 @@ class Pokemon {
         setCaptureDate(captureDate);
     }
 
-    public Pokemon (String line) {
+    public Pokemon(String line) {
         String[] item = line.split(",");
 
         setId(Integer.parseInt(item[0]));
@@ -168,7 +165,7 @@ class Pokemon {
 
         while (!IsDouble) {
             try {
-                Double.parseDouble(item[counter]); 
+                Double.parseDouble(item[counter]);
                 IsDouble = true;
             } catch (NumberFormatException e) {
                 if (!item[counter].isEmpty()) {
@@ -210,11 +207,12 @@ class Pokemon {
     }
 
     public Pokemon clone() {
-        Pokemon clone = new Pokemon(getId(), getGeneration(), getName(), getDescription(), getTypes(), getAbilities(), getWeight(), getHeight(), getCaptureRate(), getIsLegendary(), getCaptureDate());
-        
+        Pokemon clone = new Pokemon(getId(), getGeneration(), getName(), getDescription(), getTypes(), getAbilities(),
+                getWeight(), getHeight(), getCaptureRate(), getIsLegendary(), getCaptureDate());
+
         return clone;
     }
- 
+
     public void displayInformation() {
         System.out.printf("[#" + id + " -> " + name + ": " + description + " - [");
 
@@ -244,7 +242,8 @@ class Pokemon {
 
         DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.printf("] - " + weight + "kg - " + height + "m - " + captureRate + "%% - " + isLegendary + " - " + generation + " gen] - " + captureDate.format(formattedDate));
+        System.out.printf("] - " + weight + "kg - " + height + "m - " + captureRate + "%% - " + isLegendary + " - "
+                + generation + " gen] - " + captureDate.format(formattedDate));
 
         System.out.println();
     }
@@ -258,95 +257,95 @@ class List {
         array = new Pokemon[size];
         n = 0;
     }
- 
+
     public List() {
-       this(100);
+        this(100);
     }
- 
+
     public void insertStart(Pokemon x) throws Exception {
         if (n >= array.length) {
             throw new Exception("Erro ao inserir.");
         }
- 
+
         for (int i = n; i > 0; i--) {
             array[i] = array[i - 1];
         }
- 
+
         array[0] = x;
         n++;
     }
- 
+
     public void insertEnd(Pokemon x) throws Exception {
         if (n >= array.length) {
             throw new Exception("Erro ao inserir.");
         }
- 
+
         array[n] = x;
         n++;
     }
- 
+
     public void insert(Pokemon x, int position) throws Exception {
         if (n >= array.length || position < 0 || position > n) {
             throw new Exception("Erro ao inserir!");
         }
- 
+
         for (int i = n; i > position; i--) {
             array[i] = array[i - 1];
         }
- 
+
         array[position] = x;
         n++;
     }
- 
+
     public Pokemon removeStart() throws Exception {
         if (n == 0) {
             throw new Exception("Erro ao remover.");
         }
- 
+
         Pokemon resp = array[0];
 
         n--;
- 
+
         for (int i = 0; i < n; i++) {
             array[i] = array[i + 1];
         }
- 
+
         return resp;
     }
- 
+
     public Pokemon removeEnd() throws Exception {
         if (n == 0) {
             throw new Exception("Erro ao remover.");
         }
- 
+
         return array[--n];
     }
- 
+
     public Pokemon remove(int position) throws Exception {
         if (n == 0 || position < 0 || position >= n) {
             throw new Exception("Erro ao remover.");
         }
- 
+
         Pokemon resp = array[position];
         n--;
- 
+
         for (int i = position; i < n; i++) {
             array[i] = array[i + 1];
         }
- 
+
         return resp;
     }
- 
+
     public void show() {
         for (int i = 0; i < n; i++) {
             System.out.print("[" + i + "] ");
             array[i].displayInformation();
         }
     }
- 
+
     public boolean search(Pokemon x) {
-       boolean found = false;
-       
+        boolean found = false;
+
         for (int i = 0; i < n && found == false; i++) {
             found = (array[i] == x);
         }
@@ -407,23 +406,23 @@ public class Main {
                 number = Integer.parseInt(array[1]);
             }
             try {
-                switch(type) {
-                    case"II":
+                switch (type) {
+                    case "II":
                         pkmns.insertStart(pokemons.get(number - 1));
                         break;
-                    case"I*":
-                        pkmns.insert(pokemons.get(number-1), position);
+                    case "I*":
+                        pkmns.insert(pokemons.get(number - 1), position);
                         break;
-                    case"IF":
+                    case "IF":
                         pkmns.insertEnd(pokemons.get(number - 1));
                         break;
-                    case"RI":
+                    case "RI":
                         System.out.println("(R) " + pkmns.removeStart().getName());
                         break;
-                    case"R*":
+                    case "R*":
                         System.out.println("(R) " + pkmns.remove(position).getName());
                         break;
-                    case"RF":
+                    case "RF":
                         System.out.println("(R) " + pkmns.removeEnd().getName());
                         break;
                 }

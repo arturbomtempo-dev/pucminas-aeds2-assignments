@@ -1,13 +1,13 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /**
  * TP03Q08 - Quicksort com LISTA DINÂMICA DUPLAMENTE ENCADEADA em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 2.0, 11/11/2024
  */
@@ -31,26 +31,26 @@ typedef struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } Pokemon;
 
-Pokemon *search(Pokemon* pokemons, int id) {
+Pokemon *search(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char character) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != character) {
             str[j++] = str[i];
@@ -82,7 +82,7 @@ char *removeAttribute(char **str, char delimiter) {
 }
 
 Pokemon *readCsv(char fileName[]) {
-    Pokemon* pokemons = (Pokemon *) malloc(801 * sizeof(Pokemon));
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
@@ -111,7 +111,7 @@ Pokemon *readCsv(char fileName[]) {
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilitiesString = removeAttribute(&token, ','); 
+        char *abilitiesString = removeAttribute(&token, ',');
 
         removeOccurrences(abilitiesString, '[');
         removeOccurrences(abilitiesString, ']');
@@ -136,7 +136,7 @@ Pokemon *readCsv(char fileName[]) {
             }
 
             if (endAbilities != NULL) {
-                *endAbilities = '\0'; 
+                *endAbilities = '\0';
                 strcpy(temp->abilities[abilitiesIndex], startAbilities);
                 abilitiesIndex++;
                 abilitiesToken = endAbilities + 1;
@@ -178,8 +178,9 @@ void saveExecutionFile(const char *filename, long totalTime) {
     if (file == NULL) {
         printf("Erro ao gerar o arquivo.\n");
     } else {
-        fprintf(file, "847235\t%d\t%d\t%ldms", comparisons, movements, totalTime);
-        
+        fprintf(file, "847235\t%d\t%d\t%ldms", comparisons, movements,
+                totalTime);
+
         fclose(file);
     }
 }
@@ -190,7 +191,7 @@ typedef struct DoubleCell {
 } DoubleCell;
 
 DoubleCell *newDoubleCell(Pokemon *pokemon) {
-    DoubleCell *temp = (DoubleCell *) malloc(sizeof(DoubleCell));
+    DoubleCell *temp = (DoubleCell *)malloc(sizeof(DoubleCell));
     temp->pokemon = pokemon;
     temp->previous = NULL;
     temp->next = NULL;
@@ -203,7 +204,7 @@ typedef struct DoubleList {
 } DoubleList;
 
 DoubleList *newDoubleList() {
-    DoubleList *temp = (DoubleList *) malloc(sizeof(DoubleList));
+    DoubleList *temp = (DoubleList *)malloc(sizeof(DoubleList));
     temp->first = temp->last = newDoubleCell(NULL);
     temp->size = 0;
     return temp;
@@ -214,7 +215,7 @@ void insertStart(DoubleList *list, Pokemon *pokemon) {
     temp->next = list->first;
 
     list->first->pokemon = pokemon;
-    list->first->previous = temp; 
+    list->first->previous = temp;
     list->first = temp;
     list->size++;
 }
@@ -249,7 +250,10 @@ Pokemon *removal(DoubleList *list, int position) {
         printf("\nA lista está vazia.\n");
         return NULL;
     } else if (position < 0 || position > list->size - 1) {
-        printf("Erro ao tentar remover item da posição (%d/ tamanho = %d) inválida.", position, list->size);
+        printf(
+            "Erro ao tentar remover item da posição (%d/ tamanho = %d) "
+            "inválida.",
+            position, list->size);
         return NULL;
     } else if (position == list->size - 1) {
         return removeEnd(list);
@@ -270,7 +274,7 @@ Pokemon *removal(DoubleList *list, int position) {
         if (position == list->size - 1) {
             list->last = previous;
         }
-        
+
         list->size--;
 
         return pokemon;
@@ -282,7 +286,8 @@ void displayList(DoubleList *l) {
     int count = 0;
 
     for (i = l->first->next; i != NULL; i = i->next) {
-        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name, i->pokemon->description);
+        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name,
+               i->pokemon->description);
         printf("['%s'", i->pokemon->type[0]);
 
         if (strlen(i->pokemon->type[1]) > 0) {
@@ -301,28 +306,23 @@ void displayList(DoubleList *l) {
 
         printf("] - ");
 
-        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-            i->pokemon->weight, 
-            i->pokemon->height, 
-            i->pokemon->captureRate, 
-            i->pokemon->isLegendary ? "true" : "false", 
-            i->pokemon->generation,
-            i->pokemon->captureDate.dia, 
-            i->pokemon->captureDate.mes, 
-            i->pokemon->captureDate.ano
-        );
+        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+               i->pokemon->weight, i->pokemon->height, i->pokemon->captureRate,
+               i->pokemon->isLegendary ? "true" : "false",
+               i->pokemon->generation, i->pokemon->captureDate.dia,
+               i->pokemon->captureDate.mes, i->pokemon->captureDate.ano);
     }
 }
 
 void deleteList(DoubleList *list) {
     while (list->size > 0) {
-        removal(list,0);
+        removal(list, 0);
     }
 
     free(list->first);
 }
 
-DoubleCell* getPivot(DoubleList *list, int position) {
+DoubleCell *getPivot(DoubleList *list, int position) {
     DoubleCell *current = list->first->next;
 
     for (int i = 0; i < position && current != NULL; i++) {
@@ -338,13 +338,16 @@ void swap(DoubleList *list, DoubleCell *ci, DoubleCell *cj) {
     cj->pokemon = temp;
 }
 
-void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft, DoubleCell *cRight) {
+void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft,
+               DoubleCell *cRight) {
     DoubleCell *ci = cLeft, *cj = cRight;
     int i = left, j = right;
     DoubleCell *pivot = getPivot(list, left);
 
     while (i <= j) {
-        while ((ci->pokemon->generation < pivot->pokemon->generation || (ci->pokemon->generation == pivot->pokemon->generation && strcmp(ci->pokemon->name, pivot->pokemon->name) < 0))) {
+        while ((ci->pokemon->generation < pivot->pokemon->generation ||
+                (ci->pokemon->generation == pivot->pokemon->generation &&
+                 strcmp(ci->pokemon->name, pivot->pokemon->name) < 0))) {
             comparisons++;
             i++;
 
@@ -353,7 +356,9 @@ void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft, DoubleC
             }
         }
 
-        while ((cj->pokemon->generation > pivot->pokemon->generation || (cj->pokemon->generation == pivot->pokemon->generation && strcmp(cj->pokemon->name, pivot->pokemon->name) > 0))) {
+        while ((cj->pokemon->generation > pivot->pokemon->generation ||
+                (cj->pokemon->generation == pivot->pokemon->generation &&
+                 strcmp(cj->pokemon->name, pivot->pokemon->name) > 0))) {
             comparisons++;
             j--;
 
@@ -390,29 +395,31 @@ void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft, DoubleC
     }
 }
 
-bool isEnd(char* input) {
-    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
+bool isEnd(char *input) {
+    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' &&
+            input[2] == 'M');
 }
 
 int main() {
     clock_t startClock, endClock;
     double totalTime;
 
-    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
 
     DoubleList *pokemonsList = newDoubleList();
 
     char input[30];
     int id;
-    
+
     while (scanf("%s", input) && !isEnd(input)) {
         sscanf(input, "%d", &id);
-        insertEnd( pokemonsList, search(pokemons, id));
+        insertEnd(pokemonsList, search(pokemons, id));
     }
 
     startClock = clock();
 
-    quickSort(pokemonsList, 0, pokemonsList->size - 1, pokemonsList->first->next, pokemonsList->last);
+    quickSort(pokemonsList, 0, pokemonsList->size - 1,
+              pokemonsList->first->next, pokemonsList->last);
 
     endClock = clock();
 

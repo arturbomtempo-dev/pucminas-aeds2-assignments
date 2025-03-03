@@ -1,13 +1,13 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /**
  * TP03Q06 - Pilha com Alocação Flexível em C
- * 
+ *
  * @author Artur Bomtempo Colen
  * @version 1.0, 07/11/2024
  */
@@ -28,26 +28,26 @@ typedef struct Pokemon {
     double weight;
     double height;
     int captureRate;
-    bool isLegendary;  
+    bool isLegendary;
     Date captureDate;
 } Pokemon;
 
 Pokemon *search(Pokemon *pokemons, int id) {
     Pokemon *pokemon;
-    
+
     for (int i = 0; i < 801; i++) {
         if (pokemons[i].id == id) {
             pokemon = &pokemons[i];
         }
     }
-    
-    return pokemon; 
+
+    return pokemon;
 }
 
 void removeOccurrences(char *str, char character) {
     int i, j = 0;
     size_t length = strlen(str);
-    
+
     for (i = 0; i < length; i++) {
         if (str[i] != character) {
             str[j++] = str[i];
@@ -78,14 +78,14 @@ char *removeAttribute(char **str, char delimiter) {
     return start;
 }
 
-Pokemon* readCsv(char fileName[]) {
-    Pokemon* pokemons = (Pokemon*) malloc(801 * sizeof(Pokemon));
+Pokemon *readCsv(char fileName[]) {
+    Pokemon *pokemons = (Pokemon *)malloc(801 * sizeof(Pokemon));
 
     if (!pokemons) {
         printf("Erro de alocação de memória.\n");
     }
 
-    FILE* file = fopen(fileName, "r");
+    FILE *file = fopen(fileName, "r");
 
     if (!file) {
         printf("Erro ao abrir o arquivo.\n");
@@ -103,13 +103,13 @@ Pokemon* readCsv(char fileName[]) {
 
         temp->id = atoi(removeAttribute(&token, ','));
         temp->generation = atoi(removeAttribute(&token, ','));
-        
+
         strcpy(temp->name, removeAttribute(&token, ','));
         strcpy(temp->description, removeAttribute(&token, ','));
         strcpy(temp->type[0], removeAttribute(&token, ','));
         strcpy(temp->type[1], removeAttribute(&token, ','));
 
-        char *abilitiesString = removeAttribute(&token, ','); 
+        char *abilitiesString = removeAttribute(&token, ',');
 
         removeOccurrences(abilitiesString, '[');
         removeOccurrences(abilitiesString, ']');
@@ -130,7 +130,7 @@ Pokemon* readCsv(char fileName[]) {
                 startAbilities++;
                 endAbilities = strchr(startAbilities, '\'');
             } else {
-                endAbilities = strchr(startAbilities, ','); 
+                endAbilities = strchr(startAbilities, ',');
             }
 
             if (endAbilities != NULL) {
@@ -176,7 +176,7 @@ typedef struct Cell {
 } Cell;
 
 Cell *newCell(Pokemon *pokemon) {
-    Cell *temp = (Cell *) malloc(sizeof(Cell));
+    Cell *temp = (Cell *)malloc(sizeof(Cell));
     temp->pokemon = pokemon;
     temp->next = NULL;
     return temp;
@@ -187,7 +187,7 @@ typedef struct Stack {
     int size;
 } Stack;
 
-Stack newStack(){
+Stack newStack() {
     Stack temp;
     temp.top = NULL;
     temp.size = 0;
@@ -247,7 +247,8 @@ void showStack(Stack *l) {
 
     for (i = l->top; i != NULL; i = i->next) {
         printf("[%d] ", count++);
-        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name, i->pokemon->description);
+        printf("[#%d -> %s: %s - ", i->pokemon->id, i->pokemon->name,
+               i->pokemon->description);
 
         printf("['%s'", i->pokemon->type[0]);
 
@@ -267,34 +268,30 @@ void showStack(Stack *l) {
 
         printf("] - ");
 
-        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-            i->pokemon->weight, 
-            i->pokemon->height, 
-            i->pokemon->captureRate, 
-            i->pokemon->isLegendary ? "true" : "false", 
-            i->pokemon->generation,
-            i->pokemon->captureDate.day, 
-            i->pokemon->captureDate.month, 
-            i->pokemon->captureDate.year
-        );
+        printf("%.1lfkg - %.1lfm - %d%% - %s - %d gen] - %02d/%02d/%d\n",
+               i->pokemon->weight, i->pokemon->height, i->pokemon->captureRate,
+               i->pokemon->isLegendary ? "true" : "false",
+               i->pokemon->generation, i->pokemon->captureDate.day,
+               i->pokemon->captureDate.month, i->pokemon->captureDate.year);
     }
 }
 
 bool isEnd(char *input) {
-    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
+    return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' &&
+            input[2] == 'M');
 }
 
 int main() {
-    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
+    Pokemon *pokemons = readCsv("../tmp/pokemon.csv");
 
     Stack StackPokemons = newStack();
 
     char input[30];
     int id;
-    
+
     while (scanf("%s", input) && !isEnd(input)) {
         sscanf(input, "%d", &id);
-        push( &StackPokemons, search(pokemons, id));
+        push(&StackPokemons, search(pokemons, id));
     }
 
     int operationsNumber = 0;
@@ -305,7 +302,7 @@ int main() {
     scanf("%d", &operationsNumber);
 
     for (int j = 0; j < operationsNumber; j++) {
-        char *operation = (char *) malloc (sizeof(char) * 3);
+        char *operation = (char *)malloc(sizeof(char) * 3);
         scanf("%s", operation);
 
         if (strcmp(operation, "I") == 0) {
@@ -314,7 +311,7 @@ int main() {
 
             push(&StackPokemons, search(pokemons, number));
         }
-        
+
         if (strcmp(operation, "R") == 0) {
             deletedPokemons[k++] = pop(&StackPokemons);
         }
