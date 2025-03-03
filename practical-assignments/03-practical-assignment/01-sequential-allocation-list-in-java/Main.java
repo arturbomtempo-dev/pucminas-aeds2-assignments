@@ -10,11 +10,6 @@ import java.time.format.DateTimeFormatter;
  * @version 1.0, 28/10/2024
  */
 
-/**
- * A classe Pokemon representa um Pokémon com seus atributos e comportamentos associados.
- * Esta classe inclui informações como id, geração, nome, descrição, tipos, habilidades,
- * peso, altura, taxa de captura, status de lendário e data de captura.
- */
 class Pokemon {
     private int id;
     private int generation;
@@ -255,11 +250,6 @@ class Pokemon {
     }
 }
 
-/**
- * A classe List implementa uma estrutura de lista para armazenar objetos do tipo Pokemon.
- * Essa estrutura oferece operações de inserção e remoção em diferentes posições,
- * permitindo flexibilidade no gerenciamento dos elementos.
- */
 class List {
     private Pokemon[] array;
     private int n;
@@ -365,17 +355,12 @@ class List {
     }
 }
 
-/**
- * A classe SequentialAllocationList é o ponto de entrada do programa, responsável por carregar
- * dados de Pokémons de um arquivo CSV e realizar operações de inserção e remoção em uma lista
- * sequencial de alocação.
- */
-public class SequentialAllocationList {
+public class Main {
     public static void main(String[] args) {
         ArrayList<Pokemon> pokemons = new ArrayList<Pokemon>();
 
         try {
-            Scanner sc = new Scanner(new File("/tmp/pokemon.csv"));
+            Scanner sc = new Scanner(new File("../tmp/pokemon.csv"));
             sc.nextLine();
 
             while (sc.hasNextLine()) {

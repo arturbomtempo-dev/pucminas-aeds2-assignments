@@ -15,27 +15,13 @@
 int comparisons = 0;
 int movements = 0;
 
-/**
- * Estrutura Date para representar uma data com dia, mês e ano.
- * 
- * Esta estrutura é útil para armazenar e manipular informações
- * de data de forma organizada, utilizando os campos `day`, `month` e `year`.
- */
-struct Date {
+typedef struct Date {
     int dia;
     int mes;
     int ano;
-} typedef Date;
+} Date;
 
-/**
- * Estrutura Pokemon para armazenar informações detalhadas sobre um Pokémon.
- * 
- * Esta estrutura contém dados essenciais, como ID, geração, nome, descrição, tipos,
- * habilidades, peso, altura, taxa de captura, status de lendário e data de captura.
- * Ela organiza as características de um Pokémon, permitindo fácil acesso e manipulação
- * das informações.
- */
-struct Pokemon {
+typedef struct Pokemon {
     int id;
     int generation;
     char name[100];
@@ -47,19 +33,8 @@ struct Pokemon {
     int captureRate;
     bool isLegendary;  
     Date captureDate;
-} typedef Pokemon;
+} Pokemon;
 
-/**
- * Função para buscar um Pokémon pelo ID em um array de Pokémons.
- * 
- * Esta função percorre o array de Pokémons fornecido e retorna um ponteiro
- * para o Pokémon cujo ID corresponde ao valor especificado. Caso o ID não
- * seja encontrado, o retorno pode ser um ponteiro não inicializado.
- * 
- * @param pokemons Array de Pokémons a ser pesquisado.
- * @param id Identificador do Pokémon a ser buscado.
- * @return Ponteiro para o Pokémon com o ID correspondente, ou um ponteiro não inicializado se não for encontrado.
- */
 Pokemon *search(Pokemon* pokemons, int id) {
     Pokemon *pokemon;
     
@@ -72,16 +47,6 @@ Pokemon *search(Pokemon* pokemons, int id) {
     return pokemon; 
 }
 
-/**
- * Função para remover todas as ocorrências de um caractere específico em uma string.
- * 
- * Esta função percorre a string fornecida e remove todas as instâncias do caractere
- * especificado, movendo os caracteres restantes para preencher os espaços e garantindo
- * que a string resultante seja encerrada corretamente com um caractere nulo ('\0').
- * 
- * @param str Ponteiro para a string que será modificada.
- * @param character Caractere a ser removido da string.
- */
 void removeOccurrences(char *str, char character) {
     int i, j = 0;
     size_t length = strlen(str);
@@ -95,20 +60,6 @@ void removeOccurrences(char *str, char character) {
     str[j] = '\0';
 }
 
-/**
- * Função para extrair um atributo de uma string com base em um delimitador.
- * 
- * Esta função localiza e retorna o próximo atributo na string, delimitado por
- * um caractere específico (ex.: vírgula). Caso o atributo esteja entre aspas,
- * ele é extraído sem as aspas. A função atualiza o ponteiro da string original
- * para a posição imediatamente após o delimitador ou o final do atributo.
- * 
- * @param str Ponteiro duplo para a string de onde o atributo será extraído.
- *            Após a execução, o ponteiro será atualizado para a posição seguinte
- *            ao atributo extraído.
- * @param delimiter Caractere delimitador que separa os atributos na string.
- * @return Ponteiro para o início do atributo extraído.
- */
 char *removeAttribute(char **str, char delimiter) {
     char *start = *str;
     char *end = *str;
@@ -130,22 +81,6 @@ char *removeAttribute(char **str, char delimiter) {
     return start;
 }
 
-/**
- * Função para ler dados de um arquivo CSV e carregar informações de Pokémons em um array.
- * 
- * Esta função abre um arquivo CSV contendo dados sobre Pokémons, lê cada linha e preenche
- * uma estrutura `Pokemon` com os dados correspondentes. Cada linha é processada e separada 
- * em atributos específicos como ID, geração, nome, tipos, habilidades, peso, altura, taxa de 
- * captura, status de lendário e data de captura. A função aloca dinamicamente memória para 
- * armazenar até 801 Pokémons e retorna um ponteiro para esse array.
- * 
- * Em caso de falha na alocação de memória ou na abertura do arquivo, a função exibe mensagens 
- * de erro e retorna um ponteiro `NULL`.
- * 
- * @param fileName Nome do arquivo CSV contendo os dados dos Pokémons.
- * @return Ponteiro para um array de `Pokemon` preenchido com os dados do arquivo, ou `NULL`
- *         em caso de erro.
- */
 Pokemon *readCsv(char fileName[]) {
     Pokemon* pokemons = (Pokemon *) malloc(801 * sizeof(Pokemon));
 
@@ -237,13 +172,6 @@ Pokemon *readCsv(char fileName[]) {
     return pokemons;
 }
 
-/**
- * Salva os dados de execução em um arquivo especificado, contendo o número de comparações,
- * movimentos e o tempo total de execução em milissegundos.
- *
- * @param filename Nome do arquivo onde os dados de execução serão salvos.
- * @param totalTime Tempo total de execução em milissegundos.
- */
 void saveExecutionFile(const char *filename, long totalTime) {
     FILE *file = fopen(filename, "w+");
 
@@ -256,22 +184,11 @@ void saveExecutionFile(const char *filename, long totalTime) {
     }
 }
 
-/**
- * Estrutura que representa uma célula dupla na lista duplamente encadeada.
- * Cada célula armazena um ponteiro para um Pokémon e possui ponteiros para
- * a célula anterior e a próxima célula da lista.
- */
-struct DoubleCell {
+typedef struct DoubleCell {
     Pokemon *pokemon;
     struct DoubleCell *next, *previous;
-} typedef DoubleCell;
+} DoubleCell;
 
-/**
- * Cria uma nova célula dupla para a lista duplamente encadeada.
- * 
- * @param pokemon Ponteiro para o Pokémon a ser armazenado na nova célula.
- * @return Ponteiro para a nova célula inicializada.
- */
 DoubleCell *newDoubleCell(Pokemon *pokemon) {
     DoubleCell *temp = (DoubleCell *) malloc(sizeof(DoubleCell));
     temp->pokemon = pokemon;
@@ -280,20 +197,11 @@ DoubleCell *newDoubleCell(Pokemon *pokemon) {
     return temp;
 }
 
-/**
- * Estrutura que representa uma lista duplamente encadeada, com ponteiros para 
- * a primeira e última célula e um campo para armazenar o tamanho da lista.
- */
-struct DoubleList {
+typedef struct DoubleList {
     struct DoubleCell *first, *last;
     int size;
-} typedef DoubleList;
+} DoubleList;
 
-/**
- * Cria uma nova lista duplamente encadeada vazia.
- * 
- * @return Ponteiro para a nova lista inicializada.
- */
 DoubleList *newDoubleList() {
     DoubleList *temp = (DoubleList *) malloc(sizeof(DoubleList));
     temp->first = temp->last = newDoubleCell(NULL);
@@ -301,12 +209,6 @@ DoubleList *newDoubleList() {
     return temp;
 }
 
-/**
- * Insere um Pokémon no início da lista duplamente encadeada.
- * 
- * @param list Ponteiro para a lista onde o Pokémon será inserido.
- * @param pokemon Ponteiro para o Pokémon a ser inserido na lista.
- */
 void insertStart(DoubleList *list, Pokemon *pokemon) {
     DoubleCell *temp = newDoubleCell(pokemon);
     temp->next = list->first;
@@ -317,12 +219,6 @@ void insertStart(DoubleList *list, Pokemon *pokemon) {
     list->size++;
 }
 
-/**
- * Insere um Pokémon no final da lista duplamente encadeada.
- * 
- * @param list Ponteiro para a lista onde o Pokémon será inserido.
- * @param pokemon Ponteiro para o Pokémon a ser inserido no final da lista.
- */
 void insertEnd(DoubleList *list, Pokemon *pokemon) {
     list->last->next = newDoubleCell(pokemon);
     list->last->next->previous = list->last;
@@ -330,12 +226,6 @@ void insertEnd(DoubleList *list, Pokemon *pokemon) {
     list->size++;
 }
 
-/**
- * Remove e retorna o Pokémon da última posição da lista.
- * 
- * @param list Ponteiro para a lista da qual o Pokémon será removido.
- * @return Ponteiro para o Pokémon removido ou NULL se a lista estiver vazia.
- */
 Pokemon *removeEnd(DoubleList *list) {
     if (list->first == list->last) {
         printf("\nA lista está vazia.\n");
@@ -354,13 +244,6 @@ Pokemon *removeEnd(DoubleList *list) {
     return pokemon;
 }
 
-/**
- * Remove e retorna o Pokémon de uma posição específica da lista.
- * 
- * @param list Ponteiro para a lista da qual o Pokémon será removido.
- * @param position Posição do Pokémon na lista a ser removido.
- * @return Ponteiro para o Pokémon removido ou NULL se a posição for inválida.
- */
 Pokemon *removal(DoubleList *list, int position) {
     if (list->first == list->last) {
         printf("\nA lista está vazia.\n");
@@ -394,13 +277,6 @@ Pokemon *removal(DoubleList *list, int position) {
     }
 }
 
-/**
- * Exibe todas as informações dos Pokémons presentes na lista duplamente encadeada.
- * Para cada Pokémon na lista, são exibidos: ID, nome, descrição, tipos, habilidades,
- * peso, altura, taxa de captura, status de lendário, geração e data de captura.
- * 
- * @param l Ponteiro para a lista duplamente encadeada que será exibida.
- */
 void displayList(DoubleList *l) {
     DoubleCell *i;
     int count = 0;
@@ -438,13 +314,6 @@ void displayList(DoubleList *l) {
     }
 }
 
-/**
- * Libera a memória de todos os elementos da lista duplamente encadeada,
- * removendo cada célula até que a lista esteja vazia. 
- * Também libera a célula inicial fictícia da lista.
- * 
- * @param list Ponteiro para a lista duplamente encadeada que será deletada.
- */
 void deleteList(DoubleList *list) {
     while (list->size > 0) {
         removal(list,0);
@@ -453,17 +322,6 @@ void deleteList(DoubleList *list) {
     free(list->first);
 }
 
-/**
- * Obtém o elemento da lista duplamente encadeada na posição especificada.
- * 
- * A função percorre a lista até a posição fornecida e retorna o ponteiro
- * para a célula (DoubleCell) que está naquela posição. Se a posição for
- * inválida (fora dos limites da lista), a função retorna NULL.
- * 
- * @param list Ponteiro para a lista duplamente encadeada.
- * @param position A posição do elemento desejado na lista.
- * @return Ponteiro para a célula na posição especificada, ou NULL se a posição for inválida.
- */
 DoubleCell* getPivot(DoubleList *list, int position) {
     DoubleCell *current = list->first->next;
 
@@ -474,31 +332,12 @@ DoubleCell* getPivot(DoubleList *list, int position) {
     return current;
 }
 
-/**
- * Troca os elementos (Pokemons) entre duas células da lista duplamente encadeada.
- * 
- * A função recebe duas células da lista e troca os valores dos Pokémon armazenados nelas.
- * O ponteiro do Pokémon na célula `ci` é trocado com o ponteiro do Pokémon na célula `cj`.
- * 
- * @param list Ponteiro para a lista duplamente encadeada (não utilizado diretamente na troca, mas necessário por consistência).
- * @param ci Ponteiro para a célula que contém o primeiro Pokémon a ser trocado.
- * @param cj Ponteiro para a célula que contém o segundo Pokémon a ser trocado.
- */
 void swap(DoubleList *list, DoubleCell *ci, DoubleCell *cj) {
     Pokemon *temp = ci->pokemon;
     ci->pokemon = cj->pokemon;
     cj->pokemon = temp;
 }
 
-/**
- * Ordena uma lista duplamente encadeada utilizando o algoritmo de QuickSort.
- * 
- * @param list Ponteiro para a lista duplamente encadeada a ser ordenada.
- * @param left Índice da posição inicial da sublista a ser ordenada.
- * @param right Índice da posição final da sublista a ser ordenada.
- * @param cLeft Ponteiro para a célula à esquerda da sublista.
- * @param cRight Ponteiro para a célula à direita da sublista.
- */
 void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft, DoubleCell *cRight) {
     DoubleCell *ci = cLeft, *cj = cRight;
     int i = left, j = right;
@@ -551,32 +390,15 @@ void quickSort(DoubleList *list, int left, int right, DoubleCell *cLeft, DoubleC
     }
 }
 
-/**
- * Verifica se a entrada corresponde ao comando de término.
- * 
- * Essa função checa se a string de entrada tem exatamente 3 caracteres e
- * se corresponde à sequência "FIM". Retorna verdadeiro se a condição for
- * satisfeita; caso contrário, retorna falso.
- * 
- * @param input String a ser verificada.
- * @return Verdadeiro se a entrada for "FIM", falso caso contrário.
- */
 bool isEnd(char* input) {
     return (strlen(input) == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M');
 }
 
-/**
- * Função principal que executa o programa de ordenação de Pokémon com base em um arquivo CSV.
- * 
- * O programa lê um arquivo CSV contendo dados de Pokémon e os insere em uma lista duplamente encadeada. 
- * Em seguida, ele ordena a lista utilizando o algoritmo QuickSort, com base na geração do Pokémon e, em caso de empate, pelo nome.
- * O tempo total de execução do algoritmo é medido e salvo em um arquivo de execução. Após a ordenação, a lista de Pokémon é exibida.
- */
 int main() {
     clock_t startClock, endClock;
     double totalTime;
 
-    Pokemon* pokemons = readCsv("/tmp/pokemon.csv");
+    Pokemon* pokemons = readCsv("../tmp/pokemon.csv");
 
     DoubleList *pokemonsList = newDoubleList();
 

@@ -7,41 +7,18 @@ import java.util.Scanner;
  * @version 1.0, 14/11/2024
  */
 
-/**
- * Classe que representa uma célula de uma matriz flexível,
- * com referências para as células vizinhas em todas as direções.
- */
 class Cell {
     public int element;
     public Cell bottom, top, left, right;
-
-    /**
-     * Construtor padrão que inicializa o elemento com valor zero e as células 
-     * adjacentes como nulas.
-     */
+    
     public Cell() {
         this(0);
     }
-
-    /**
-     * Construtor que inicializa o elemento com um valor específico e as células 
-     * adjacentes como nulas.
-     *
-     * @param element Valor do elemento a ser armazenado na célula
-     */
+    
     public Cell(int element) {
         this(element, null, null, null, null);
     }
-
-    /**
-     * Construtor que inicializa o elemento e define as referências das células adjacentes.
-     *
-     * @param element Valor do elemento a ser armazenado na célula
-     * @param bottom Referência para a célula abaixo
-     * @param top Referência para a célula acima
-     * @param left Referência para a célula à esquerda
-     * @param right Referência para a célula à direita
-     */
+    
     public Cell(int element, Cell bottom, Cell top, Cell left, Cell right) {
         this.element = element;
         this.bottom = bottom;
@@ -51,27 +28,14 @@ class Cell {
     }
 }
 
-/**
- * Classe que representa uma matriz com células ligadas entre si,
- * permitindo operações de soma e multiplicação de matrizes.
- */
 class Matrix {
     private Cell start;
     private int row, column;
-
-    /**
-     * Construtor padrão que cria uma matriz de 3x3.
-     */
+    
     public Matrix() {
         this(3,3);
     }
 
-    /**
-     * Construtor que cria uma matriz de tamanho específico.
-     *
-     * @param row Número de linhas da matriz
-     * @param column Número de colunas da matriz
-     */
     public Matrix(int row, int column) {
         this.row = row;
         this.column = column;
@@ -111,14 +75,7 @@ class Matrix {
             line++;
         }
     }
-
-    /**
-     * Soma a matriz atual com outra matriz, retornando uma nova matriz com o resultado.
-     *
-     * @param m Matriz a ser somada com a matriz atual
-     * @return Nova matriz resultante da soma
-     * @throws Exception Se as matrizes não tiverem as mesmas dimensões
-     */
+    
     public Matrix soma(Matrix m) throws Exception {
         if (this.row != m.row || this.column != m.column) {
             throw new Exception("As matrizes devem ter as mesmas dimensões para serem somadas.");
@@ -134,14 +91,7 @@ class Matrix {
     
         return response;
     }
-
-    /**
-     * Multiplica a matriz atual com outra matriz, retornando uma nova matriz com o resultado.
-     *
-     * @param m Matriz a ser multiplicada com a matriz atual
-     * @return Nova matriz resultante da multiplicação
-     * @throws Exception Se as dimensões forem incompatíveis para multiplicação
-     */
+    
     public Matrix multiplicacao(Matrix m) throws Exception {
         if (this.column != m.row) {
             throw new Exception("Dimensões incompatíveis para a multiplicação.");
@@ -170,19 +120,11 @@ class Matrix {
     
         return response;
     }
-
-    /**
-     * Verifica se a matriz é quadrada.
-     *
-     * @return true se a matriz for quadrada, false caso contrário
-     */
+    
     public boolean isSquare() {
         return (this.row == this.column);
     }
-
-    /**
-     * Exibe a diagonal principal da matriz.
-     */
+    
     public void mostrarDiagonalPrincipal() {
         if (isSquare() == true) {
             Cell i = this.start;
@@ -199,10 +141,7 @@ class Matrix {
             System.out.println();
         }
     }
-
-    /**
-     * Exibe a diagonal secundária da matriz.
-     */
+    
     public void mostrarDiagonalSecundaria() {
         if (isSquare() == true) {
             Cell i = this.start;
@@ -221,14 +160,7 @@ class Matrix {
             System.out.println();
         }
     }
-
-    /**
-     * Insere um elemento em uma posição específica da matriz.
-     *
-     * @param x Valor a ser inserido
-     * @param rowPos Linha onde o valor será inserido
-     * @param columnPos Coluna onde o valor será inserido
-     */
+    
     public void insert(int x, int rowPos, int columnPos) {
         if (rowPos >= this.row || columnPos >= this.column || rowPos < 0 || columnPos < 0) {
             try {
@@ -250,13 +182,7 @@ class Matrix {
             temp.element = x;
         }
     }
-
-    /**
-     * Lê elementos da matriz a partir de uma entrada de Scanner.
-     *
-     * @param sc Scanner usado para a entrada dos elementos
-     * @throws Exception Se a célula inicial estiver vazia
-     */
+    
     public void insertRead(Scanner sc) throws Exception {
         if (start == null) {
             throw new Exception("Erro ao inserir.");
@@ -268,10 +194,7 @@ class Matrix {
             }
         }
     }
-
-    /**
-     * Exibe a matriz completa no console.
-     */
+    
     public void show() {
         for (Cell i = this.start; i != null; i = i.bottom) {
             for (Cell j = i; j != null; j = j.right) {
@@ -283,11 +206,7 @@ class Matrix {
     }
 }
 
-/**
- * Classe principal para manipulação de matrizes dinâmicas, realizando operações de soma,
- * multiplicação e exibição de diagonais principais e secundárias.
- */
-public class DynamicMatrix {
+public class Main {
     public static int comparisons;
     public static int movements;
 
