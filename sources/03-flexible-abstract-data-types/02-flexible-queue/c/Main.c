@@ -1,16 +1,26 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <err.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct Cell {
+/**
+ * Código fonte - Implementação da Fila Flexível
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Flexible Queue
+ * @language C
+ * @version 1.0
+ */
+
+typedef struct Cell {
     int element;
     struct Cell *next;
-} typedef Cell;
+} Cell;
 
 Cell *first, *last;
 
-Cell* newCell(int element) {
-    Cell *new = (Cell *) malloc(sizeof(Cell));
+Cell *newCell(int element) {
+    Cell *new = (Cell *)malloc(sizeof(Cell));
     new->element = element;
     new->next = NULL;
     return new;

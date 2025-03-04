@@ -1,7 +1,18 @@
-#include <stdio.h>
 #include <limits.h>
+#include <stdio.h>
 
-int numbersArray[] = { 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
+/**
+ * Código fonte - Implementação do Método Merge Sort
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Sorting
+ * @type Merge Sort
+ * @language C
+ * @version 1.0
+ */
+
+int numbersArray[] = {12, 4,  8, 2,  14, 17, 6,  18, 10,
+                      16, 15, 5, 13, 9,  1,  11, 7,  3};
 int n = 18;
 
 void interleave(int left, int middle, int right) {
@@ -59,7 +70,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         printf("%d ", numbersArray[i]);
     }
-    
+
     printf("\n");
 
     return 0;

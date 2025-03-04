@@ -1,3 +1,13 @@
+/**
+ * Código fonte - Implementação de Fila Circular
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Circular Queue
+ * @language Java
+ * @version 1.0
+ */
+
 class Queue {
     private int[] array;
     private int first;
@@ -35,10 +45,10 @@ class Queue {
     public void show() {
         System.out.print("[");
 
-        for(int i = first; i != last; i = ((i + 1) % array.length)) {
+        for (int i = first; i != last; i = ((i + 1) % array.length)) {
             System.out.print(array[i] + ", ");
         }
-   
+
         System.out.println("]");
     }
 }

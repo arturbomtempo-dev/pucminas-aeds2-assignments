@@ -1,14 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Código fonte - Implementação de Lista
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type List
+ * @language C
+ * @version 1.0
+ */
+
 #define LENGTH 6
 
 int array[LENGTH];
 int n;
 
-void start() {
-    n = 0;
-}
+void start() { n = 0; }
 
 void insertStart(int value) {
     if (n >= LENGTH) {

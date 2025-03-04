@@ -1,27 +1,35 @@
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <err.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct Node {
+/**
+ * Código fonte - Implementação da Árvore Binária
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Binary Tree
+ * @language C
+ * @version 1.0
+ */
+
+typedef struct Node {
     int element;
     struct Node *left, *right;
-} typedef Node;
+} Node;
 
 Node *root;
 
-Node* newNode(int element) {
-    Node *new = (Node *) malloc (sizeof(Node));
+Node *newNode(int element) {
+    Node *new = (Node *)malloc(sizeof(Node));
     new->element = element;
     new->left = new->right = NULL;
     return new;
 }
 
-void start() {
-    root = NULL;
-}
+void start() { root = NULL; }
 
-Node* recursiveInsert(int value, Node *i) {
+Node *recursiveInsert(int value, Node *i) {
     if (i == NULL) {
         i = newNode(value);
     } else if (value < i->element) {
@@ -35,9 +43,7 @@ Node* recursiveInsert(int value, Node *i) {
     return i;
 }
 
-void insert(int value) {
-    root = recursiveInsert(value, root);
-}
+void insert(int value) { root = recursiveInsert(value, root); }
 
 bool recursiveSearch(int value, Node *i) {
     bool found;
@@ -55,9 +61,7 @@ bool recursiveSearch(int value, Node *i) {
     return found;
 }
 
-bool search(int value) {
-    return recursiveSearch(value, root);
-}
+bool search(int value) { return recursiveSearch(value, root); }
 
 void recursiveCentralWalk(Node *i) {
     if (i != NULL) {
@@ -120,11 +124,11 @@ void recursiveRemoval(int value, Node **i) {
     } else if (value > (*i)->element) {
         recursiveRemoval(value, &((*i)->right));
     } else if ((*i)->right == NULL) {
-        Node* deleted = *i;
+        Node *deleted = *i;
         *i = (*i)->left;
         free(deleted);
     } else if ((*i)->left == NULL) {
-        Node* deleted = *i;
+        Node *deleted = *i;
         *i = (*i)->right;
         free(deleted);
     } else {
@@ -132,9 +136,7 @@ void recursiveRemoval(int value, Node **i) {
     }
 }
 
-void removal(int value) {
-    recursiveRemoval(value, &root);
-}
+void removal(int value) { recursiveRemoval(value, &root); }
 
 int main() {
     start();

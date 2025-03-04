@@ -1,5 +1,15 @@
 import java.util.Scanner;
 
+/**
+ * Código fonte - Implementação da Matriz Flexível
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Flexible Matrix
+ * @language Java
+ * @version 1.0
+ */
+
 class Cell {
     public int element;
     public Cell bottom, top, left, right;
@@ -88,7 +98,7 @@ class Matrix {
 
     public void print() {
         Cell currentRow = start;
-        
+
         for (int i = 0; i < row; i++) {
             Cell currentColumn = currentRow;
 
@@ -134,38 +144,38 @@ class Matrix {
 
     public Matrix multiplication(Matrix m) {
         Matrix response = null;
-    
+
         if (this.column == m.row) {
             response = new Matrix(this.row, m.column);
-    
+
             Cell rowA = this.start;
             Cell rowC = response.start;
-    
+
             for (int i = 0; i < this.row; i++) {
                 Cell columnB = m.start;
                 Cell CellC = rowC;
-    
+
                 for (int j = 0; j < m.column; j++) {
                     int sum = 0;
                     Cell a = rowA;
                     Cell b = columnB;
-    
+
                     for (int k = 0; k < this.column; k++) {
                         sum += a.element * b.element;
                         a = a.right;
                         b = b.bottom;
                     }
-    
+
                     CellC.element = sum;
                     CellC = CellC.right;
                     columnB = columnB.right;
                 }
-    
+
                 rowA = rowA.bottom;
                 rowC = rowC.bottom;
             }
         }
-    
+
         return response;
     }
 
@@ -253,7 +263,7 @@ public class Main {
 
         System.out.println("Resultado da multiplicação de M3 e M4:");
         Matrix multiplication = m3.multiplication(m4);
-        
+
         if (multiplication != null) {
             multiplication.print();
         } else {

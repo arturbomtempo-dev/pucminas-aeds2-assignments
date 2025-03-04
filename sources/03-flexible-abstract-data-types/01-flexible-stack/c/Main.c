@@ -1,24 +1,32 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <err.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct Cell {
+/**
+ * Código fonte - Implementação da Pilha Flexível
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Flexible Stack
+ * @language C
+ * @version 1.0
+ */
+
+typedef struct Cell {
     int element;
     struct Cell *next;
-} typedef Cell;
+} Cell;
 
 Cell *top;
 
-Cell* newCell(int element) {
-    Cell *new = (Cell *) malloc(sizeof(Cell));
+Cell *newCell(int element) {
+    Cell *new = (Cell *)malloc(sizeof(Cell));
     new->element = element;
     new->next = NULL;
     return new;
 }
 
-void start() {
-    top = NULL;
-}
+void start() { top = NULL; }
 
 void insert(int value) {
     Cell *temp = newCell(value);

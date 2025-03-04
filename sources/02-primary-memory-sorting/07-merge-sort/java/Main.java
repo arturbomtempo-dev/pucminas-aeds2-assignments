@@ -1,3 +1,13 @@
+/**
+ * Código fonte - Implementação do Método Merge Sort
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Sorting
+ * @type Merge Sort
+ * @language Java
+ * @version 1.0
+ */
+
 public class Main {
     static int[] numbersArray;
     static int n;
@@ -42,7 +52,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        numbersArray = new int[]{ 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
+        numbersArray = new int[] { 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
         n = numbersArray.length;
 
         System.out.println("Array original:");
@@ -60,7 +70,7 @@ public class Main {
         for (int i = 0; i < numbersArray.length; i++) {
             System.out.print(numbersArray[i] + " ");
         }
-        
+
         System.out.println();
     }
 }

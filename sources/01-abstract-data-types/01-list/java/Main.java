@@ -1,3 +1,13 @@
+/**
+ * Código fonte - Implementação de Lista
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type List
+ * @language Java
+ * @version 1.0
+ */
+
 class List {
     private int[] array;
     private int n;
@@ -67,7 +77,7 @@ class List {
             throw new Error("Erro ao remover dado da lista.");
         }
 
-        return array[--n]; 
+        return array[--n];
     }
 
     public int remove(int position) {

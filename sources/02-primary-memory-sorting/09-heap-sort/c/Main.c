@@ -1,6 +1,17 @@
 #include <stdio.h>
 
-static int numbersArray[] = { 12, 4, 8, 2, 14, 17, 6, 18, 10, 16, 15, 5, 13, 9, 1, 11, 7, 3 };
+/**
+ * Código fonte - Implementação do Método Heap Sort
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Sorting
+ * @type Heap Sort
+ * @language C
+ * @version 1.0
+ */
+
+static int numbersArray[] = {12, 4,  8, 2,  14, 17, 6,  18, 10,
+                             16, 15, 5, 13, 9,  1,  11, 7,  3};
 static int n = 18;
 
 void swap(int i, int j) {
@@ -19,9 +30,7 @@ int getBiggerSon(int i, int length) {
     return son < length ? son : -1;
 }
 
-int hasSon(int i, int length) {
-    return (2 * i < length);
-}
+int hasSon(int i, int length) { return (2 * i < length); }
 
 void rebuildHeap(int i, int length) {
     while (hasSon(i, length)) {
@@ -65,7 +74,7 @@ int main() {
     heapSort();
 
     printf("Array ordenado:\n");
-    
+
     for (int i = 1; i < n; i++) {
         printf("%d ", numbersArray[i]);
     }

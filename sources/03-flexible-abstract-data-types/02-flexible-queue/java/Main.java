@@ -1,3 +1,13 @@
+/**
+ * Código fonte - Implementação da Fila Flexível
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Flexible Queue
+ * @language Java
+ * @version 1.0
+ */
+
 class Cell {
     public int element;
     public Cell next;

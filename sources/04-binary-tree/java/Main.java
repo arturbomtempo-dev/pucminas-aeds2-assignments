@@ -1,3 +1,13 @@
+/**
+ * Código fonte - Implementação da Árvore Binária
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Binary Tree
+ * @language Java
+ * @version 1.0
+ */
+
 class Node {
     public int element;
     public Node left, right;
@@ -57,7 +67,7 @@ class BinaryTree {
     }
 
     private void insertFather(int value, Node i, Node father) {
-	    if (i == null) {
+        if (i == null) {
             if (value < father.element) {
                 father.left = new Node(value);
             } else {
@@ -70,7 +80,7 @@ class BinaryTree {
         } else {
             throw new Error("Erro ao inserir pai.");
         }
-	}
+    }
 
     public boolean search(int value) {
         return search(value, root);
@@ -154,7 +164,8 @@ class BinaryTree {
 
         if (root != null) {
             Node i;
-            for (i = root; i.right != null; i = i.right);
+            for (i = root; i.right != null; i = i.right)
+                ;
             bigger = i.element;
         }
 
@@ -164,9 +175,10 @@ class BinaryTree {
     public int getSmaller() {
         int smaller = -1;
 
-        if  (root != null) {
+        if (root != null) {
             Node i;
-            for (i = root; i.left != null; i = i.left);
+            for (i = root; i.left != null; i = i.left)
+                ;
             smaller = i.element;
         }
 
@@ -177,8 +189,8 @@ class BinaryTree {
         return getHeight(root, 0);
     }
 
-    public int getHeight(Node i, int height){
-        if (i == null){
+    public int getHeight(Node i, int height) {
+        if (i == null) {
             height--;
         } else {
             int leftHeight = getHeight(i.left, height + 1);
@@ -222,7 +234,8 @@ public class Main {
         System.out.println("Menor valor: " + tree.getSmaller());
 
         int searchValue = 40;
-        System.out.println("Busca por " + searchValue + ": " + (tree.search(searchValue) ? "Encontrado" : "Não encontrado"));
+        System.out.println(
+                "Busca por " + searchValue + ": " + (tree.search(searchValue) ? "Encontrado" : "Não encontrado"));
 
         int removeValue = 30;
 

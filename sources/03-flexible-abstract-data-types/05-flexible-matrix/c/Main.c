@@ -1,25 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Cell {
+/**
+ * Código fonte - Implementação da Matriz Flexível
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Flexible Matrix
+ * @language C
+ * @version 1.0
+ */
+
+typedef struct Cell {
     int element;
     struct Cell *bottom, *top, *left, *right;
-} typedef Cell;
+} Cell;
 
-struct Matrix {
+typedef struct Matrix {
     Cell *start;
     int row, column;
-} typedef Matrix;
+} Matrix;
 
-Cell* newCell(int element) {
-    Cell *new = (Cell *) malloc(sizeof(Cell));
+Cell *newCell(int element) {
+    Cell *new = (Cell *)malloc(sizeof(Cell));
     new->element = element;
     new->bottom = new->top = new->left = new->right = NULL;
     return new;
 }
 
-Matrix* createMatrix(int row, int column) {
-    Matrix *matrix = (Matrix *) malloc(sizeof(Matrix));
+Matrix *createMatrix(int row, int column) {
+    Matrix *matrix = (Matrix *)malloc(sizeof(Matrix));
     matrix->row = row;
     matrix->column = column;
 
@@ -91,7 +101,7 @@ void printMatrix(Matrix *matrix) {
     }
 }
 
-Matrix* sumMatrix(Matrix *m1, Matrix *m2) {
+Matrix *sumMatrix(Matrix *m1, Matrix *m2) {
     if (m1->row != m2->row || m1->column != m2->column) {
         printf("Dimensões incompatíveis para soma.\n");
         return NULL;
@@ -116,7 +126,7 @@ Matrix* sumMatrix(Matrix *m1, Matrix *m2) {
     return result;
 }
 
-Matrix* multiplyMatrix(Matrix *m1, Matrix *m2) {
+Matrix *multiplyMatrix(Matrix *m1, Matrix *m2) {
     if (m1->column != m2->row) {
         printf("Dimensões incompatíveis para multiplicação.\n");
         return NULL;
@@ -152,9 +162,7 @@ Matrix* multiplyMatrix(Matrix *m1, Matrix *m2) {
     return result;
 }
 
-int isSquareMatrix(Matrix *matrix) {
-    return matrix->row == matrix->column;
-}
+int isSquareMatrix(Matrix *matrix) { return matrix->row == matrix->column; }
 
 void freeMatrix(Matrix *matrix) {
     Cell *currentRow = matrix->start;
@@ -212,7 +220,7 @@ int main() {
 
     freeMatrix(matrix1);
     freeMatrix(matrix2);
-    
+
     if (sumResult != NULL) {
         freeMatrix(sumResult);
     }

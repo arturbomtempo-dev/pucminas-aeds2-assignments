@@ -1,3 +1,13 @@
+/**
+ * Código fonte - Implementação da Pilha Flexível
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Flexible Stack
+ * @language Java
+ * @version 1.0
+ */
+
 class Cell {
     public int element;
     public Cell next;

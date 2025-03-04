@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Código fonte - Implementação de Fila Circular
+ *
+ * @author Artur Bomtempo Colen
+ * @algorithm Data Structure
+ * @type Circular Queue
+ * @language C
+ * @version 1.0
+ */
+
 #define LENGTH 6
 
 int array[LENGTH];
