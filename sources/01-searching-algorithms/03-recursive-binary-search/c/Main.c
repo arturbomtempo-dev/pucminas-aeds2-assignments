@@ -4,33 +4,31 @@
 #include <time.h>
 
 /**
- * Código fonte - Implementação de Pesquisa Binária
+ * Código fonte - Implementação de Pesquisa Binária Recursiva
  *
  * @author Artur Bomtempo Colen
- * @algorithm Binary Search
+ * @algorithm Recursive Binary Search
  * @type Search Algorithm
  * @language C
  * @version 1.0
  */
 
-int binarySearch(int arr[], int size, int target) {
-    int left = 0, right = size - 1;
-
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-
-        if (arr[mid] == target) {
-            return mid;
-        }
-
-        if (arr[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
+int binarySearch(int arr[], int left, int right, int target) {
+    if (left > right) {
+        return -1;
     }
 
-    return -1;
+    int mid = left + (right - left) / 2;
+
+    if (arr[mid] == target) {
+        return mid;
+    }
+
+    if (arr[mid] < target) {
+        return binarySearch(arr, mid + 1, right, target);
+    } else {
+        return binarySearch(arr, left, mid - 1, target);
+    }
 }
 
 void generateRandomArray(int arr[], int size) {
@@ -54,6 +52,7 @@ int main() {
 
     int arr[10];
     generateRandomArray(arr, 10);
+
     qsort(arr, 10, sizeof(int), (int (*)(const void *, const void *))strcmp);
     printArray(arr, 10);
 
@@ -62,8 +61,7 @@ int main() {
     for (int i = 0; i < 4; i++) {
         int target = targets[i];
         printf("\nProcurando pelo valor %d...\n", target);
-        
-        int result = binarySearch(arr, 10, target);
+        int result = binarySearch(arr, 0, 9, target);
 
         if (result != -1) {
             printf("Valor %d encontrado no índice %d.\n", target, result);
