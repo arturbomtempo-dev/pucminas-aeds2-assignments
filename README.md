@@ -1,12 +1,12 @@
 <div  align="center" id="about">
 	<h1 align="center">
-        PUC Minas - Algoritmos e Estruturas de Dados II (AEDS 2) - Atividades e Implementações
+        PUC Minas - Algoritmos e Estruturas de Dados II (AEDS2) - Atividades e Implementações
     </h1>
     <p align="center">
         Este repositório foi desenvolvido com o objetivo de consolidar os conceitos de Algoritmos e Estruturas de Dados II (AEDS2) de forma prática e aplicada. Contém implementações de estruturas de dados abstratas, algoritmos de ordenação, algoritmos de busca e outros tópicos essenciais da disciplina. Além disso, inclui o código das atividades práticas e teóricas, exercícios do Beecrowd de revisão para a prova, e outros materiais para auxiliar no aprendizado dos alunos, oferecendo exemplos práticos que complementam o conteúdo teórico da disciplina na PUC Minas.
     </p>
 	<img 
-        src="./resources/banner/dsa-2.png"
+        src="./resources/banner/dsa-2-pt.png"
         alt="Repository banner"
     />
 </div>
