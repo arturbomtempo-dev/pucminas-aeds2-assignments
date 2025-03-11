@@ -1,0 +1,21 @@
+cff-version: 1.0.0
+message: Please cite this software using these metadata.
+title: PUC Minas - DSA 2 - Activities and Implementations
+authors:
+    - family-names: Bomtempo Colen
+      given-names: Artur
+keywords:
+    - Algorithms
+    - Data Structures
+    - AEDS 2
+    - C
+    - Java
+    - Sorting Algorithms
+    - Search Algorithms
+    - Binary Trees
+    - Hash Tables
+    - Beecrowd
+repository-code: https://github.com/arturbomtempo-dev/pucminas-aeds2-assignments
+license: MIT
+version: 1.0.0
+date-released: 2025-03-11
